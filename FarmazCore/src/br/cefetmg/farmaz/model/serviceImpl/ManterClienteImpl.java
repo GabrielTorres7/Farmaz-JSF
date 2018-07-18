@@ -40,8 +40,7 @@ public class ManterClienteImpl implements ManterCliente{
                 || cliente.getDocumentoIdentificacao().isEmpty()) {
             throw new LogicaNegocioException("Documento de identificação do cliente não pode ser nulo");
         }
-        if (cliente.getNumeroTelefone() == null
-                || cliente.getNumeroTelefone().isEmpty()) {
+        if (cliente.getNumeroTelefone() == null) {
             throw new LogicaNegocioException("Número de telefone do usuário não pode ser nulo");
         }
         if (cliente.getEmail() == null
@@ -71,8 +70,7 @@ public class ManterClienteImpl implements ManterCliente{
                 || cliente.getDocumentoIdentificacao().isEmpty()) {
             throw new LogicaNegocioException("Documento de identificação do cliente não pode ser nulo");
         }
-        if (cliente.getNumeroTelefone() == null
-                || cliente.getNumeroTelefone().isEmpty()) {
+        if (cliente.getNumeroTelefone() == null) {
             throw new LogicaNegocioException("Número de telefone do usuário não pode ser nulo");
         }
         if (cliente.getEmail() == null

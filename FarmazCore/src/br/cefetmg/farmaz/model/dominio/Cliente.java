@@ -14,10 +14,22 @@ public class Cliente {
     private Long id;
     private String nome;
     private String documentoIdentificacao;
-    private String numeroTelefone;
+    private Long numeroTelefone;
     private String email;
     private String senha;
 
+    public Cliente() {
+    }
+
+    public Cliente(Long id, String nome, String documentoIdentificacao, Long numeroTelefone, String email, String senha) {
+        this.id = id;
+        this.nome = nome;
+        this.documentoIdentificacao = documentoIdentificacao;
+        this.numeroTelefone = numeroTelefone;
+        this.email = email;
+        this.senha = senha;
+    }
+    
     public Long getId() {
         return id;
     }
@@ -42,11 +54,11 @@ public class Cliente {
         this.documentoIdentificacao = documentoIdentificacao;
     }
 
-    public String getNumeroTelefone() {
+    public Long getNumeroTelefone() {
         return numeroTelefone;
     }
 
-    public void setNumeroTelefone(String numeroTelefone) {
+    public void setNumeroTelefone(Long numeroTelefone) {
         this.numeroTelefone = numeroTelefone;
     }
 

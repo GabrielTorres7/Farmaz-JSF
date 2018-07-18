@@ -19,5 +19,5 @@ public interface ProdutoDAO {
     public boolean remove(Long produtoId) throws PersistenciaException;
     public Produto getProdutoById(Long produtoId) throws PersistenciaException;
     public List<Produto> listAll() throws PersistenciaException;
-    public List<Produto> getProdutosByNome(String nomeProduto) throws PersistenciaException;
+    public Produto getProdutoByNome(String nomeProduto) throws PersistenciaException;
 }

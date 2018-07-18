@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/service/ManterProduto.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/serviceImpl/ManterClienteImpl.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/service/ManterItemPedido.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/dominio/Farmacia.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/dao/EnderecoDAO.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/exception/LogicaNegocioException.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/dao/ItemPedidoDAO.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/util/bd/ManterConexao.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/service/ManterFarmacia.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/dao/DisponibilidadeDAO.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/daoImpl/ProdutoDAOImpl.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/exception/PersistenciaException.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/service/ManterPedido.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/dao/ClienteDAO.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/dominio/Disponibilidade.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/dao/PedidoDAO.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/util/bd/ConexaoMySQL.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/daoImpl/ClienteDAOImpl.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/serviceImpl/ManterProdutoImpl.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/dominio/Cliente.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/service/ManterEndereco.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/service/ManterCliente.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/service/ManterDisponibilidade.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/dao/FarmaciaDAO.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/dao/ProdutoDAO.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/util/bd/ConnectionFactory.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/dominio/Produto.java</file>
+        </group>
+    </open-files>
+</project-private>

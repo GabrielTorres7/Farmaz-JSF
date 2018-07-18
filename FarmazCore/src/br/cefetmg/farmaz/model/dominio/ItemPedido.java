@@ -10,5 +10,41 @@ package br.cefetmg.farmaz.model.dominio;
  * @author Gabriel
  */
 public class ItemPedido {
+    Long pedidoId;
+    Long produtoId;
+    Long quantidade;
+
+    public ItemPedido() {
+    }
+
+    public ItemPedido(Long pedidoId, Long produtoId, Long quantidade) {
+        this.pedidoId = pedidoId;
+        this.produtoId = produtoId;
+        this.quantidade = quantidade;
+    }
+
+    public Long getPedidoId() {
+        return pedidoId;
+    }
+
+    public void setPedidoId(Long pedidoId) {
+        this.pedidoId = pedidoId;
+    }
+
+    public Long getProdutoId() {
+        return produtoId;
+    }
+
+    public void setProdutoId(Long produtoId) {
+        this.produtoId = produtoId;
+    }
+
+    public Long getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(Long quantidade) {
+        this.quantidade = quantidade;
+    }
     
 }
