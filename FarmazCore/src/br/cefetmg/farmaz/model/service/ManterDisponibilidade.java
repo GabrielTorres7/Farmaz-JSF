@@ -5,10 +5,20 @@
  */
 package br.cefetmg.farmaz.model.service;
 
+import br.cefetmg.farmaz.model.dominio.Disponibilidade;
+import br.cefetmg.farmaz.model.exception.LogicaNegocioException;
+import br.cefetmg.farmaz.model.exception.PersistenciaException;
+import java.util.List;
+
 /**
  *
  * @author Gabriel
  */
 public interface ManterDisponibilidade {
-    
+    public Long inserirDisponibilidade(Disponibilidade disponibilidade) throws PersistenciaException, LogicaNegocioException;
+    public boolean atualizarDisponibilidade(Disponibilidade disponibilidade) throws PersistenciaException, LogicaNegocioException;
+    public boolean deletarDisponibilidade(Long produtoId, Long farmaciaId) throws PersistenciaException;
+    public Disponibilidade getDisponibilidadeById(Long produtoId, Long farmaciaId) throws PersistenciaException;
+    public List<Disponibilidade> getDisponibilidadeByProdutoId(Long produtoId) throws PersistenciaException;
+    public List<Disponibilidade> getDisponibilidadeByFarmaciaId(Long farmaciaId) throws PersistenciaException;
 }

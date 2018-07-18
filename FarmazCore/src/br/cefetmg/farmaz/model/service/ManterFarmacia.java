@@ -5,10 +5,19 @@
  */
 package br.cefetmg.farmaz.model.service;
 
+import br.cefetmg.farmaz.model.dominio.Farmacia;
+import br.cefetmg.farmaz.model.exception.LogicaNegocioException;
+import br.cefetmg.farmaz.model.exception.PersistenciaException;
+import java.util.List;
+
 /**
  *
  * @author Gabriel
  */
 public interface ManterFarmacia {
-    
+    public Long cadastrarFarmacia(Farmacia farmacia) throws PersistenciaException, LogicaNegocioException;
+    public boolean atualizarFarmacia(Farmacia farmacia) throws PersistenciaException, LogicaNegocioException;
+    public boolean deletarFarmacia(Long farmaciaId) throws PersistenciaException;
+    public Farmacia getFarmaciaById(Long farmaciaId) throws PersistenciaException;
+    public List<Farmacia> listAll() throws PersistenciaException;
 }
