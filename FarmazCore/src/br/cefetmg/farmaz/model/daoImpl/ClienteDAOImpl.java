@@ -55,7 +55,7 @@ public class ClienteDAOImpl implements ClienteDAO {
             pstmt.setString(2, cliente.getEmail());
             pstmt.setString(3, cliente.getSenha());
             pstmt.setString(4, cliente.getDocumentoIdentificacao());
-            pstmt.setLong(5, cliente.getNumeroTelefone());
+            pstmt.setInt(5, cliente.getNumeroTelefone());
             ResultSet rs = pstmt.executeQuery("SELECT LAST_INSERT_ID() FROM cliente");
 
             if (rs.next()) {
@@ -93,7 +93,7 @@ public class ClienteDAOImpl implements ClienteDAO {
             pstmt.setString(1, cliente.getNome());
             pstmt.setString(2, cliente.getEmail());
             pstmt.setString(3, cliente.getDocumentoIdentificacao());
-            pstmt.setLong(4, cliente.getNumeroTelefone());
+            pstmt.setInt(4, cliente.getNumeroTelefone());
             pstmt.setString(5, cliente.getSenha());
             pstmt.setLong(6, cliente.getId());
             pstmt.executeUpdate();
@@ -151,7 +151,7 @@ public class ClienteDAOImpl implements ClienteDAO {
                 cliente.setEmail(rs.getString("email"));
                 cliente.setSenha(rs.getString("senha"));
                 cliente.setDocumentoIdentificacao(rs.getString("documento_identificacao"));
-                cliente.setNumeroTelefone(rs.getLong("telefone"));
+                cliente.setNumeroTelefone(rs.getInt("telefone"));
             }
 
             rs.close();
@@ -184,7 +184,7 @@ public class ClienteDAOImpl implements ClienteDAO {
                 cliente.setEmail(rs.getString("email"));
                 cliente.setSenha(rs.getString("senha"));
                 cliente.setDocumentoIdentificacao(rs.getString("documento_identificacao"));
-                cliente.setNumeroTelefone(rs.getLong("telefone"));
+                cliente.setNumeroTelefone(rs.getInt("telefone"));
             }
 
             rs.close();
@@ -220,7 +220,7 @@ public class ClienteDAOImpl implements ClienteDAO {
                     cliente.setEmail(rs.getString("email"));
                     cliente.setSenha(rs.getString("senha"));
                     cliente.setDocumentoIdentificacao(rs.getString("documento_identificacao"));
-                    cliente.setNumeroTelefone(rs.getLong("telefone"));
+                    cliente.setNumeroTelefone(rs.getInt("telefone"));
                     listAll.add(cliente);
                 } while (rs.next());
             }

@@ -14,16 +14,16 @@ public class Endereco {
     Long clienteId;
     Long codCidade;
     Long codUf;
-    Long cep;
+    int cep;
     String bairro;
     String rua;
-    Long numero;
+    int numero;
     String complemento;
 
     public Endereco() {
     }
 
-    public Endereco(Long enderecoId, Long clienteId, Long codCidade, Long codUf, Long cep, String bairro, String rua, Long numero, String complemento) {
+    public Endereco(Long enderecoId, Long clienteId, Long codCidade, Long codUf, int cep, String bairro, String rua, int numero, String complemento) {
         this.enderecoId = enderecoId;
         this.clienteId = clienteId;
         this.codCidade = codCidade;
@@ -67,11 +67,11 @@ public class Endereco {
         this.codUf = codUf;
     }
 
-    public Long getCep() {
+    public int getCep() {
         return cep;
     }
 
-    public void setCep(Long cep) {
+    public void setCep(int cep) {
         this.cep = cep;
     }
 
@@ -91,11 +91,11 @@ public class Endereco {
         this.rua = rua;
     }
 
-    public Long getNumero() {
+    public int getNumero() {
         return numero;
     }
 
-    public void setNumero(Long numero) {
+    public void setNumero(int numero) {
         this.numero = numero;
     }
 

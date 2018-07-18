@@ -13,17 +13,17 @@ public class Farmacia {
     Long cadastroPrefeitura;
     Long codCidade;
     Long codUf;
-    Long cnpj;
+    String cnpj;
     String nome;
-    Long cep;
+    int cep;
     String bairro;
     String rua;
-    Long numero;
+    int numero;
 
     public Farmacia() {
     }
 
-    public Farmacia(Long cadastroPrefeitura, Long codCidade, Long codUf, Long cnpj, String nome, Long cep, String bairro, String rua, Long numero) {
+    public Farmacia(Long cadastroPrefeitura, Long codCidade, Long codUf, String cnpj, String nome, int cep, String bairro, String rua, int numero) {
         this.cadastroPrefeitura = cadastroPrefeitura;
         this.codCidade = codCidade;
         this.codUf = codUf;
@@ -59,11 +59,11 @@ public class Farmacia {
         this.codUf = codUf;
     }
 
-    public Long getCnpj() {
+    public String getCnpj() {
         return cnpj;
     }
 
-    public void setCnpj(Long cnpj) {
+    public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
     }
 
@@ -75,11 +75,11 @@ public class Farmacia {
         this.nome = nome;
     }
 
-    public Long getCep() {
+    public int getCep() {
         return cep;
     }
 
-    public void setCep(Long cep) {
+    public void setCep(int cep) {
         this.cep = cep;
     }
 
@@ -99,11 +99,11 @@ public class Farmacia {
         this.rua = rua;
     }
 
-    public Long getNumero() {
+    public int getNumero() {
         return numero;
     }
 
-    public void setNumero(Long numero) {
+    public void setNumero(int numero) {
         this.numero = numero;
     }
     

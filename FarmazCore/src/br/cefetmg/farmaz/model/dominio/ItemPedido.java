@@ -12,12 +12,12 @@ package br.cefetmg.farmaz.model.dominio;
 public class ItemPedido {
     Long pedidoId;
     Long produtoId;
-    Long quantidade;
+    int quantidade;
 
     public ItemPedido() {
     }
 
-    public ItemPedido(Long pedidoId, Long produtoId, Long quantidade) {
+    public ItemPedido(Long pedidoId, Long produtoId, int quantidade) {
         this.pedidoId = pedidoId;
         this.produtoId = produtoId;
         this.quantidade = quantidade;
@@ -39,11 +39,11 @@ public class ItemPedido {
         this.produtoId = produtoId;
     }
 
-    public Long getQuantidade() {
+    public int getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(Long quantidade) {
+    public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
     

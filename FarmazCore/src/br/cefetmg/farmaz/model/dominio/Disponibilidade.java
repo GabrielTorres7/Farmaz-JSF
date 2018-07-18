@@ -14,13 +14,13 @@ public class Disponibilidade {
     Long produtoSeq;
     Long farmaciaCadastro;
     String estoque;
-    Long preco;
+    double preco;
     String avaliacao;
 
     public Disponibilidade() {
     }
 
-    public Disponibilidade(Long produtoSeq, Long farmaciaCadastro, String estoque, Long preco, String avaliacao) {
+    public Disponibilidade(Long produtoSeq, Long farmaciaCadastro, String estoque, double preco, String avaliacao) {
         this.produtoSeq = produtoSeq;
         this.farmaciaCadastro = farmaciaCadastro;
         this.estoque = estoque;
@@ -52,7 +52,7 @@ public class Disponibilidade {
         this.estoque = estoque;
     }
 
-    public Long getPreco() {
+    public double getPreco() {
         return preco;
     }
 

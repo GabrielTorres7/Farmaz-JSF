@@ -17,12 +17,12 @@ public class Pedido {
     Long farmaciaId;
     Date dataHora;
     char idtStatus;
-    Long pagamento;
+    double pagamento;
 
     public Pedido() {
     }
 
-    public Pedido(Long pedidoId, Long clienteId, Long farmaciaId, Date dataHora, char idtStatus, Long pagamento) {
+    public Pedido(Long pedidoId, Long clienteId, Long farmaciaId, Date dataHora, char idtStatus, double pagamento) {
         this.pedidoId = pedidoId;
         this.clienteId = clienteId;
         this.farmaciaId = farmaciaId;
@@ -71,11 +71,11 @@ public class Pedido {
         this.idtStatus = idtStatus;
     }
 
-    public Long getPagamento() {
+    public double getPagamento() {
         return pagamento;
     }
 
-    public void setPagamento(Long pagamento) {
+    public void setPagamento(double pagamento) {
         this.pagamento = pagamento;
     }
     
