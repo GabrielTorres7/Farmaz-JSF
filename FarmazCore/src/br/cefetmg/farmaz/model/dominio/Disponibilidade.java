@@ -11,6 +11,7 @@ package br.cefetmg.farmaz.model.dominio;
  */
 public class Disponibilidade {
     
+    private Long id;
     Long produtoSeq;
     Long farmaciaCadastro;
     String estoque;
@@ -56,7 +57,7 @@ public class Disponibilidade {
         return preco;
     }
 
-    public void setPreco(Long preco) {
+    public void setPreco(Double preco) {
         this.preco = preco;
     }
 
@@ -68,4 +69,11 @@ public class Disponibilidade {
         this.avaliacao = avaliacao;
     }
     
+    public Long getId() {
+        return id;
+    }
+    
+    public void setId(Long id) {
+        this.id = id;
+    }   
 }
