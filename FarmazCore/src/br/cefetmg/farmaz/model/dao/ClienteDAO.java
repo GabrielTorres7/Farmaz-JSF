@@ -19,5 +19,6 @@ public interface ClienteDAO {
     public boolean remove(Long clienteId) throws PersistenciaException;
     public Cliente getClienteById(Long clienteId) throws PersistenciaException;
     public Cliente getClienteByEmail(String email) throws PersistenciaException;
+    public Cliente getClienteByEmailSenha(String email, String senha) throws PersistenciaException;
     public List<Cliente> listAll() throws PersistenciaException;
 }

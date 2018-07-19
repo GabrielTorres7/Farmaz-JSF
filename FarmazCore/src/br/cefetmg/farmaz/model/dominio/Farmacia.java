@@ -19,11 +19,13 @@ public class Farmacia {
     String bairro;
     String rua;
     int numero;
+    String email;
+    String senha;
 
     public Farmacia() {
     }
 
-    public Farmacia(Long cadastroPrefeitura, Long codCidade, Long codUf, String cnpj, String nome, int cep, String bairro, String rua, int numero) {
+    public Farmacia(Long cadastroPrefeitura, Long codCidade, Long codUf, String cnpj, String nome, int cep, String bairro, String rua, int numero, String email, String senha) {
         this.cadastroPrefeitura = cadastroPrefeitura;
         this.codCidade = codCidade;
         this.codUf = codUf;
@@ -33,6 +35,8 @@ public class Farmacia {
         this.bairro = bairro;
         this.rua = rua;
         this.numero = numero;
+        this.email = email;
+        this.senha = senha;
     }
 
     public Long getCadastroPrefeitura() {
@@ -105,6 +109,22 @@ public class Farmacia {
 
     public void setNumero(int numero) {
         this.numero = numero;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
     
 }

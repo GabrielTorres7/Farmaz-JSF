@@ -111,6 +111,7 @@ public class EnderecoDAOImpl implements EnderecoDAO{
             }else{
                 pstmt.setNull(8, java.sql.Types.NULL);
             }
+            pstmt.setLong(9, endereco.getEnderecoId());
             pstmt.executeUpdate();
             
             pstmt.close();

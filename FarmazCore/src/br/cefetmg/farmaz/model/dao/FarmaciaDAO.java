@@ -18,5 +18,7 @@ public interface FarmaciaDAO {
     public boolean update(Farmacia farmacia) throws PersistenciaException;
     public boolean remove(Long farmaciaId) throws PersistenciaException;
     public Farmacia getFarmaciaById(Long farmaciaId) throws PersistenciaException;
+    public Farmacia getFarmaciaByEmail(String email) throws PersistenciaException;
+    public Farmacia getFarmaciaByEmailSenha(String email, String senha) throws PersistenciaException;
     public List<Farmacia> listAll() throws PersistenciaException;
 }

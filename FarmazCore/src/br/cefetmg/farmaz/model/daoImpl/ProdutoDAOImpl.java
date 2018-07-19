@@ -109,6 +109,7 @@ public class ProdutoDAOImpl implements ProdutoDAO{
             }else{
                 pstmt.setNull(5, java.sql.Types.NULL);
             }
+            pstmt.setLong(6, produto.getId());
             pstmt.executeUpdate();
             
             pstmt.close();

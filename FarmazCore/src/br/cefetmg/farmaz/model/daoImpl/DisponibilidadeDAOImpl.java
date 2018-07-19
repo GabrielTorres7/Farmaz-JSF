@@ -15,7 +15,18 @@ import java.util.List;
  * @author Gabriel
  */
 public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
-
+    
+    private static DisponibilidadeDAOImpl disponibilidadeDAO = null;
+    
+    private DisponibilidadeDAOImpl(){}
+    
+    public static DisponibilidadeDAOImpl getInstance() {
+        if (disponibilidadeDAO == null) {
+            disponibilidadeDAO = new DisponibilidadeDAOImpl();
+        }
+        return disponibilidadeDAO;
+    }
+    
     @Override
     public Long insert(Disponibilidade disponibilidade) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

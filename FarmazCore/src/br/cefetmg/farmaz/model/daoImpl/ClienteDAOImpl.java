@@ -197,6 +197,40 @@ public class ClienteDAOImpl implements ClienteDAO {
             throw new PersistenciaException(e);
         }
     }
+    
+    @Override
+    public Cliente getClienteByEmailSenha(String email, String senha) throws PersistenciaException {
+        try {
+            Connection connection = ManterConexao.getInstance().getConnection();
+
+            String sql = "SELECT * FROM cliente WHERE email = ? AND senha = md5(?)";
+
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setString(1, email);
+            pstmt.setString(2, senha);
+            ResultSet rs = pstmt.executeQuery();
+
+            Cliente cliente = null;
+            if (rs.next()) {
+                cliente = new Cliente();
+                cliente.setId(rs.getLong("cliente_serial"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setEmail(rs.getString("email"));
+                cliente.setSenha(rs.getString("senha"));
+                cliente.setDocumentoIdentificacao(rs.getString("documento_identificacao"));
+                cliente.setNumeroTelefone(rs.getInt("telefone"));
+            }
+
+            rs.close();
+            pstmt.close();
+            connection.close();
+
+            return cliente;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new PersistenciaException(e);
+        }
+    }
 
     @Override
     public List<Cliente> listAll() throws PersistenciaException {
