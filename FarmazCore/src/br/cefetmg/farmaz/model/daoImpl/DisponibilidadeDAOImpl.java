@@ -6,7 +6,6 @@
 package br.cefetmg.farmaz.model.daoImpl;
 
 import br.cefetmg.farmaz.model.dao.DisponibilidadeDAO;
-import br.cefetmg.farmaz.model.dominio.Cliente;
 import br.cefetmg.farmaz.model.dominio.Disponibilidade;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
 import br.cefetmg.farmaz.util.bd.ManterConexao;

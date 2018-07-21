@@ -10,6 +10,7 @@ package br.cefetmg.farmaz.model.dominio;
  * @author Gabriel
  */
 public class ItemPedido {
+    Long itemPedidoId;
     Long pedidoId;
     Long produtoId;
     int quantidade;
@@ -21,6 +22,14 @@ public class ItemPedido {
         this.pedidoId = pedidoId;
         this.produtoId = produtoId;
         this.quantidade = quantidade;
+    }
+
+    public Long getItemPedidoId() {
+        return itemPedidoId;
+    }
+
+    public void setItemPedidoId(Long itemPedidoId) {
+        this.itemPedidoId = itemPedidoId;
     }
 
     public Long getPedidoId() {

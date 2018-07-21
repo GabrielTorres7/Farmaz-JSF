@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -81,32 +82,229 @@ public class FarmaciaDAOImpl implements FarmaciaDAO{
 
     @Override
     public boolean update(Farmacia farmacia) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+
+            Connection connection = ManterConexao.getInstance().getConnection();
+
+            String sql = "UPDATE farmacia "
+                    + " SET codigo_cidade = ? "
+                    + "     codigo_uf = ? "
+                    + "     cnpj = ? "
+                    + "     nome = ? "
+                    + "     cep = ? "
+                    + "     bairro = ? "
+                    + "     rua = ? "
+                    + "     numero = ? "
+                    + "     email = ? "
+                    + "     senha = ? "
+                    + " WHERE cadastro_prefeitura = ?";
+
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setLong(1, farmacia.getCodCidade());
+            pstmt.setLong(2, farmacia.getCodUf());
+            pstmt.setString(3, farmacia.getCnpj());
+            pstmt.setString(4, farmacia.getNome());
+            pstmt.setInt(5, farmacia.getCep());
+            pstmt.setString(6, farmacia.getBairro());
+            pstmt.setString(7, farmacia.getRua());
+            pstmt.setInt(8, farmacia.getNumero());
+            pstmt.setString(9, farmacia.getEmail());
+            pstmt.setString(10, farmacia.getSenha());
+            pstmt.setLong(11, farmacia.getCadastroPrefeitura());
+
+            pstmt.executeUpdate();
+
+            pstmt.close();
+            connection.close();
+
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new PersistenciaException(e);
+        }
     }
 
     @Override
     public boolean remove(Long farmaciaId) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Connection connection = ManterConexao.getInstance().getConnection();
+
+            String sql = "DELETE FROM farmacia WHERE cadastro_prefeitura = ?";
+
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+
+            pstmt.setLong(1, farmaciaId);
+            pstmt.executeUpdate();
+
+            pstmt.close();
+            connection.close();
+
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new PersistenciaException(e);
+        }
     }
 
     @Override
     public Farmacia getFarmaciaById(Long farmaciaId) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Connection connection = ManterConexao.getInstance().getConnection();
+
+            String sql = "SELECT * FROM farmacia WHERE cadastro_prefeitura = ? ";
+
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setLong(1, farmaciaId);
+            ResultSet rs = pstmt.executeQuery();
+
+            Farmacia farmacia = null;
+            if (rs.next()) {
+                farmacia = new Farmacia();
+                farmacia.setCadastroPrefeitura(farmaciaId);
+                farmacia.setCodCidade(rs.getLong("codigo_cidade"));
+                farmacia.setCodUf(rs.getLong("codigo_uf"));
+                farmacia.setCnpj(rs.getString("cnpj"));
+                farmacia.setNome(rs.getString("nome"));
+                farmacia.setCep(rs.getInt("cep"));
+                farmacia.setBairro(rs.getString("bairro"));
+                farmacia.setRua(rs.getString("rua"));
+                farmacia.setNumero(rs.getInt("numero"));
+                farmacia.setEmail(rs.getString("email"));
+                farmacia.setSenha(rs.getString("senha"));
+            }
+
+            rs.close();
+            pstmt.close();
+            connection.close();
+
+            return farmacia;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new PersistenciaException(e);
+        }
     }
 
     @Override
     public Farmacia getFarmaciaByEmail(String email) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Connection connection = ManterConexao.getInstance().getConnection();
+
+            String sql = "SELECT * FROM farmacia WHERE email = ? ";
+
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setString(1, email);
+            ResultSet rs = pstmt.executeQuery();
+
+            Farmacia farmacia = null;
+            if (rs.next()) {
+                farmacia = new Farmacia();
+                farmacia.setCadastroPrefeitura(rs.getLong("cadastro_prefeitura"));
+                farmacia.setCodCidade(rs.getLong("codigo_cidade"));
+                farmacia.setCodUf(rs.getLong("codigo_uf"));
+                farmacia.setCnpj(rs.getString("cnpj"));
+                farmacia.setNome(rs.getString("nome"));
+                farmacia.setCep(rs.getInt("cep"));
+                farmacia.setBairro(rs.getString("bairro"));
+                farmacia.setRua(rs.getString("rua"));
+                farmacia.setNumero(rs.getInt("numero"));
+                farmacia.setEmail(rs.getString("email"));
+                farmacia.setSenha(rs.getString("senha"));
+            }
+
+            rs.close();
+            pstmt.close();
+            connection.close();
+
+            return farmacia;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new PersistenciaException(e);
+        }
     }
 
     @Override
     public Farmacia getFarmaciaByEmailSenha(String email, String senha) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Connection connection = ManterConexao.getInstance().getConnection();
+
+            String sql = "SELECT * FROM farmacia WHERE email = ? AND senha = md5(?)";
+
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.setString(1, email);
+            pstmt.setString(2, senha);
+            ResultSet rs = pstmt.executeQuery();
+
+            Farmacia farmacia = null;
+            if (rs.next()) {
+                farmacia = new Farmacia();
+                farmacia.setCadastroPrefeitura(rs.getLong("cadastro_prefeitura"));
+                farmacia.setCodCidade(rs.getLong("codigo_cidade"));
+                farmacia.setCodUf(rs.getLong("codigo_uf"));
+                farmacia.setCnpj(rs.getString("cnpj"));
+                farmacia.setNome(rs.getString("nome"));
+                farmacia.setCep(rs.getInt("cep"));
+                farmacia.setBairro(rs.getString("bairro"));
+                farmacia.setRua(rs.getString("rua"));
+                farmacia.setNumero(rs.getInt("numero"));
+                farmacia.setEmail(rs.getString("email"));
+                farmacia.setSenha(rs.getString("senha"));
+            }
+
+            rs.close();
+            pstmt.close();
+            connection.close();
+
+            return farmacia;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new PersistenciaException(e);
+        }
     }
 
     @Override
     public List<Farmacia> listAll() throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Connection connection = ManterConexao.getInstance().getConnection();
+
+            String sql = "SELECT * FROM farmacia ORDER BY nome";
+
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            ArrayList<Farmacia> listAll = null;
+            Farmacia farmacia = null;
+
+            if (rs.next()) {
+                listAll = new ArrayList<>();
+                do {
+                farmacia = new Farmacia();
+                farmacia.setCadastroPrefeitura(rs.getLong("cadastro_prefeitura"));
+                farmacia.setCodCidade(rs.getLong("codigo_cidade"));
+                farmacia.setCodUf(rs.getLong("codigo_uf"));
+                farmacia.setCnpj(rs.getString("cnpj"));
+                farmacia.setNome(rs.getString("nome"));
+                farmacia.setCep(rs.getInt("cep"));
+                farmacia.setBairro(rs.getString("bairro"));
+                farmacia.setRua(rs.getString("rua"));
+                farmacia.setNumero(rs.getInt("numero"));
+                farmacia.setEmail(rs.getString("email"));
+                farmacia.setSenha(rs.getString("senha"));
+                listAll.add(farmacia);
+                } while (rs.next());
+            }
+
+            rs.close();
+            pstmt.close();
+            connection.close();
+
+            return listAll;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new PersistenciaException(e);
+        }
     }
     
 }

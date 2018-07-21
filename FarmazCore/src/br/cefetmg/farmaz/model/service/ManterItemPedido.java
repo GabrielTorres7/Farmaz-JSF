@@ -17,7 +17,7 @@ import java.util.List;
 public interface ManterItemPedido {
     public Long inserirItemPedido(ItemPedido itemPedido) throws PersistenciaException, LogicaNegocioException;
     public boolean atualizarItemPedido(ItemPedido itemPedido) throws PersistenciaException, LogicaNegocioException;
-    public boolean deletarItemPedido(Long pedidoId, Long produtoId) throws PersistenciaException;
-    public ItemPedido getItemPedidoById(Long pedidoId, Long produtoId) throws PersistenciaException;
+    public boolean deletarItemPedido(Long itemPedidoId) throws PersistenciaException;
+    public ItemPedido getItemPedidoById(Long itemPedidoId) throws PersistenciaException;
     public List<ItemPedido> getItensPedidoByPedidoId(Long pedidoId) throws PersistenciaException;
 }

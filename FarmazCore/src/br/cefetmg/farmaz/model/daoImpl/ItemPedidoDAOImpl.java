@@ -83,13 +83,16 @@ public class ItemPedidoDAOImpl implements ItemPedidoDAO{
             Connection connection = ManterConexao.getInstance().getConnection();
             
             String sql = "UPDATE itemPedido " +
-                           " SET quantidade = ? " +
-                         " WHERE produto_serial = ? AND pedido_serial = ?";
+                           " SET pedido_serial = ? " +
+                           "     produto_serial = ? " +
+                           "     quantidade = ? " +
+                         " WHERE itemPedidoId = ?";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setInt(1, itemPedido.getQuantidade());
+            pstmt.setLong(1, itemPedido.getPedidoId());
             pstmt.setLong(2, itemPedido.getProdutoId());
-            pstmt.setLong(3, itemPedido.getPedidoId());
+            pstmt.setInt(3, itemPedido.getQuantidade());
+            pstmt.setLong(3, itemPedido.getItemPedidoId());
             
             pstmt.close();
             connection.close();
@@ -103,16 +106,15 @@ public class ItemPedidoDAOImpl implements ItemPedidoDAO{
     }
 
     @Override
-    public boolean remove(Long pedidoId, Long produtoId) throws PersistenciaException {
+    public boolean remove(Long itemPedidoId) throws PersistenciaException {
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "DELETE FROM itemPedido WHERE pedido_serial = ? AND produto_serial = ?";
+            String sql = "DELETE FROM itemPedido WHERE itemPedidoId = ? ";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
  
-            pstmt.setLong(1, pedidoId);
-            pstmt.setLong(2, produtoId);
+            pstmt.setLong(1, itemPedidoId);
             pstmt.executeUpdate();
 
             pstmt.close();
@@ -127,22 +129,22 @@ public class ItemPedidoDAOImpl implements ItemPedidoDAO{
     }
 
     @Override
-    public ItemPedido getItemPedidoById(Long pedidoId, Long produtoId) throws PersistenciaException {
+    public ItemPedido getItemPedidoById(Long itemPedidoId) throws PersistenciaException {
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "SELECT * FROM itemPedido WHERE pedido_serial = ? AND produto_serial = ? ";
+            String sql = "SELECT * FROM itemPedido WHERE itemPedidoId = ? ";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, pedidoId);
-            pstmt.setLong(2, produtoId);
+            pstmt.setLong(1, itemPedidoId);
             ResultSet rs = pstmt.executeQuery();
 
             ItemPedido itemPedido = null;
             if (rs.next()) {
                 itemPedido = new ItemPedido();
-                itemPedido.setPedidoId(pedidoId);
-                itemPedido.setProdutoId(produtoId);
+                itemPedido.setItemPedidoId(itemPedidoId);
+                itemPedido.setPedidoId(rs.getLong("pedido_serial"));
+                itemPedido.setProdutoId(rs.getLong("produto_serial"));
                 itemPedido.setQuantidade(rs.getInt("quantidade"));
             }
 
@@ -175,6 +177,7 @@ public class ItemPedidoDAOImpl implements ItemPedidoDAO{
                 listProdutos = new ArrayList<>();
                 do {
                     itemPedido = new ItemPedido();
+                    itemPedido.setItemPedidoId(rs.getLong("itemPedidoId"));
                     itemPedido.setPedidoId(rs.getLong("pedido_serial"));
                     itemPedido.setProdutoId(rs.getLong("produto_serial"));
                     itemPedido.setQuantidade(rs.getInt("quantidade"));

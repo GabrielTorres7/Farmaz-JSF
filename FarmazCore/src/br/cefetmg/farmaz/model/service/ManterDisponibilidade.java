@@ -17,8 +17,8 @@ import java.util.List;
 public interface ManterDisponibilidade {
     public Long inserirDisponibilidade(Disponibilidade disponibilidade) throws PersistenciaException, LogicaNegocioException;
     public boolean atualizarDisponibilidade(Disponibilidade disponibilidade) throws PersistenciaException, LogicaNegocioException;
-    public boolean deletarDisponibilidade(Long produtoId, Long farmaciaId) throws PersistenciaException;
-    public Disponibilidade getDisponibilidadeById(Long produtoId, Long farmaciaId) throws PersistenciaException;
+    public boolean deletarDisponibilidade(Long DisponibilidadeId) throws PersistenciaException;
+    public Disponibilidade getDisponibilidadeById(Long DisponibilidadeId) throws PersistenciaException;
     public List<Disponibilidade> getDisponibilidadeByProdutoId(Long produtoId) throws PersistenciaException;
     public List<Disponibilidade> getDisponibilidadeByFarmaciaId(Long farmaciaId) throws PersistenciaException;
 }

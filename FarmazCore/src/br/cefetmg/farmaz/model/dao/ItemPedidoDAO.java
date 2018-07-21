@@ -16,7 +16,7 @@ import java.util.List;
 public interface ItemPedidoDAO {
     public Long insert(ItemPedido itemPedido) throws PersistenciaException;
     public boolean update(ItemPedido itemPedido) throws PersistenciaException;
-    public boolean remove(Long pedidoId, Long produtoId) throws PersistenciaException;
-    public ItemPedido getItemPedidoById(Long pedidoId, Long produtoId) throws PersistenciaException;
+    public boolean remove(Long itemPedidoId) throws PersistenciaException;
+    public ItemPedido getItemPedidoById(Long itemPedidoId) throws PersistenciaException;
     public List<ItemPedido> getItensPedidoByPedidoId(Long pedidoId) throws PersistenciaException;
 }
