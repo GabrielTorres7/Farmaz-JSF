@@ -5,30 +5,31 @@
  */
 package br.cefetmg.farmaz.controller;
 
-import br.cefetmg.farmaz.model.daoImpl.ClienteDAOImpl;
 import br.cefetmg.farmaz.model.daoImpl.ProdutoDAOImpl;
-import br.cefetmg.farmaz.model.dominio.Cliente;
 import br.cefetmg.farmaz.model.dominio.Produto;
 import br.cefetmg.farmaz.model.service.ManterProduto;
-import br.cefetmg.farmaz.model.serviceImpl.ManterClienteImpl;
 import br.cefetmg.farmaz.model.serviceImpl.ManterProdutoImpl;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
  * @author Gabriel
  */
-public class ListarProdutos {
+public class ListaProdutos {
     
-    public static String execute(HttpServletRequest request) {
-        String jsp = "";
+    public static String executa(HttpServletRequest request) {
+        String jsp;
         
         try {    
-            ManterProduto manterProduto = new ManterProdutoImpl(ProdutoDAOImpl.getInstance());
-            List<Produto> listProduto = manterProduto.listAll();
+            // Monta a lista de contatos
+      //      ManterProduto manterProduto = new ManterProdutoImpl(ProdutoDAOImpl.getInstance());
+        //    List<Produto> listProduto = manterProduto.listAll();
+            // Guarda a lista no request
+          //  request.setAttribute("produtos", listProduto);
             
-            jsp = "notFoward";
+            jsp = "listaProdutos.jsp";
 
         } catch (Exception e) {
             e.printStackTrace();

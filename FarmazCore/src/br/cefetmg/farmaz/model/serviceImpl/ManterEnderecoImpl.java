@@ -26,28 +26,87 @@ public class ManterEnderecoImpl implements ManterEndereco{
 
     @Override
     public Long inserirEndereco(Endereco endereco) throws PersistenciaException, LogicaNegocioException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (endereco == null) {
+            throw new LogicaNegocioException("Endereco não pode ser nulo");
+        }
+        if (endereco.getEnderecoId() == null) {
+            throw new LogicaNegocioException("Id do endereco não pode ser nulo");
+        }
+        if (endereco.getClienteId() == null) {
+            throw new LogicaNegocioException("id do cliente do endereco não pode ser nulo");
+        }
+        if (endereco.getCodCidade() == null) {
+            throw new LogicaNegocioException("Codigo da cidade do endereco não pode ser nulo");
+        }
+        if (endereco.getCodUf() == null) {
+            throw new LogicaNegocioException("Codigo da uf do endereco não pode ser nulo");
+        }
+        if (endereco.getBairro() == null
+                || endereco.getBairro().isEmpty()) {
+            throw new LogicaNegocioException("O bairro do endereco não pode ser nulo");
+        }
+        if (endereco.getRua() == null
+                || endereco.getRua().isEmpty()) {
+            throw new LogicaNegocioException("A rua do endereco não pode ser nula");
+        }
+        
+        return enderecoDAO.insert(endereco);
     }
 
     @Override
     public boolean atualizarEndereco(Endereco endereco) throws PersistenciaException, LogicaNegocioException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (endereco == null) {
+            throw new LogicaNegocioException("Endereco não pode ser nulo");
+        }
+        if (endereco.getEnderecoId() == null) {
+            throw new LogicaNegocioException("Id do endereco não pode ser nulo");
+        }
+        if (endereco.getClienteId() == null) {
+            throw new LogicaNegocioException("id do cliente do endereco não pode ser nulo");
+        }
+        if (endereco.getCodCidade() == null) {
+            throw new LogicaNegocioException("Codigo da cidade do endereco não pode ser nulo");
+        }
+        if (endereco.getCodUf() == null) {
+            throw new LogicaNegocioException("Codigo da uf do endereco não pode ser nulo");
+        }
+        if (endereco.getBairro() == null
+                || endereco.getBairro().isEmpty()) {
+            throw new LogicaNegocioException("O bairro do endereco não pode ser nulo");
+        }
+        if (endereco.getRua() == null
+                || endereco.getRua().isEmpty()) {
+            throw new LogicaNegocioException("A rua do endereco não pode ser nula");
+        }
+        
+        return enderecoDAO.update(endereco);
     }
 
     @Override
     public boolean deletarEndereco(Long enderecoId) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (enderecoId == null) {
+            throw new PersistenciaException("Id do endereco não pode ser nulo");
+        }
+        if (enderecoDAO.getEnderecoById(enderecoId) == null) {
+            throw new PersistenciaException("O endereco com o id " + enderecoId + "não existe");
+        }
+        return enderecoDAO.remove(enderecoId);
     }
 
     @Override
     public Endereco getEnderecoById(Long enderecoId) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (enderecoId == null) {
+            throw new PersistenciaException("O id do endereco não pode ser nulo");
+        }
+        return enderecoDAO.getEnderecoById(enderecoId);
     }
 
     @Override
     public List<Endereco> getEnderecosByClienteId(Long clienteId) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (clienteId == null) {
+            throw new PersistenciaException("O id do cliente não pode ser nulo");
+        }
+        return enderecoDAO.getEnderecosByClienteId(clienteId);
     }
-    
     
 }

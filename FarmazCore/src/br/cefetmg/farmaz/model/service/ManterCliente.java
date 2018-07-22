@@ -20,5 +20,6 @@ public interface ManterCliente {
     public boolean deletarCliente(Long clienteId) throws PersistenciaException;
     public Cliente getClienteById(Long clienteId) throws PersistenciaException;
     public Cliente getClienteByEmail(String email) throws PersistenciaException;
+    public Cliente getClienteByEmailSenha(String email, String Senha) throws PersistenciaException;
     public List<Cliente> getAll() throws PersistenciaException;
 }

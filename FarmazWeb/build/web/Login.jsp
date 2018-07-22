@@ -22,7 +22,9 @@
             <input type="password" id="senha" name="senha">
             <br><br>
             
-            <input type="submit" id="botao" value="Login">
+            <input type="hidden" id="acao" name="acao" value="Login">
+            
+            <input type="submit" id="botao" name="botao">
         </form>
     </body>
 </html>

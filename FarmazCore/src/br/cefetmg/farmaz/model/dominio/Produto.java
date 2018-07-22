@@ -28,6 +28,13 @@ public class Produto {
         this.laboratorio = laboratorio;
         this.cadastroAnvisa = cadastroAnvisa;
     }
+
+    public Produto(Long id, String nome, boolean isReceita, String descricao) {
+        this.id = id;
+        this.nome = nome;
+        this.isReceita = isReceita;
+        this.descricao = descricao;
+    }
     
     public Long getId() {
         return id;

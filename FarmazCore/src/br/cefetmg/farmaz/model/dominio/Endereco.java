@@ -35,6 +35,17 @@ public class Endereco {
         this.complemento = complemento;
     }
 
+    public Endereco(Long enderecoId, Long clienteId, Long codCidade, Long codUf, int cep, String bairro, String rua, int numero) {
+        this.enderecoId = enderecoId;
+        this.clienteId = clienteId;
+        this.codCidade = codCidade;
+        this.codUf = codUf;
+        this.cep = cep;
+        this.bairro = bairro;
+        this.rua = rua;
+        this.numero = numero;
+    }
+    
     public Long getEnderecoId() {
         return enderecoId;
     }

@@ -9,6 +9,7 @@ import br.cefetmg.farmaz.model.daoImpl.ClienteDAOImpl;
 import br.cefetmg.farmaz.model.dominio.Cliente;
 import br.cefetmg.farmaz.model.serviceImpl.ManterClienteImpl;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -16,8 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class Login {
     
-    @SuppressWarnings("static-access")
-    public static String execute(HttpServletRequest request) {
+    public static String executa(HttpServletRequest request){
 
         String jsp = "";
 
@@ -28,21 +28,14 @@ public class Login {
             email = request.getParameter("email");
             senha = request.getParameter("senha");
                        
-            ManterClienteImpl manterCliente = new ManterClienteImpl(ClienteDAOImpl.getInstance());
-            Cliente cliente = manterCliente.getClienteByEmail(email);
-
-            if (cliente == null) {
-                String erro = "Usuario nao encontrado!";
-                request.setAttribute("erro", erro);
-                jsp = "/erro.jsp";
-            } else if(senha.equals(cliente.getSenha())){
-                jsp = ListarProdutos.execute(request);
-            }
-
+            
+            jsp = ListaProdutos.executa(request);
+          
         } catch (Exception e) {
             e.printStackTrace();
             jsp = "";
         }
         return jsp;
     }
+
 }

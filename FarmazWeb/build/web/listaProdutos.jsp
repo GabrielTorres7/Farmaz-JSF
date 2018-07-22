@@ -1,6 +1,6 @@
 <%-- 
-    Document   : PaginaPrincipal
-    Created on : 18/07/2018, 00:57:51
+    Document   : listaProdutos
+    Created on : 21/07/2018, 22:22:46
     Author     : Gabriel
 --%>
 
@@ -9,9 +9,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Farmaz</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Xama no jhonson!</h1>
     </body>
 </html>

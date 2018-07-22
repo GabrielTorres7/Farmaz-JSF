@@ -106,6 +106,17 @@ public class ManterClienteImpl implements ManterCliente{
     }
     
     @Override
+    public Cliente getClienteByEmailSenha(String email, String senha) throws PersistenciaException {
+        if (email == null || email.isEmpty()) {
+            throw new PersistenciaException("O email do cliente não pode ser nulo");
+        }
+        if (senha == null || senha.isEmpty()) {
+            throw new PersistenciaException("A senha do cliente não pode ser nula");
+        }
+        return clienteDAO.getClienteByEmailSenha(email, senha);
+    }
+    
+    @Override
     public List<Cliente> getAll() throws PersistenciaException {
         return clienteDAO.listAll();
     }

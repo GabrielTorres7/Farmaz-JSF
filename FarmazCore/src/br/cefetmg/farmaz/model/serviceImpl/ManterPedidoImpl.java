@@ -26,42 +26,107 @@ public class ManterPedidoImpl implements ManterPedido {
     
     @Override
     public Long criarPedido(Pedido pedido) throws PersistenciaException, LogicaNegocioException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (pedido == null) {
+            throw new LogicaNegocioException("Pedido não pode ser nulo");
+        }
+        if (pedido.getPedidoId() == null) {
+            throw new LogicaNegocioException("Id do pedido não pode ser nulo");
+        }
+        if (pedido.getClienteId() == null) {
+            throw new LogicaNegocioException("Id do cliente não pode ser nulo");
+        }
+        if (pedido.getFarmaciaId() == null) {
+            throw new LogicaNegocioException("Id da farmacia não pode ser nulo");
+        }
+        if (pedido.getDataHora() == null) {
+            throw new LogicaNegocioException("A data do pedido não pode ser nula");
+        }
+        if (pedido.getIdtStatus() == '\0') {
+            throw new LogicaNegocioException("O status do pedido não pode ser nulo");
+        }
+        
+        return pedidoDAO.insert(pedido);
     }
 
     @Override
     public boolean atualizarPedido(Pedido pedido) throws PersistenciaException, LogicaNegocioException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (pedido == null) {
+            throw new LogicaNegocioException("Pedido não pode ser nulo");
+        }
+        if (pedido.getPedidoId() == null) {
+            throw new LogicaNegocioException("Id do pedido não pode ser nulo");
+        }
+        if (pedido.getClienteId() == null) {
+            throw new LogicaNegocioException("Id do cliente não pode ser nulo");
+        }
+        if (pedido.getFarmaciaId() == null) {
+            throw new LogicaNegocioException("Id da farmacia não pode ser nulo");
+        }
+        if (pedido.getDataHora() == null) {
+            throw new LogicaNegocioException("A data do pedido não pode ser nula");
+        }
+        if (pedido.getIdtStatus() == '\0') {
+            throw new LogicaNegocioException("O status do pedido não pode ser nulo");
+        }
+        
+        return pedidoDAO.update(pedido);
     }
 
     @Override
     public boolean deletarPedido(Long pedidoId) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (pedidoId == null) {
+            throw new PersistenciaException("Id do pedido não pode ser nulo");
+        }
+        if (pedidoDAO.getPedidoById(pedidoId) == null) {
+            throw new PersistenciaException("O pedido com o id " + pedidoId + "não existe");
+        }
+        return pedidoDAO.remove(pedidoId);
     }
 
     @Override
     public Pedido getPedidoById(Long pedidoId) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (pedidoId == null) {
+            throw new PersistenciaException("O id do pedido não pode ser nulo");
+        }
+        return pedidoDAO.getPedidoById(pedidoId);
     }
 
     @Override
     public List<Pedido> getPedidosByClienteId(Long clienteId) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (clienteId == null) {
+            throw new PersistenciaException("O id do cliente não pode ser nulo");
+        }
+        return pedidoDAO.getPedidosByClienteId(clienteId);
     }
 
     @Override
     public List<Pedido> getPedidosByFarmaciaId(Long farmaciaId) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (farmaciaId == null) {
+            throw new PersistenciaException("O id da farmacia não pode ser nulo");
+        }
+        return pedidoDAO.getPedidosByFarmaciaId(farmaciaId);
     }
 
     @Override
-    public List<Pedido> getPedidosByClienteIdAndStatus(Long clienteId, String status) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Pedido> getPedidosByClienteIdAndStatus(Long clienteId, char status) throws PersistenciaException {
+        if (clienteId == null) {
+            throw new PersistenciaException("O id do cliente não pode ser nulo");
+        }
+        if (status == '\0') {
+            throw new PersistenciaException("O status do pedido não pode ser nulo");
+        }
+        return pedidoDAO.getPedidosByClienteIdAndStatus(clienteId, status);
     }
 
     @Override
-    public List<Pedido> getPedidosByFarmaciaIdAndStatus(Long farmaciaId, String status) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Pedido> getPedidosByFarmaciaIdAndStatus(Long farmaciaId, char status) throws PersistenciaException {
+        if (farmaciaId == null) {
+            throw new PersistenciaException("O id da farmacia não pode ser nulo");
+        }
+        if (status == '\0') {
+            throw new PersistenciaException("O status do pedido não pode ser nulo");
+        }
+        return pedidoDAO.getPedidosByFarmaciaIdAndStatus(farmaciaId, status);
     }
     
 }

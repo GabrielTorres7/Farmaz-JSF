@@ -21,6 +21,6 @@ public interface ManterPedido {
     public Pedido getPedidoById(Long pedidoId) throws PersistenciaException;
     public List<Pedido> getPedidosByClienteId(Long clienteId) throws PersistenciaException;
     public List<Pedido> getPedidosByFarmaciaId(Long farmaciaId) throws PersistenciaException;
-    public List<Pedido> getPedidosByClienteIdAndStatus(Long clienteId, String status) throws PersistenciaException;
-    public List<Pedido> getPedidosByFarmaciaIdAndStatus(Long farmaciaId, String status) throws PersistenciaException;
+    public List<Pedido> getPedidosByClienteIdAndStatus(Long clienteId, char status) throws PersistenciaException;
+    public List<Pedido> getPedidosByFarmaciaIdAndStatus(Long farmaciaId, char status) throws PersistenciaException;
 }
