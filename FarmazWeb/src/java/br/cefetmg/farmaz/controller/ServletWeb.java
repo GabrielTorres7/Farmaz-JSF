@@ -19,14 +19,16 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ServletWeb extends HttpServlet {
    private String jsp = "";
-    
-    @Override
-    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+   @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String acao = request.getParameter("acao");
-        
+
         if(acao.equals("Login"))
             jsp = Login.executa(request);
+        else if(acao.equals("CadastraCliente"))
+            jsp = CadastraCliente.executa(request);
         
         if(!(jsp.equals("notFoward"))) {
             RequestDispatcher rd = request.getRequestDispatcher(jsp);

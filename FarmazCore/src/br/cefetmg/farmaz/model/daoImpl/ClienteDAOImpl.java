@@ -47,7 +47,7 @@ public class ClienteDAOImpl implements ClienteDAO {
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "INSERT INTO cliente (nom_cliente, nom_email, txt_password, txt_documento, num_telefone) "
+            String sql = "INSERT INTO cliente (nome, email, senha, documento_identificacao, telefone) "
                     + "    VALUES (?, ?, md5(?), ?, ?) ";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -55,7 +55,8 @@ public class ClienteDAOImpl implements ClienteDAO {
             pstmt.setString(2, cliente.getEmail());
             pstmt.setString(3, cliente.getSenha());
             pstmt.setString(4, cliente.getDocumentoIdentificacao());
-            pstmt.setInt(5, cliente.getNumeroTelefone());
+            pstmt.setString(5, cliente.getNumeroTelefone());
+            pstmt.executeUpdate();
             ResultSet rs = pstmt.executeQuery("SELECT LAST_INSERT_ID() FROM cliente");
 
             if (rs.next()) {
@@ -87,13 +88,13 @@ public class ClienteDAOImpl implements ClienteDAO {
                     + "     documento_identificacao = ? "
                     + "     telefone = ? "
                     + "     senha = ? "
-                    + " WHERE cliente_serial = ?";
+                    + " WHERE seq_cliente = ?";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, cliente.getNome());
             pstmt.setString(2, cliente.getEmail());
             pstmt.setString(3, cliente.getDocumentoIdentificacao());
-            pstmt.setInt(4, cliente.getNumeroTelefone());
+            pstmt.setString(4, cliente.getNumeroTelefone());
             pstmt.setString(5, cliente.getSenha());
             pstmt.setLong(6, cliente.getId());
             pstmt.executeUpdate();
@@ -114,7 +115,7 @@ public class ClienteDAOImpl implements ClienteDAO {
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "DELETE FROM cliente WHERE client_serial = ?";
+            String sql = "DELETE FROM cliente WHERE seq_cliente = ?";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
 
@@ -137,7 +138,7 @@ public class ClienteDAOImpl implements ClienteDAO {
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "SELECT * FROM cliente WHERE cliente_serial = ? ";
+            String sql = "SELECT * FROM cliente WHERE seq_cliente = ? ";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, clienteId);
@@ -151,7 +152,7 @@ public class ClienteDAOImpl implements ClienteDAO {
                 cliente.setEmail(rs.getString("email"));
                 cliente.setSenha(rs.getString("senha"));
                 cliente.setDocumentoIdentificacao(rs.getString("documento_identificacao"));
-                cliente.setNumeroTelefone(rs.getInt("telefone"));
+                cliente.setNumeroTelefone(rs.getString("telefone"));
             }
 
             rs.close();
@@ -179,12 +180,12 @@ public class ClienteDAOImpl implements ClienteDAO {
             Cliente cliente = null;
             if (rs.next()) {
                 cliente = new Cliente();
-                cliente.setId(rs.getLong("cliente_serial"));
+                cliente.setId(rs.getLong("seq_cliente"));
                 cliente.setNome(rs.getString("nome"));
                 cliente.setEmail(rs.getString("email"));
                 cliente.setSenha(rs.getString("senha"));
                 cliente.setDocumentoIdentificacao(rs.getString("documento_identificacao"));
-                cliente.setNumeroTelefone(rs.getInt("telefone"));
+                cliente.setNumeroTelefone(rs.getString("telefone"));
             }
 
             rs.close();
@@ -213,12 +214,12 @@ public class ClienteDAOImpl implements ClienteDAO {
             Cliente cliente = null;
             if (rs.next()) {
                 cliente = new Cliente();
-                cliente.setId(rs.getLong("cliente_serial"));
+                cliente.setId(rs.getLong("seq_cliente"));
                 cliente.setNome(rs.getString("nome"));
                 cliente.setEmail(rs.getString("email"));
                 cliente.setSenha(rs.getString("senha"));
                 cliente.setDocumentoIdentificacao(rs.getString("documento_identificacao"));
-                cliente.setNumeroTelefone(rs.getInt("telefone"));
+                cliente.setNumeroTelefone(rs.getString("telefone"));
             }
 
             rs.close();
@@ -249,12 +250,12 @@ public class ClienteDAOImpl implements ClienteDAO {
                 listAll = new ArrayList<>();
                 do {
                     cliente = new Cliente();
-                    cliente.setId(rs.getLong("cliente_serial"));
+                    cliente.setId(rs.getLong("seq_cliente"));
                     cliente.setNome(rs.getString("nome"));
                     cliente.setEmail(rs.getString("email"));
                     cliente.setSenha(rs.getString("senha"));
                     cliente.setDocumentoIdentificacao(rs.getString("documento_identificacao"));
-                    cliente.setNumeroTelefone(rs.getInt("telefone"));
+                    cliente.setNumeroTelefone(rs.getString("telefone"));
                     listAll.add(cliente);
                 } while (rs.next());
             }

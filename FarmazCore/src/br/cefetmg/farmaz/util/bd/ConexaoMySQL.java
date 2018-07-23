@@ -16,17 +16,21 @@ import java.sql.SQLException;
 public class ConexaoMySQL implements ConnectionFactory {
 
     private final static String dbDriver = "com.mysql.jdbc.Driver";
-    private final static String dbURL = "jdbc:mysql://localhost:8080/farmaz";
+    private final static String dbURL = "jdbc:mysql://localhost:3306/farmaz";
     private final static String usuario = "root";
     private final static String senha = "";
-    
+
     public ConexaoMySQL() {
     }
 
     @Override
     public Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName(dbDriver);
-        return DriverManager.getConnection(dbURL, usuario, senha);
+        try {
+            Class.forName(dbDriver);
+            return DriverManager.getConnection(dbURL, usuario, senha);
+        } catch (ClassNotFoundException e) {
+            throw new SQLException(e.getMessage());
+        }
     }
-    
+
 }

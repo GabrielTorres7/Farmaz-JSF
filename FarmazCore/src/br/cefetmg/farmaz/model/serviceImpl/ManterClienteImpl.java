@@ -29,9 +29,6 @@ public class ManterClienteImpl implements ManterCliente{
         if (cliente == null) {
             throw new LogicaNegocioException("Cliente não pode ser nulo");
         }
-        if (cliente.getId() == null) {
-            throw new LogicaNegocioException("Id do cliente não pode ser nulo");
-        }
         if (cliente.getNome() == null
                 || cliente.getNome().isEmpty()) {
             throw new LogicaNegocioException("Nome do cliente não pode ser nulo");

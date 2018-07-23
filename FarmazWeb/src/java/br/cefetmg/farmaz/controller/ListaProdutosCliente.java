@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Gabriel
  */
-public class ListaProdutos {
+public class ListaProdutosCliente {
     
     public static String executa(HttpServletRequest request) {
         String jsp;
