@@ -48,8 +48,8 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "INSERT INTO Disponibilidade (Produto-serial, Cadastro-prefeitura, Estoque, Preço, avaliacao) "
-                    + "    VALUES (?, ?, ?, ?, ?) ";
+            String sql = "INSERT INTO Disponibilidade (seq_produto, cadastro_prefeitura, estoque, preco, avaliacao) "
+                    + "    VALUES (?, ?, ?, ?, ?) RETURNING seq_disponibilidade";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, disponibilidade.getProdutoSeq());
@@ -57,10 +57,10 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
             pstmt.setString(3, disponibilidade.getEstoque());
             pstmt.setDouble(4, disponibilidade.getPreco());
             pstmt.setString(5, disponibilidade.getAvaliacao());
-            ResultSet rs = pstmt.executeQuery("SELECT LAST_INSERT_ID() FROM disponibilidade");
+            ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                DisponibilidadeId = rs.getLong(1);
+                DisponibilidadeId = rs.getLong("seq_disponibilidade");
                 disponibilidade.setId(DisponibilidadeId);
             }
 
@@ -83,12 +83,12 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
             Connection connection = ManterConexao.getInstance().getConnection();
 
             String sql = "UPDATE disponibilidade "
-                    + " SET Produto-serial = ?, "
-                    + "     Cadastro-prefeitura = ? "
-                    + "     Estoque = ? "
-                    + "     Preço = ? "
+                    + " SET seq_produto = ?, "
+                    + "     cadastro_prefeitura = ? "
+                    + "     estoque = ? "
+                    + "     preco = ? "
                     + "     avaliacao = ? "
-                    + " WHERE disponibilidade_serial = ?";
+                    + " WHERE seq_disponibilidade = ?";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, disponibilidade.getProdutoSeq());
@@ -115,7 +115,7 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
          try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "DELETE FROM disponibilidade WHERE disponibilidade_serial = ?";
+            String sql = "DELETE FROM disponibilidade WHERE seq_disponibilidade = ?";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
 
@@ -138,7 +138,7 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
          try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "SELECT * FROM disponibilidade WHERE disponibilidade_serial = ? ";
+            String sql = "SELECT * FROM disponibilidade WHERE seq_disponibilidade = ? ";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, DisponibilidadeId);
@@ -148,10 +148,10 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
             if (rs.next()) {
                 disponibilidade = new Disponibilidade();
                 disponibilidade.setId(DisponibilidadeId);
-                disponibilidade.setProdutoSeq(rs.getLong("Produto-serial"));
-                disponibilidade.setFarmaciaCadastro(rs.getLong("Cadastro-prefeitura"));
-                disponibilidade.setEstoque(rs.getString("Estoque"));
-                disponibilidade.setPreco(rs.getDouble("Preço"));
+                disponibilidade.setProdutoSeq(rs.getLong("seq_produto"));
+                disponibilidade.setFarmaciaCadastro(rs.getLong("cadastro_prefeitura"));
+                disponibilidade.setEstoque(rs.getString("estoque"));
+                disponibilidade.setPreco(rs.getDouble("preco"));
                 disponibilidade.setAvaliacao(rs.getString("avaliacao"));
             }
 
@@ -171,7 +171,7 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
          try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "SELECT * FROM disponibilidade WHERE Produto-serial = ?";            
+            String sql = "SELECT * FROM disponibilidade WHERE seq_produto = ?";            
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, produtoId);
@@ -184,11 +184,11 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
                 listAll = new ArrayList<>();
                 do {
                     disponibilidade = new Disponibilidade();
-                    disponibilidade.setId(rs.getLong("disponibilidade_serial"));
-                    disponibilidade.setProdutoSeq(rs.getLong("Produto-serial"));
-                    disponibilidade.setFarmaciaCadastro(rs.getLong("Cadastro-prefeitura"));
-                    disponibilidade.setEstoque(rs.getString("Estoque"));
-                    disponibilidade.setPreco(rs.getDouble("Preço"));
+                    disponibilidade.setId(rs.getLong("seq_disponibilidade"));
+                    disponibilidade.setProdutoSeq(rs.getLong("seq_produto"));
+                    disponibilidade.setFarmaciaCadastro(rs.getLong("cadastro_prefeitura"));
+                    disponibilidade.setEstoque(rs.getString("estoque"));
+                    disponibilidade.setPreco(rs.getDouble("preco"));
                     disponibilidade.setAvaliacao(rs.getString("avaliacao"));
                     listAll.add(disponibilidade);
                 } while (rs.next());
@@ -211,7 +211,7 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "SELECT * FROM disponibilidade WHERE Cadastro-prefeitura = ?";            
+            String sql = "SELECT * FROM disponibilidade WHERE cadastro_prefeitura = ?";            
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, farmaciaId);
@@ -224,11 +224,11 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
                 listAll = new ArrayList<>();
                 do {
                     disponibilidade = new Disponibilidade();
-                    disponibilidade.setId(rs.getLong("disponibilidade_serial"));
-                    disponibilidade.setProdutoSeq(rs.getLong("Produto-serial"));
-                    disponibilidade.setFarmaciaCadastro(rs.getLong("Cadastro-prefeitura"));
-                    disponibilidade.setEstoque(rs.getString("Estoque"));
-                    disponibilidade.setPreco(rs.getDouble("Preço"));
+                    disponibilidade.setId(rs.getLong("seq_disponibilidade"));
+                    disponibilidade.setProdutoSeq(rs.getLong("seq_produto"));
+                    disponibilidade.setFarmaciaCadastro(rs.getLong("cadastro_prefeitura"));
+                    disponibilidade.setEstoque(rs.getString("estoque"));
+                    disponibilidade.setPreco(rs.getDouble("preco"));
                     disponibilidade.setAvaliacao(rs.getString("avaliacao"));
                     listAll.add(disponibilidade);
                 } while (rs.next());

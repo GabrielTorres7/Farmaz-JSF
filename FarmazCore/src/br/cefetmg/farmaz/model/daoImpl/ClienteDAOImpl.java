@@ -48,7 +48,7 @@ public class ClienteDAOImpl implements ClienteDAO {
             Connection connection = ManterConexao.getInstance().getConnection();
 
             String sql = "INSERT INTO cliente (nome, email, senha, documento_identificacao, telefone) "
-                    + "    VALUES (?, ?, md5(?), ?, ?) ";
+                    + "    VALUES (?, ?, md5(?), ?, ?) RETURNING seq_cliente";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, cliente.getNome());
@@ -56,11 +56,10 @@ public class ClienteDAOImpl implements ClienteDAO {
             pstmt.setString(3, cliente.getSenha());
             pstmt.setString(4, cliente.getDocumentoIdentificacao());
             pstmt.setString(5, cliente.getNumeroTelefone());
-            pstmt.executeUpdate();
-            ResultSet rs = pstmt.executeQuery("SELECT LAST_INSERT_ID() FROM cliente");
+            ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                clienteId = rs.getLong(1);
+                clienteId = rs.getLong("seq_cliente");
                 cliente.setId(clienteId);
             }
 

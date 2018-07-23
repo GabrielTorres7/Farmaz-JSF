@@ -13,14 +13,14 @@ import java.sql.SQLException;
  *
  * @author Gabriel
  */
-public class ConexaoMySQL implements ConnectionFactory {
+public class ConexaoPostgreSQL implements ConnectionFactory {
 
-    private final static String dbDriver = "com.mysql.jdbc.Driver";
-    private final static String dbURL = "jdbc:mysql://localhost:3306/farmaz";
-    private final static String usuario = "root";
-    private final static String senha = "";
+    private final static String dbDriver = "org.postgresql.Driver";
+    private final static String dbURL = "jdbc:postgresql://localhost:5432/farmaz";
+    private final static String usuario = "postgres";
+    private final static String senha = ""; //Coloque a senha do seu pgAdimin
 
-    public ConexaoMySQL() {
+    public ConexaoPostgreSQL() {
     }
 
     @Override

@@ -18,7 +18,7 @@ public class ManterConexao {
     private static ConnectionFactory cf;
 
     private ManterConexao() {
-         ManterConexao.cf = new ConexaoMySQL();
+         ManterConexao.cf = new ConexaoPostgreSQL();
     }
 
     public static ManterConexao getInstance() {

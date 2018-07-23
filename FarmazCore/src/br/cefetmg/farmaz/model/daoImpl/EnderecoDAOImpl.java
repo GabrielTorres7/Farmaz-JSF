@@ -46,9 +46,9 @@ public class EnderecoDAOImpl implements EnderecoDAO{
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
             
-            String sql = "INSERT INTO produto (cliente_serial, cod_cidade, "
+            String sql = "INSERT INTO produto (seq_cliente, cod_cidade, "
                     + "cod_uf, cep, bairro, rua, numero, complemento) " +
-                         "    VALUES (?, ?, ?, ?, ?, ?, ?, ?) ";
+                         "    VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING seq_endereco";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, endereco.getClienteId());
@@ -63,10 +63,10 @@ public class EnderecoDAOImpl implements EnderecoDAO{
             }else{
                 pstmt.setNull(8, java.sql.Types.NULL);
             }
-            ResultSet rs = pstmt.executeQuery("SELECT LAST_INSERT_ID() FROM endereco");
+            ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                enderecoId = rs.getLong(1);
+                enderecoId = rs.getLong("seq_endereco");
                 endereco.setEnderecoId(enderecoId);
             }
 
@@ -88,7 +88,7 @@ public class EnderecoDAOImpl implements EnderecoDAO{
             Connection connection = ManterConexao.getInstance().getConnection();
             
             String sql = "UPDATE endereco " +
-                           " SET cliente_serial = ?, " +
+                           " SET seq_cliente = ?, " +
                            "     cod_cidade = ? " +
                            "     cod_uf = ? " +
                            "     cep = ? " +
@@ -96,7 +96,7 @@ public class EnderecoDAOImpl implements EnderecoDAO{
                            "     rua = ? " +
                            "     numero = ? " +
                            "     complemento = ? " + 
-                         " WHERE endereco_serial = ?";
+                         " WHERE seq_endereco = ?";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, endereco.getClienteId());
@@ -130,7 +130,7 @@ public class EnderecoDAOImpl implements EnderecoDAO{
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "DELETE FROM endereco WHERE endereco_serial = ?";
+            String sql = "DELETE FROM endereco WHERE seq_endereco = ?";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             
@@ -153,7 +153,7 @@ public class EnderecoDAOImpl implements EnderecoDAO{
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "SELECT * FROM endereco WHERE endereco_serial = ? ";
+            String sql = "SELECT * FROM endereco WHERE seq_endereco = ? ";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, enderecoId);
@@ -163,7 +163,7 @@ public class EnderecoDAOImpl implements EnderecoDAO{
             if (rs.next()) {
                 endereco = new Endereco();
                 endereco.setEnderecoId(enderecoId);
-                endereco.setClienteId(rs.getLong("cliente_serial"));
+                endereco.setClienteId(rs.getLong("seq_cliente"));
                 endereco.setCodCidade(rs.getLong("cod_cidade"));
                 endereco.setCodUf(rs.getLong("cod_uf"));
                 endereco.setCep(rs.getInt("cep"));
@@ -189,7 +189,7 @@ public class EnderecoDAOImpl implements EnderecoDAO{
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "SELECT * FROM endereco WHERE cliente_serial = ? ORDER BY nome";
+            String sql = "SELECT * FROM endereco WHERE seq_cliente = ? ORDER BY nome";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, clienteId);
@@ -202,8 +202,8 @@ public class EnderecoDAOImpl implements EnderecoDAO{
                 listEnderecos = new ArrayList<>();
                 do {
                     endereco = new Endereco();
-                    endereco.setEnderecoId(rs.getLong("endereco_serial"));
-                    endereco.setClienteId(rs.getLong("cliente_serial"));
+                    endereco.setEnderecoId(rs.getLong("seq_endereco"));
+                    endereco.setClienteId(rs.getLong("seq_cliente"));
                     endereco.setCodCidade(rs.getLong("cod_cidade"));
                     endereco.setCodUf(rs.getLong("cod_uf"));
                     endereco.setCep(rs.getInt("cep"));
