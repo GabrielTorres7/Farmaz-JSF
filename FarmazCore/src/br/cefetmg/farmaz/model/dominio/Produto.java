@@ -15,12 +15,12 @@ public class Produto {
     boolean isReceita;
     String descricao;
     String laboratorio;
-    Long cadastroAnvisa;
+    String cadastroAnvisa;
 
     public Produto() {
     }
 
-    public Produto(Long id, String nome, boolean isReceita, String descricao, String laboratorio, Long cadastroAnvisa) {
+    public Produto(Long id, String nome, boolean isReceita, String descricao, String laboratorio, String cadastroAnvisa) {
         this.id = id;
         this.nome = nome;
         this.isReceita = isReceita;
@@ -76,11 +76,11 @@ public class Produto {
         this.laboratorio = laboratorio;
     }
 
-    public Long getCadastroAnvisa() {
+    public String getCadastroAnvisa() {
         return cadastroAnvisa;
     }
 
-    public void setCadastroAnvisa(Long cadastroAnvisa) {
+    public void setCadastroAnvisa(String cadastroAnvisa) {
         this.cadastroAnvisa = cadastroAnvisa;
     }
     

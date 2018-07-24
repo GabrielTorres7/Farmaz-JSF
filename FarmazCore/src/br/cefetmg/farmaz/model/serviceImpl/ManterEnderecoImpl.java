@@ -29,9 +29,6 @@ public class ManterEnderecoImpl implements ManterEndereco{
         if (endereco == null) {
             throw new LogicaNegocioException("Endereco não pode ser nulo");
         }
-        if (endereco.getEnderecoId() == null) {
-            throw new LogicaNegocioException("Id do endereco não pode ser nulo");
-        }
         if (endereco.getClienteId() == null) {
             throw new LogicaNegocioException("id do cliente do endereco não pode ser nulo");
         }

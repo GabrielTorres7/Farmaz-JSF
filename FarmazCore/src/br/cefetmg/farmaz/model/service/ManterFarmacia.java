@@ -17,8 +17,8 @@ import java.util.List;
 public interface ManterFarmacia {
     public Long cadastrarFarmacia(Farmacia farmacia) throws PersistenciaException, LogicaNegocioException;
     public boolean atualizarFarmacia(Farmacia farmacia) throws PersistenciaException, LogicaNegocioException;
-    public boolean deletarFarmacia(Long farmaciaId) throws PersistenciaException;
-    public Farmacia getFarmaciaById(Long farmaciaId) throws PersistenciaException;
+    public boolean deletarFarmacia(String farmaciaId) throws PersistenciaException;
+    public Farmacia getFarmaciaById(String farmaciaId) throws PersistenciaException;
     public Farmacia getFarmaciaByEmail(String email) throws PersistenciaException;
     public Farmacia getFarmaciaByEmailSenha(String email, String senha) throws PersistenciaException;
     public List<Farmacia> listAll() throws PersistenciaException;

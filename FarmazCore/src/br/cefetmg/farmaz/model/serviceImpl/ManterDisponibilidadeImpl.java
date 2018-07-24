@@ -26,32 +26,73 @@ public class ManterDisponibilidadeImpl implements ManterDisponibilidade{
     
     @Override
     public Long inserirDisponibilidade(Disponibilidade disponibilidade) throws PersistenciaException, LogicaNegocioException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (disponibilidade == null) {
+            throw new LogicaNegocioException("Disponibilidade não pode ser nula");
+        }
+        if (disponibilidade.getProdutoSeq() == null) {
+            throw new LogicaNegocioException("Id do produto de disponibilidade não pode ser nulo");
+        }
+        if (disponibilidade.getFarmaciaCadastro() == null
+                || disponibilidade.getFarmaciaCadastro().isEmpty()) {
+            throw new LogicaNegocioException("Id da farmácia de disponibilidade não pode ser nulo");
+        }
+        
+        return disponibilidadeDAO.insert(disponibilidade);
     }
 
     @Override
     public boolean atualizarDisponibilidade(Disponibilidade disponibilidade) throws PersistenciaException, LogicaNegocioException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (disponibilidade == null) {
+            throw new LogicaNegocioException("Disponibilidade não pode ser nula");
+        }
+        if (disponibilidade.getId() == null){
+            throw new LogicaNegocioException("Id de disponibilidade não pode ser nulo");
+        }
+        if (disponibilidade.getProdutoSeq() == null) {
+            throw new LogicaNegocioException("Id do produto de disponibilidade não pode ser nulo");
+        }
+        if (disponibilidade.getFarmaciaCadastro() == null
+                || disponibilidade.getFarmaciaCadastro().isEmpty()) {
+            throw new LogicaNegocioException("Id da farmácia de disponibilidade não pode ser nulo");
+        }
+        
+        return disponibilidadeDAO.update(disponibilidade);
     }
 
     @Override
-    public boolean deletarDisponibilidade(Long DisponibilidadeId) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean deletarDisponibilidade(Long disponibilidadeId) throws PersistenciaException {
+        if (disponibilidadeId == null) {
+            throw new PersistenciaException("Id de disponibilidade não pode ser nulo");
+        }
+        if (disponibilidadeDAO.getDisponibilidadeById(disponibilidadeId) == null) {
+            throw new PersistenciaException("A disponibilidade com o id " + disponibilidadeId + "não existe");
+        }
+        return disponibilidadeDAO.remove(disponibilidadeId);
     }
 
     @Override
-    public Disponibilidade getDisponibilidadeById(Long DisponibilidadeId) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Disponibilidade getDisponibilidadeById(Long disponibilidadeId) throws PersistenciaException {
+        if (disponibilidadeId == null) {
+            throw new PersistenciaException("O id de disponibilidade não pode ser nulo");
+        }
+        return disponibilidadeDAO.getDisponibilidadeById(disponibilidadeId);
     }
 
     @Override
     public List<Disponibilidade> getDisponibilidadeByProdutoId(Long produtoId) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (produtoId == null) {
+            throw new PersistenciaException("O id do produto de disponibilidade não pode ser nulo");
+        }
+        return disponibilidadeDAO.getDisponibilidadeByProdutoId(produtoId);
     }
 
     @Override
-    public List<Disponibilidade> getDisponibilidadeByFarmaciaId(Long farmaciaId) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Disponibilidade> getDisponibilidadeByFarmaciaId(String farmaciaId) throws PersistenciaException {
+        if (farmaciaId == null
+                || farmaciaId.isEmpty()) {
+            throw new PersistenciaException("O id da farmacia de disponibilidade não pode ser nulo");
+        }
+        return disponibilidadeDAO.getDisponibilidadeByFarmaciaId(farmaciaId);
     }
     
 }

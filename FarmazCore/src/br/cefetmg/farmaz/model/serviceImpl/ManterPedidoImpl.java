@@ -29,9 +29,6 @@ public class ManterPedidoImpl implements ManterPedido {
         if (pedido == null) {
             throw new LogicaNegocioException("Pedido não pode ser nulo");
         }
-        if (pedido.getPedidoId() == null) {
-            throw new LogicaNegocioException("Id do pedido não pode ser nulo");
-        }
         if (pedido.getClienteId() == null) {
             throw new LogicaNegocioException("Id do cliente não pode ser nulo");
         }

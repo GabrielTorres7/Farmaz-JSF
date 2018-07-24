@@ -17,19 +17,19 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Gabriel
  */
-public class ListaProdutosCliente {
+public class ListarProdutosCliente {
     
     public static String executa(HttpServletRequest request) {
         String jsp;
         
         try {    
             // Monta a lista de contatos
-      //      ManterProduto manterProduto = new ManterProdutoImpl(ProdutoDAOImpl.getInstance());
-        //    List<Produto> listProduto = manterProduto.listAll();
+            ManterProduto manterProduto = new ManterProdutoImpl(ProdutoDAOImpl.getInstance());
+            List<Produto> listProduto = manterProduto.listAll();
             // Guarda a lista no request
-          //  request.setAttribute("produtos", listProduto);
+            request.setAttribute("produtos", listProduto);
             
-            jsp = "listaProdutos.jsp";
+            jsp = "ListarProdutosCliente.jsp";
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -47,17 +47,17 @@ public class FarmaciaDAOImpl implements FarmaciaDAO{
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "INSERT INTO farmacia (cadastro_prefeitura, codigo_cidade, codigo_uf, "
+            String sql = "INSERT INTO farmacia (cadastro_prefeitura, cod_cidade, cod_uf, "
                     + " cnpj, nome, cep, bairro, rua, numero, email, senha) "
                     + "    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, md5(?)) ";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, farmacia.getCadastroPrefeitura());
+            pstmt.setString(1, farmacia.getCadastroPrefeitura());
             pstmt.setLong(2, farmacia.getCodCidade());
             pstmt.setLong(3, farmacia.getCodUf());
             pstmt.setString(4, farmacia.getCnpj());
             pstmt.setString(5, farmacia.getNome());
-            pstmt.setInt(6, farmacia.getCep());
+            pstmt.setString(6, farmacia.getCep());
             pstmt.setString(7, farmacia.getBairro());
             pstmt.setString(8, farmacia.getRua());
             pstmt.setInt(9, farmacia.getNumero());
@@ -66,7 +66,7 @@ public class FarmaciaDAOImpl implements FarmaciaDAO{
             
             ResultSet rs = pstmt.executeQuery();
             
-            farmaciaId = farmacia.getCadastroPrefeitura();
+            farmaciaId = Long.parseLong(farmacia.getCadastroPrefeitura());
             
             rs.close();
             pstmt.close();
@@ -87,8 +87,8 @@ public class FarmaciaDAOImpl implements FarmaciaDAO{
             Connection connection = ManterConexao.getInstance().getConnection();
 
             String sql = "UPDATE farmacia "
-                    + " SET codigo_cidade = ? "
-                    + "     codigo_uf = ? "
+                    + " SET cod_cidade = ? "
+                    + "     cod_uf = ? "
                     + "     cnpj = ? "
                     + "     nome = ? "
                     + "     cep = ? "
@@ -104,13 +104,13 @@ public class FarmaciaDAOImpl implements FarmaciaDAO{
             pstmt.setLong(2, farmacia.getCodUf());
             pstmt.setString(3, farmacia.getCnpj());
             pstmt.setString(4, farmacia.getNome());
-            pstmt.setInt(5, farmacia.getCep());
+            pstmt.setString(5, farmacia.getCep());
             pstmt.setString(6, farmacia.getBairro());
             pstmt.setString(7, farmacia.getRua());
             pstmt.setInt(8, farmacia.getNumero());
             pstmt.setString(9, farmacia.getEmail());
             pstmt.setString(10, farmacia.getSenha());
-            pstmt.setLong(11, farmacia.getCadastroPrefeitura());
+            pstmt.setString(11, farmacia.getCadastroPrefeitura());
 
             pstmt.executeUpdate();
 
@@ -126,7 +126,7 @@ public class FarmaciaDAOImpl implements FarmaciaDAO{
     }
 
     @Override
-    public boolean remove(Long farmaciaId) throws PersistenciaException {
+    public boolean remove(String farmaciaId) throws PersistenciaException {
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
@@ -134,7 +134,7 @@ public class FarmaciaDAOImpl implements FarmaciaDAO{
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
 
-            pstmt.setLong(1, farmaciaId);
+            pstmt.setString(1, farmaciaId);
             pstmt.executeUpdate();
 
             pstmt.close();
@@ -149,25 +149,25 @@ public class FarmaciaDAOImpl implements FarmaciaDAO{
     }
 
     @Override
-    public Farmacia getFarmaciaById(Long farmaciaId) throws PersistenciaException {
+    public Farmacia getFarmaciaById(String farmaciaId) throws PersistenciaException {
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
             String sql = "SELECT * FROM farmacia WHERE cadastro_prefeitura = ? ";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, farmaciaId);
+            pstmt.setString(1, farmaciaId);
             ResultSet rs = pstmt.executeQuery();
 
             Farmacia farmacia = null;
             if (rs.next()) {
                 farmacia = new Farmacia();
                 farmacia.setCadastroPrefeitura(farmaciaId);
-                farmacia.setCodCidade(rs.getLong("codigo_cidade"));
-                farmacia.setCodUf(rs.getLong("codigo_uf"));
+                farmacia.setCodCidade(rs.getLong("cod_cidade"));
+                farmacia.setCodUf(rs.getLong("cod_uf"));
                 farmacia.setCnpj(rs.getString("cnpj"));
                 farmacia.setNome(rs.getString("nome"));
-                farmacia.setCep(rs.getInt("cep"));
+                farmacia.setCep(rs.getString("cep"));
                 farmacia.setBairro(rs.getString("bairro"));
                 farmacia.setRua(rs.getString("rua"));
                 farmacia.setNumero(rs.getInt("numero"));
@@ -200,12 +200,12 @@ public class FarmaciaDAOImpl implements FarmaciaDAO{
             Farmacia farmacia = null;
             if (rs.next()) {
                 farmacia = new Farmacia();
-                farmacia.setCadastroPrefeitura(rs.getLong("cadastro_prefeitura"));
-                farmacia.setCodCidade(rs.getLong("codigo_cidade"));
-                farmacia.setCodUf(rs.getLong("codigo_uf"));
+                farmacia.setCadastroPrefeitura(rs.getString("cadastro_prefeitura"));
+                farmacia.setCodCidade(rs.getLong("cod_cidade"));
+                farmacia.setCodUf(rs.getLong("cod_uf"));
                 farmacia.setCnpj(rs.getString("cnpj"));
                 farmacia.setNome(rs.getString("nome"));
-                farmacia.setCep(rs.getInt("cep"));
+                farmacia.setCep(rs.getString("cep"));
                 farmacia.setBairro(rs.getString("bairro"));
                 farmacia.setRua(rs.getString("rua"));
                 farmacia.setNumero(rs.getInt("numero"));
@@ -239,12 +239,12 @@ public class FarmaciaDAOImpl implements FarmaciaDAO{
             Farmacia farmacia = null;
             if (rs.next()) {
                 farmacia = new Farmacia();
-                farmacia.setCadastroPrefeitura(rs.getLong("cadastro_prefeitura"));
-                farmacia.setCodCidade(rs.getLong("codigo_cidade"));
-                farmacia.setCodUf(rs.getLong("codigo_uf"));
+                farmacia.setCadastroPrefeitura(rs.getString("cadastro_prefeitura"));
+                farmacia.setCodCidade(rs.getLong("cod_cidade"));
+                farmacia.setCodUf(rs.getLong("cod_uf"));
                 farmacia.setCnpj(rs.getString("cnpj"));
                 farmacia.setNome(rs.getString("nome"));
-                farmacia.setCep(rs.getInt("cep"));
+                farmacia.setCep(rs.getString("cep"));
                 farmacia.setBairro(rs.getString("bairro"));
                 farmacia.setRua(rs.getString("rua"));
                 farmacia.setNumero(rs.getInt("numero"));
@@ -280,12 +280,12 @@ public class FarmaciaDAOImpl implements FarmaciaDAO{
                 listAll = new ArrayList<>();
                 do {
                 farmacia = new Farmacia();
-                farmacia.setCadastroPrefeitura(rs.getLong("cadastro_prefeitura"));
-                farmacia.setCodCidade(rs.getLong("codigo_cidade"));
-                farmacia.setCodUf(rs.getLong("codigo_uf"));
+                farmacia.setCadastroPrefeitura(rs.getString("cadastro_prefeitura"));
+                farmacia.setCodCidade(rs.getLong("cod_cidade"));
+                farmacia.setCodUf(rs.getLong("cod_uf"));
                 farmacia.setCnpj(rs.getString("cnpj"));
                 farmacia.setNome(rs.getString("nome"));
-                farmacia.setCep(rs.getInt("cep"));
+                farmacia.setCep(rs.getString("cep"));
                 farmacia.setBairro(rs.getString("bairro"));
                 farmacia.setRua(rs.getString("rua"));
                 farmacia.setNumero(rs.getInt("numero"));

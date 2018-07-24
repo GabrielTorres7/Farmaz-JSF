@@ -28,11 +28,12 @@ public class ServletWeb extends HttpServlet {
         if(acao.equals("Login"))
             jsp = Login.executa(request);
         else if(acao.equals("CadastraCliente"))
-            jsp = CadastraCliente.executa(request);
-        
-        if(!(jsp.equals("notFoward"))) {
+            jsp = CadastrarCliente.executa(request);
+        else if(acao.equals("CadastraFarmacia"))
+            jsp = CadastrarFarmacia.executa(request);
+                    
             RequestDispatcher rd = request.getRequestDispatcher(jsp);
             rd.forward(request, response);  
-        }
+        
     }   
 }

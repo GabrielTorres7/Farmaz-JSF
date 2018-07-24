@@ -29,9 +29,6 @@ public class ManterProdutoImpl implements ManterProduto{
         if (produto == null) {
             throw new LogicaNegocioException("Produto não pode ser nulo");
         }
-        if (produto.getId() == null) {
-            throw new LogicaNegocioException("Id do produto não pode ser nulo");
-        }
         if (produto.getNome() == null
                 || produto.getNome().isEmpty()) {
             throw new LogicaNegocioException("Nome do produto não pode ser nulo");

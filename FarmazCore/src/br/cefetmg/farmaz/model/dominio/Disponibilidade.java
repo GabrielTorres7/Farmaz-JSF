@@ -12,16 +12,16 @@ package br.cefetmg.farmaz.model.dominio;
 public class Disponibilidade {
     
     private Long id;
-    Long produtoSeq;
-    Long farmaciaCadastro;
-    String estoque;
-    double preco;
-    String avaliacao;
+    private Long produtoSeq;
+    private String farmaciaCadastro;
+    private double estoque;
+    private double preco;
+    private int avaliacao;
 
     public Disponibilidade() {
     }
 
-    public Disponibilidade(Long produtoSeq, Long farmaciaCadastro, String estoque, double preco, String avaliacao) {
+    public Disponibilidade(Long produtoSeq, String farmaciaCadastro, double estoque, double preco, int avaliacao) {
         this.produtoSeq = produtoSeq;
         this.farmaciaCadastro = farmaciaCadastro;
         this.estoque = estoque;
@@ -37,19 +37,19 @@ public class Disponibilidade {
         this.produtoSeq = produtoSeq;
     }
 
-    public Long getFarmaciaCadastro() {
+    public String getFarmaciaCadastro() {
         return farmaciaCadastro;
     }
 
-    public void setFarmaciaCadastro(Long farmaciaCadastro) {
+    public void setFarmaciaCadastro(String farmaciaCadastro) {
         this.farmaciaCadastro = farmaciaCadastro;
     }
 
-    public String getEstoque() {
+    public double getEstoque() {
         return estoque;
     }
 
-    public void setEstoque(String estoque) {
+    public void setEstoque(double estoque) {
         this.estoque = estoque;
     }
 
@@ -61,11 +61,11 @@ public class Disponibilidade {
         this.preco = preco;
     }
 
-    public String getAvaliacao() {
+    public int getAvaliacao() {
         return avaliacao;
     }
 
-    public void setAvaliacao(String avaliacao) {
+    public void setAvaliacao(int avaliacao) {
         this.avaliacao = avaliacao;
     }
     

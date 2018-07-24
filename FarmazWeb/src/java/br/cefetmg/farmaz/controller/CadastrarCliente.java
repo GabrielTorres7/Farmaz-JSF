@@ -19,9 +19,8 @@ import br.cefetmg.farmaz.model.serviceImpl.ManterClienteImpl;
  *
  * @author Gabriel
  */
-public class CadastraCliente {
-
-    
+public class CadastrarCliente {
+ 
     public static String executa(HttpServletRequest request) throws ServletException, IOException {
         
         String jsp;

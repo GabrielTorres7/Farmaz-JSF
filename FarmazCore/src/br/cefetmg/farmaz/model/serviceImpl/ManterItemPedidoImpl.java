@@ -26,27 +26,66 @@ public class ManterItemPedidoImpl implements ManterItemPedido{
     
     @Override
     public Long inserirItemPedido(ItemPedido itemPedido) throws PersistenciaException, LogicaNegocioException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (itemPedido == null) {
+            throw new LogicaNegocioException("Item Pedido não pode ser nulo");
+        }
+        if (itemPedido.getPedidoId() == null) {
+            throw new LogicaNegocioException("Id do pedido de item pedido não pode ser nulo");
+        }
+        if (itemPedido.getProdutoId() == null) {
+            throw new LogicaNegocioException("Id do produto de item pedido não pode ser nulo");
+        }
+        if (itemPedido.getQuantidade() == 0) {
+            throw new LogicaNegocioException("Quantidade de itens no pedido não pode ser zero");
+        }
+        return itemPedidoDAO.insert(itemPedido);
     }
 
     @Override
     public boolean atualizarItemPedido(ItemPedido itemPedido) throws PersistenciaException, LogicaNegocioException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (itemPedido == null) {
+            throw new LogicaNegocioException("Item Pedido não pode ser nulo");
+        }
+        if (itemPedido.getItemPedidoId() == null) {
+            throw new LogicaNegocioException("Id do item pedido não pode ser nulo");
+        }
+        if (itemPedido.getPedidoId() == null) {
+            throw new LogicaNegocioException("Id do pedido de item pedido não pode ser nulo");
+        }
+        if (itemPedido.getProdutoId() == null) {
+            throw new LogicaNegocioException("Id do produto de item pedido não pode ser nulo");
+        }
+        if (itemPedido.getQuantidade() == 0) {
+            throw new LogicaNegocioException("Quantidade de itens no pedido não pode ser zero");
+        }
+        return itemPedidoDAO.update(itemPedido);
     }
 
     @Override
     public boolean deletarItemPedido(Long itemPedidoId) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (itemPedidoId == null) {
+            throw new PersistenciaException("Id do item pedido não pode ser nulo");
+        }
+        if (itemPedidoDAO.getItemPedidoById(itemPedidoId) == null) {
+            throw new PersistenciaException("O item pedido com o id " + itemPedidoId + "não existe");
+        }
+        return itemPedidoDAO.remove(itemPedidoId);
     }
 
     @Override
     public ItemPedido getItemPedidoById(Long itemPedidoId) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (itemPedidoId == null) {
+            throw new PersistenciaException("O id do item pedido não pode ser nulo");
+        }
+        return itemPedidoDAO.getItemPedidoById(itemPedidoId);
     }
 
     @Override
     public List<ItemPedido> getItensPedidoByPedidoId(Long pedidoId) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (pedidoId == null) {
+            throw new PersistenciaException("O id do pedido de item pedido não pode ser nulo");
+        }
+        return itemPedidoDAO.getItensPedidoByPedidoId(pedidoId);
     }
     
 }

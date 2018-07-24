@@ -12,17 +12,17 @@ import java.util.Date;
  * @author Gabriel
  */
 public class Pedido {
-    Long pedidoId;
-    Long clienteId;
-    Long farmaciaId;
-    Date dataHora;
-    char idtStatus;
-    double pagamento;
+    private Long pedidoId;
+    private Long clienteId;
+    private String farmaciaId;
+    private Date dataHora;
+    private char idtStatus;
+    private double pagamento;
 
     public Pedido() {
     }
 
-    public Pedido(Long pedidoId, Long clienteId, Long farmaciaId, Date dataHora, char idtStatus, double pagamento) {
+    public Pedido(Long pedidoId, Long clienteId, String farmaciaId, Date dataHora, char idtStatus, double pagamento) {
         this.pedidoId = pedidoId;
         this.clienteId = clienteId;
         this.farmaciaId = farmaciaId;
@@ -47,11 +47,11 @@ public class Pedido {
         this.clienteId = clienteId;
     }
 
-    public Long getFarmaciaId() {
+    public String getFarmaciaId() {
         return farmaciaId;
     }
 
-    public void setFarmaciaId(Long farmaciaId) {
+    public void setFarmaciaId(String farmaciaId) {
         this.farmaciaId = farmaciaId;
     }
 

@@ -103,19 +103,21 @@ public class ManterFarmaciaImpl implements ManterFarmacia{
     }
 
     @Override
-    public boolean deletarFarmacia(Long farmaciaId) throws PersistenciaException {
+    public boolean deletarFarmacia(String farmaciaId) throws PersistenciaException {
         if (farmaciaId == null) {
             throw new PersistenciaException("Id da farmacia não pode ser nulo");
         }
-        if (farmaciaDAO.getFarmaciaById(farmaciaId) == null) {
+        if (farmaciaDAO.getFarmaciaById(farmaciaId) == null
+                || farmaciaId.isEmpty()) {
             throw new PersistenciaException("A farmacia com o id " + farmaciaId + "não existe");
         }
         return farmaciaDAO.remove(farmaciaId);
     }
 
     @Override
-    public Farmacia getFarmaciaById(Long farmaciaId) throws PersistenciaException {
-        if (farmaciaId == null) {
+    public Farmacia getFarmaciaById(String farmaciaId) throws PersistenciaException {
+        if (farmaciaId == null
+                || farmaciaId.isEmpty()) {
             throw new PersistenciaException("O id da farmacia não pode ser nulo");
         }
         return farmaciaDAO.getFarmaciaById(farmaciaId);

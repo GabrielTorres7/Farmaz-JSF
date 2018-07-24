@@ -10,20 +10,20 @@ package br.cefetmg.farmaz.model.dominio;
  * @author Gabriel
  */
 public class Endereco {
-    Long enderecoId;
-    Long clienteId;
-    Long codCidade;
-    Long codUf;
-    int cep;
-    String bairro;
-    String rua;
-    int numero;
-    String complemento;
+    private Long enderecoId;
+    private Long clienteId;
+    private Long codCidade;
+    private Long codUf;
+    private String cep;
+    private String bairro;
+    private String rua;
+    private int numero;
+    private String complemento;
 
     public Endereco() {
     }
 
-    public Endereco(Long enderecoId, Long clienteId, Long codCidade, Long codUf, int cep, String bairro, String rua, int numero, String complemento) {
+    public Endereco(Long enderecoId, Long clienteId, Long codCidade, Long codUf, String cep, String bairro, String rua, int numero, String complemento) {
         this.enderecoId = enderecoId;
         this.clienteId = clienteId;
         this.codCidade = codCidade;
@@ -35,7 +35,7 @@ public class Endereco {
         this.complemento = complemento;
     }
 
-    public Endereco(Long enderecoId, Long clienteId, Long codCidade, Long codUf, int cep, String bairro, String rua, int numero) {
+    public Endereco(Long enderecoId, Long clienteId, Long codCidade, Long codUf, String cep, String bairro, String rua, int numero) {
         this.enderecoId = enderecoId;
         this.clienteId = clienteId;
         this.codCidade = codCidade;
@@ -78,11 +78,11 @@ public class Endereco {
         this.codUf = codUf;
     }
 
-    public int getCep() {
+    public String getCep() {
         return cep;
     }
 
-    public void setCep(int cep) {
+    public void setCep(String cep) {
         this.cep = cep;
     }
 

@@ -47,7 +47,7 @@ public class ProdutoDAOImpl implements ProdutoDAO{
             Connection connection = ManterConexao.getInstance().getConnection();
             
             String sql = "INSERT INTO produto (nome, receita, descricao, laboratorio, cadastro_anvisa) " +
-                         "    VALUES (?, ?, ?, ?, ?) ";
+                         "    VALUES (?, ?, ?, ?, ?) RETURNING seq_produto";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, produto.getNome());
@@ -59,14 +59,14 @@ public class ProdutoDAOImpl implements ProdutoDAO{
                 pstmt.setNull(4, java.sql.Types.NULL);
             }
             if (produto.getCadastroAnvisa() != null){
-                pstmt.setLong(5, produto.getCadastroAnvisa());
+                pstmt.setString(5, produto.getCadastroAnvisa());
             }else{
                 pstmt.setNull(5, java.sql.Types.NULL);
             }
-            ResultSet rs = pstmt.executeQuery("SELECT LAST_INSERT_ID() FROM produto");
+            ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                produtoId = rs.getLong(1);
+                produtoId = rs.getLong("seq_produto");
                 produto.setId(produtoId);
             }
 
@@ -93,7 +93,7 @@ public class ProdutoDAOImpl implements ProdutoDAO{
                            "     descricao = ? " +
                            "     laboratorio = ? " +
                            "     cadastro_anvisa = ? " +
-                         " WHERE produto_serial = ?";
+                         " WHERE seq_produto = ?";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, produto.getNome());
@@ -105,7 +105,7 @@ public class ProdutoDAOImpl implements ProdutoDAO{
                 pstmt.setNull(4, java.sql.Types.NULL);
             }
             if (produto.getCadastroAnvisa() != null){
-                pstmt.setLong(5, produto.getCadastroAnvisa());
+                pstmt.setString(5, produto.getCadastroAnvisa());
             }else{
                 pstmt.setNull(5, java.sql.Types.NULL);
             }
@@ -128,7 +128,7 @@ public class ProdutoDAOImpl implements ProdutoDAO{
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "DELETE FROM produto WHERE produto_serial = ?";
+            String sql = "DELETE FROM produto WHERE seq_produto = ?";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             
@@ -151,7 +151,7 @@ public class ProdutoDAOImpl implements ProdutoDAO{
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "SELECT * FROM produto WHERE produto_serial = ? ";
+            String sql = "SELECT * FROM produto WHERE seq_produto = ? ";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, produtoId);
@@ -165,7 +165,7 @@ public class ProdutoDAOImpl implements ProdutoDAO{
                 produto.setReceita(rs.getBoolean("receita"));
                 produto.setDescricao(rs.getString("descricao"));
                 produto.setLaboratorio(rs.getString("laboratorio"));
-                produto.setCadastroAnvisa(rs.getLong("cadastro_anvisa"));
+                produto.setCadastroAnvisa(rs.getString("cadastro_anvisa"));
             }
 
             rs.close();
@@ -196,12 +196,12 @@ public class ProdutoDAOImpl implements ProdutoDAO{
                 listAll = new ArrayList<>();
                 do {
                     produto = new Produto();
-                    produto.setId(rs.getLong("cliente_serial"));
+                    produto.setId(rs.getLong("seq_produto"));
                     produto.setNome(rs.getString("nome"));
                     produto.setReceita(rs.getBoolean("receita"));
                     produto.setDescricao(rs.getString("descricao"));
                     produto.setLaboratorio(rs.getString("laboratorio"));
-                    produto.setCadastroAnvisa(rs.getLong("cadastro_anvisa"));
+                    produto.setCadastroAnvisa(rs.getString("cadastro_anvisa"));
                     listAll.add(produto);
                 } while (rs.next());
             }
@@ -232,12 +232,12 @@ public class ProdutoDAOImpl implements ProdutoDAO{
             Produto produto = null;
             if (rs.next()) {
                 produto = new Produto();
-                produto.setId(rs.getLong("produto_serial"));
+                produto.setId(rs.getLong("seq_produto"));
                 produto.setNome(rs.getString("nome"));
                 produto.setReceita(rs.getBoolean("receita"));
                 produto.setDescricao(rs.getString("descricao"));
                 produto.setLaboratorio(rs.getString("laboratorio"));
-                produto.setCadastroAnvisa(rs.getLong("cadastro_anvisa"));
+                produto.setCadastroAnvisa(rs.getString("cadastro_anvisa"));
             }
 
             rs.close();

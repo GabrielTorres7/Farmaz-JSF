@@ -38,19 +38,19 @@ public class Login {
             }
 
             ManterCliente manterCliente = new ManterClienteImpl(ClienteDAOImpl.getInstance());
-          //  ManterFarmacia manterFarmacia = new ManterFarmaciaImpl(FarmaciaDAOImpl.getInstance());
+            ManterFarmacia manterFarmacia = new ManterFarmaciaImpl(FarmaciaDAOImpl.getInstance());
             Cliente cliente = manterCliente.getClienteByEmailSenha(email, senha);
-         //   Farmacia farmacia = manterFarmacia.getFarmaciaByEmailSenha(email, senha);
+            Farmacia farmacia = manterFarmacia.getFarmaciaByEmailSenha(email, senha);
 
-            if (cliente == null ) {
+            if (cliente == null && farmacia == null) {
                 String erro = "Cadastro não encontrado!";
                 request.setAttribute("erro", erro);
-                jsp = "Erro.jsp";
+                jsp = "/Erro.jsp";
             } else if (cliente != null) {
-                jsp = ListaProdutosCliente.executa(request);
-            }// else if (farmacia != null) {
-                //   jsp = ListaProdutosFarmacia.executa(request);
-            //}
+                jsp = ListarProdutosCliente.executa(request);
+            } else if (farmacia != null) {
+              //  jsp = ListarProdutosFarmacia.executa(request);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

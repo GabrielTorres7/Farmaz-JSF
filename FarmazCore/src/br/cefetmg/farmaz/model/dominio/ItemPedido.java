@@ -10,10 +10,10 @@ package br.cefetmg.farmaz.model.dominio;
  * @author Gabriel
  */
 public class ItemPedido {
-    Long itemPedidoId;
-    Long pedidoId;
-    Long produtoId;
-    int quantidade;
+    private Long itemPedidoId;
+    private Long pedidoId;
+    private Long produtoId;
+    private int quantidade;
 
     public ItemPedido() {
     }

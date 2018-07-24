@@ -16,8 +16,8 @@ import java.util.List;
 public interface DisponibilidadeDAO {
     public Long insert(Disponibilidade disponibilidade) throws PersistenciaException;
     public boolean update(Disponibilidade disponibilidade) throws PersistenciaException;
-    public boolean remove(Long DisponibilidadeId) throws PersistenciaException;
-    public Disponibilidade getDisponibilidadeById(Long DisponibilidadeId) throws PersistenciaException;
+    public boolean remove(Long disponibilidadeId) throws PersistenciaException;
+    public Disponibilidade getDisponibilidadeById(Long disponibilidadeId) throws PersistenciaException;
     public List<Disponibilidade> getDisponibilidadeByProdutoId(Long produtoId) throws PersistenciaException;
-    public List<Disponibilidade> getDisponibilidadeByFarmaciaId(Long farmaciaId) throws PersistenciaException;
+    public List<Disponibilidade> getDisponibilidadeByFarmaciaId(String farmaciaId) throws PersistenciaException;
 }

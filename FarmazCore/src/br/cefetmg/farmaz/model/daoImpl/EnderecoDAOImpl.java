@@ -54,7 +54,7 @@ public class EnderecoDAOImpl implements EnderecoDAO{
             pstmt.setLong(1, endereco.getClienteId());
             pstmt.setLong(2, endereco.getCodCidade());
             pstmt.setLong(3, endereco.getCodUf());
-            pstmt.setInt(4, endereco.getCep());
+            pstmt.setString(4, endereco.getCep());
             pstmt.setString(5, endereco.getBairro());
             pstmt.setString(6, endereco.getRua());
             pstmt.setInt(7, endereco.getNumero());
@@ -102,7 +102,7 @@ public class EnderecoDAOImpl implements EnderecoDAO{
             pstmt.setLong(1, endereco.getClienteId());
             pstmt.setLong(2, endereco.getCodCidade());
             pstmt.setLong(3, endereco.getCodUf());
-            pstmt.setInt(4, endereco.getCep());
+            pstmt.setString(4, endereco.getCep());
             pstmt.setString(5, endereco.getBairro());
             pstmt.setString(6, endereco.getRua());
             pstmt.setInt(7, endereco.getNumero());
@@ -166,7 +166,7 @@ public class EnderecoDAOImpl implements EnderecoDAO{
                 endereco.setClienteId(rs.getLong("seq_cliente"));
                 endereco.setCodCidade(rs.getLong("cod_cidade"));
                 endereco.setCodUf(rs.getLong("cod_uf"));
-                endereco.setCep(rs.getInt("cep"));
+                endereco.setCep(rs.getString("cep"));
                 endereco.setBairro(rs.getString("bairro"));
                 endereco.setRua(rs.getString("rua"));
                 endereco.setNumero(rs.getInt("numero"));
@@ -206,7 +206,7 @@ public class EnderecoDAOImpl implements EnderecoDAO{
                     endereco.setClienteId(rs.getLong("seq_cliente"));
                     endereco.setCodCidade(rs.getLong("cod_cidade"));
                     endereco.setCodUf(rs.getLong("cod_uf"));
-                    endereco.setCep(rs.getInt("cep"));
+                    endereco.setCep(rs.getString("cep"));
                     endereco.setBairro(rs.getString("bairro"));
                     endereco.setRua(rs.getString("rua"));
                     endereco.setNumero(rs.getInt("numero"));

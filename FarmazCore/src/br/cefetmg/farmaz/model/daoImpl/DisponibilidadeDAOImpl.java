@@ -53,10 +53,10 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, disponibilidade.getProdutoSeq());
-            pstmt.setLong(2, disponibilidade.getFarmaciaCadastro());
-            pstmt.setString(3, disponibilidade.getEstoque());
+            pstmt.setString(2, disponibilidade.getFarmaciaCadastro());
+            pstmt.setDouble(3, disponibilidade.getEstoque());
             pstmt.setDouble(4, disponibilidade.getPreco());
-            pstmt.setString(5, disponibilidade.getAvaliacao());
+            pstmt.setInt(5, disponibilidade.getAvaliacao());
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
@@ -92,10 +92,10 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, disponibilidade.getProdutoSeq());
-            pstmt.setLong(2, disponibilidade.getFarmaciaCadastro());
-            pstmt.setString(3, disponibilidade.getEstoque());
+            pstmt.setString(2, disponibilidade.getFarmaciaCadastro());
+            pstmt.setDouble(3, disponibilidade.getEstoque());
             pstmt.setDouble(4, disponibilidade.getPreco());
-            pstmt.setString(5, disponibilidade.getAvaliacao());
+            pstmt.setInt(5, disponibilidade.getAvaliacao());
             pstmt.setLong(6, disponibilidade.getId());
             pstmt.executeUpdate();
 
@@ -111,7 +111,7 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
     }
 
     @Override
-    public boolean remove(Long DisponibilidadeId) throws PersistenciaException {
+    public boolean remove(Long disponibilidadeId) throws PersistenciaException {
          try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
@@ -119,7 +119,7 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
 
-            pstmt.setLong(1, DisponibilidadeId);
+            pstmt.setLong(1, disponibilidadeId);
             pstmt.executeUpdate();
 
             pstmt.close();
@@ -134,25 +134,25 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
     }
   
     @Override
-    public Disponibilidade getDisponibilidadeById(Long DisponibilidadeId) throws PersistenciaException {
+    public Disponibilidade getDisponibilidadeById(Long disponibilidadeId) throws PersistenciaException {
          try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
             String sql = "SELECT * FROM disponibilidade WHERE seq_disponibilidade = ? ";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, DisponibilidadeId);
+            pstmt.setLong(1, disponibilidadeId);
             ResultSet rs = pstmt.executeQuery();
 
             Disponibilidade disponibilidade = null;
             if (rs.next()) {
                 disponibilidade = new Disponibilidade();
-                disponibilidade.setId(DisponibilidadeId);
+                disponibilidade.setId(disponibilidadeId);
                 disponibilidade.setProdutoSeq(rs.getLong("seq_produto"));
-                disponibilidade.setFarmaciaCadastro(rs.getLong("cadastro_prefeitura"));
-                disponibilidade.setEstoque(rs.getString("estoque"));
+                disponibilidade.setFarmaciaCadastro(rs.getString("cadastro_prefeitura"));
+                disponibilidade.setEstoque(rs.getDouble("estoque"));
                 disponibilidade.setPreco(rs.getDouble("preco"));
-                disponibilidade.setAvaliacao(rs.getString("avaliacao"));
+                disponibilidade.setAvaliacao(rs.getInt("avaliacao"));
             }
 
             rs.close();
@@ -186,10 +186,10 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
                     disponibilidade = new Disponibilidade();
                     disponibilidade.setId(rs.getLong("seq_disponibilidade"));
                     disponibilidade.setProdutoSeq(rs.getLong("seq_produto"));
-                    disponibilidade.setFarmaciaCadastro(rs.getLong("cadastro_prefeitura"));
-                    disponibilidade.setEstoque(rs.getString("estoque"));
+                    disponibilidade.setFarmaciaCadastro(rs.getString("cadastro_prefeitura"));
+                    disponibilidade.setEstoque(rs.getDouble("estoque"));
                     disponibilidade.setPreco(rs.getDouble("preco"));
-                    disponibilidade.setAvaliacao(rs.getString("avaliacao"));
+                    disponibilidade.setAvaliacao(rs.getInt("avaliacao"));
                     listAll.add(disponibilidade);
                 } while (rs.next());
             }
@@ -207,14 +207,14 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
     }
 
     @Override
-    public List<Disponibilidade> getDisponibilidadeByFarmaciaId(Long farmaciaId) throws PersistenciaException {
+    public List<Disponibilidade> getDisponibilidadeByFarmaciaId(String farmaciaId) throws PersistenciaException {
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
             String sql = "SELECT * FROM disponibilidade WHERE cadastro_prefeitura = ?";            
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, farmaciaId);
+            pstmt.setString(1, farmaciaId);
             ResultSet rs = pstmt.executeQuery();            
             
             ArrayList<Disponibilidade> listAll = null;
@@ -226,10 +226,10 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
                     disponibilidade = new Disponibilidade();
                     disponibilidade.setId(rs.getLong("seq_disponibilidade"));
                     disponibilidade.setProdutoSeq(rs.getLong("seq_produto"));
-                    disponibilidade.setFarmaciaCadastro(rs.getLong("cadastro_prefeitura"));
-                    disponibilidade.setEstoque(rs.getString("estoque"));
+                    disponibilidade.setFarmaciaCadastro(rs.getString("cadastro_prefeitura"));
+                    disponibilidade.setEstoque(rs.getDouble("estoque"));
                     disponibilidade.setPreco(rs.getDouble("preco"));
-                    disponibilidade.setAvaliacao(rs.getString("avaliacao"));
+                    disponibilidade.setAvaliacao(rs.getInt("avaliacao"));
                     listAll.add(disponibilidade);
                 } while (rs.next());
             }

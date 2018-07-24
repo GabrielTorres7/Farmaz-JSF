@@ -10,22 +10,22 @@ package br.cefetmg.farmaz.model.dominio;
  * @author Gabriel
  */
 public class Farmacia {
-    Long cadastroPrefeitura;
-    Long codCidade;
-    Long codUf;
-    String cnpj;
-    String nome;
-    int cep;
-    String bairro;
-    String rua;
-    int numero;
-    String email;
-    String senha;
+    private String cadastroPrefeitura;
+    private Long codCidade;
+    private Long codUf;
+    private String cnpj;
+    private String nome;
+    private String cep;
+    private String bairro;
+    private String rua;
+    private int numero;
+    private String email;
+    private String senha;
 
     public Farmacia() {
     }
 
-    public Farmacia(Long cadastroPrefeitura, Long codCidade, Long codUf, String cnpj, String nome, int cep, String bairro, String rua, int numero, String email, String senha) {
+    public Farmacia(String cadastroPrefeitura, Long codCidade, Long codUf, String cnpj, String nome, String cep, String bairro, String rua, int numero, String email, String senha) {
         this.cadastroPrefeitura = cadastroPrefeitura;
         this.codCidade = codCidade;
         this.codUf = codUf;
@@ -39,11 +39,11 @@ public class Farmacia {
         this.senha = senha;
     }
 
-    public Long getCadastroPrefeitura() {
+    public String getCadastroPrefeitura() {
         return cadastroPrefeitura;
     }
 
-    public void setCadastroPrefeitura(Long cadastroPrefeitura) {
+    public void setCadastroPrefeitura(String cadastroPrefeitura) {
         this.cadastroPrefeitura = cadastroPrefeitura;
     }
 
@@ -79,11 +79,11 @@ public class Farmacia {
         this.nome = nome;
     }
 
-    public int getCep() {
+    public String getCep() {
         return cep;
     }
 
-    public void setCep(int cep) {
+    public void setCep(String cep) {
         this.cep = cep;
     }
 

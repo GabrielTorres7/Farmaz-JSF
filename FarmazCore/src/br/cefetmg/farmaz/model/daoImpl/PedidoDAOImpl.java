@@ -48,20 +48,20 @@ public class PedidoDAOImpl implements PedidoDAO {
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "INSERT INTO pedido (cliente_serial, cadastro_prefeitura, data, status, token_pagseguro) "
-                    + "    VALUES (?, ?, ?, ?, ?) ";
+            String sql = "INSERT INTO pedido (seq_cliente, cadastro_prefeitura, data, status, token_pagseguro) "
+                    + "    VALUES (?, ?, ?, ?, ?) RETURNING seq_pedido";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, pedido.getClienteId());
-            pstmt.setLong(2, pedido.getFarmaciaId());
+            pstmt.setString(2, pedido.getFarmaciaId());
             pstmt.setDate(3, (Date) pedido.getDataHora());
             pstmt.setString(4, String.valueOf(pedido.getIdtStatus()));
             pstmt.setDouble(5, pedido.getPagamento());
 
-            ResultSet rs = pstmt.executeQuery("SELECT LAST_INSERT_ID() FROM pedido");
+            ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                pedidoId = rs.getLong(1);
+                pedidoId = rs.getLong("seq_pedido");
                 pedido.setPedidoId(pedidoId);
             }
 
@@ -83,16 +83,16 @@ public class PedidoDAOImpl implements PedidoDAO {
             Connection connection = ManterConexao.getInstance().getConnection();
 
             String sql = "UPDATE pedido "
-                    + " SET cliente_serial = ?, "
+                    + " SET seq_cliente = ?, "
                     + "     cadastro_prefeitura = ? "
                     + "     data = ? "
                     + "     status = ? "
                     + "     token_pagseguro = ? "
-                    + " WHERE pedido_serial = ?";
+                    + " WHERE seq_pedido = ?";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, pedido.getClienteId());
-            pstmt.setLong(2, pedido.getFarmaciaId());
+            pstmt.setString(2, pedido.getFarmaciaId());
             pstmt.setDate(3, (Date) pedido.getDataHora());
             pstmt.setString(4, String.valueOf(pedido.getIdtStatus()));
             pstmt.setDouble(5, pedido.getPagamento());
@@ -115,7 +115,7 @@ public class PedidoDAOImpl implements PedidoDAO {
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "DELETE FROM pedido WHERE pedido_serial = ?";
+            String sql = "DELETE FROM pedido WHERE seq_pedido = ?";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
 
@@ -138,7 +138,7 @@ public class PedidoDAOImpl implements PedidoDAO {
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "SELECT * FROM pedido WHERE pedido_serial = ? ";
+            String sql = "SELECT * FROM pedido WHERE seq_pedido = ? ";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, pedidoId);
@@ -148,8 +148,8 @@ public class PedidoDAOImpl implements PedidoDAO {
             if (rs.next()) {
                 pedido = new Pedido();
                 pedido.setPedidoId(pedidoId);
-                pedido.setClienteId(rs.getLong("cliente_serial"));
-                pedido.setFarmaciaId(rs.getLong("cadastro_prefeitura"));
+                pedido.setClienteId(rs.getLong("seq_cliente"));
+                pedido.setFarmaciaId(rs.getString("cadastro_prefeitura"));
                 pedido.setDataHora(rs.getDate("data"));
                 pedido.setIdtStatus(rs.getString("status").charAt(0));
                 pedido.setPagamento(rs.getDouble("token_pagseguro"));
@@ -171,7 +171,7 @@ public class PedidoDAOImpl implements PedidoDAO {
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "SELECT * FROM pedido WHERE cliente_serial = ? ORDER BY nome";
+            String sql = "SELECT * FROM pedido WHERE seq_cliente = ? ORDER BY nome";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, clienteId);
@@ -184,9 +184,9 @@ public class PedidoDAOImpl implements PedidoDAO {
                 listPedidos = new ArrayList<>();
                 do {
                     pedido = new Pedido();
-                    pedido.setPedidoId(rs.getLong("pedido_serial"));
-                    pedido.setClienteId(rs.getLong("cliente_serial"));
-                    pedido.setFarmaciaId(rs.getLong("cadastro_prefeitura"));
+                    pedido.setPedidoId(rs.getLong("seq_pedido"));
+                    pedido.setClienteId(rs.getLong("seq_cliente"));
+                    pedido.setFarmaciaId(rs.getString("cadastro_prefeitura"));
                     pedido.setDataHora(rs.getDate("data"));
                     pedido.setIdtStatus(rs.getString("status").charAt(0));
                     pedido.setPagamento(rs.getDouble("token_pagseguro"));
@@ -224,9 +224,9 @@ public class PedidoDAOImpl implements PedidoDAO {
                 listPedidos = new ArrayList<>();
                 do {
                     pedido = new Pedido();
-                    pedido.setPedidoId(rs.getLong("pedido_serial"));
-                    pedido.setClienteId(rs.getLong("cliente_serial"));
-                    pedido.setFarmaciaId(rs.getLong("cadastro_prefeitura"));
+                    pedido.setPedidoId(rs.getLong("seq_pedido"));
+                    pedido.setClienteId(rs.getLong("seq_cliente"));
+                    pedido.setFarmaciaId(rs.getString("cadastro_prefeitura"));
                     pedido.setDataHora(rs.getDate("data"));
                     pedido.setIdtStatus(rs.getString("status").charAt(0));
                     pedido.setPagamento(rs.getDouble("token_pagseguro"));
@@ -251,7 +251,7 @@ public class PedidoDAOImpl implements PedidoDAO {
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "SELECT * FROM pedido WHERE cliente_serial = ? AND status = ? ORDER BY nome";
+            String sql = "SELECT * FROM pedido WHERE seq_cliente = ? AND status = ? ORDER BY nome";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, clienteId);
@@ -265,9 +265,9 @@ public class PedidoDAOImpl implements PedidoDAO {
                 listPedidos = new ArrayList<>();
                 do {
                     pedido = new Pedido();
-                    pedido.setPedidoId(rs.getLong("pedido_serial"));
-                    pedido.setClienteId(rs.getLong("cliente_serial"));
-                    pedido.setFarmaciaId(rs.getLong("cadastro_prefeitura"));
+                    pedido.setPedidoId(rs.getLong("seq_pedido"));
+                    pedido.setClienteId(rs.getLong("seq_cliente"));
+                    pedido.setFarmaciaId(rs.getString("cadastro_prefeitura"));
                     pedido.setDataHora(rs.getDate("data"));
                     pedido.setIdtStatus(rs.getString("status").charAt(0));
                     pedido.setPagamento(rs.getDouble("token_pagseguro"));
@@ -306,9 +306,9 @@ public class PedidoDAOImpl implements PedidoDAO {
                 listPedidos = new ArrayList<>();
                 do {
                     pedido = new Pedido();
-                    pedido.setPedidoId(rs.getLong("pedido_serial"));
-                    pedido.setClienteId(rs.getLong("cliente_serial"));
-                    pedido.setFarmaciaId(rs.getLong("cadastro_prefeitura"));
+                    pedido.setPedidoId(rs.getLong("seq_pedido"));
+                    pedido.setClienteId(rs.getLong("seq_cliente"));
+                    pedido.setFarmaciaId(rs.getString("cadastro_prefeitura"));
                     pedido.setDataHora(rs.getDate("data"));
                     pedido.setIdtStatus(rs.getString("status").charAt(0));
                     pedido.setPagamento(rs.getDouble("token_pagseguro"));

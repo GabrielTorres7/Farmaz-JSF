@@ -41,27 +41,24 @@ public class ItemPedidoDAOImpl implements ItemPedidoDAO{
         if (itemPedido == null){
             throw new PersistenciaException("Domínio não pode ser nulo.");
         }
-        if (itemPedido.getPedidoId() == null || itemPedido.getProdutoId() == null){
-            throw new PersistenciaException("Nenhum dos parâmetros pode ser nulo");
-        }
         
         Long itemPedidoId = null;
         
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
             
-            String sql = "INSERT INTO itemPedido (pedido_serial, produto_serial, quantidade) " +
-                         "    VALUES (?, ?, ?) ";
+            String sql = "INSERT INTO item_pedido (seq_pedido, seq_produto, quantidade) " +
+                         "    VALUES (?, ?, ?) RETURNING seq_item_pedido";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, itemPedido.getPedidoId());
             pstmt.setLong(2, itemPedido.getProdutoId());
             pstmt.setInt(3, itemPedido.getQuantidade());
             
-            ResultSet rs = pstmt.executeQuery("SELECT LAST_INSERT_ID() FROM itemPedido");
+            ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                itemPedidoId = rs.getLong(1);
+                itemPedidoId = rs.getLong("seq_item_pedido");
                 itemPedido.setPedidoId(itemPedidoId);
             }
 
@@ -82,11 +79,11 @@ public class ItemPedidoDAOImpl implements ItemPedidoDAO{
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
             
-            String sql = "UPDATE itemPedido " +
-                           " SET pedido_serial = ? " +
-                           "     produto_serial = ? " +
+            String sql = "UPDATE item_pedido " +
+                           " SET seq_pedido = ? " +
+                           "     seq_produto = ? " +
                            "     quantidade = ? " +
-                         " WHERE itemPedidoId = ?";
+                         " WHERE seq_item_pedido = ?";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, itemPedido.getPedidoId());
@@ -110,7 +107,7 @@ public class ItemPedidoDAOImpl implements ItemPedidoDAO{
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "DELETE FROM itemPedido WHERE itemPedidoId = ? ";
+            String sql = "DELETE FROM item_pedido WHERE seq_item_pedido = ? ";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
  
@@ -133,7 +130,7 @@ public class ItemPedidoDAOImpl implements ItemPedidoDAO{
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "SELECT * FROM itemPedido WHERE itemPedidoId = ? ";
+            String sql = "SELECT * FROM item_pedido WHERE seq_item_pedido = ? ";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, itemPedidoId);
@@ -143,8 +140,8 @@ public class ItemPedidoDAOImpl implements ItemPedidoDAO{
             if (rs.next()) {
                 itemPedido = new ItemPedido();
                 itemPedido.setItemPedidoId(itemPedidoId);
-                itemPedido.setPedidoId(rs.getLong("pedido_serial"));
-                itemPedido.setProdutoId(rs.getLong("produto_serial"));
+                itemPedido.setPedidoId(rs.getLong("seq_pedido"));
+                itemPedido.setProdutoId(rs.getLong("seq_produto"));
                 itemPedido.setQuantidade(rs.getInt("quantidade"));
             }
 
@@ -164,7 +161,7 @@ public class ItemPedidoDAOImpl implements ItemPedidoDAO{
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "SELECT * FROM itemPedido WHERE pedido_serial = ? ORDER BY produto_serial";
+            String sql = "SELECT * FROM item_pedido WHERE seq_pedido = ? ORDER BY seq_produto";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, pedidoId);
@@ -177,9 +174,9 @@ public class ItemPedidoDAOImpl implements ItemPedidoDAO{
                 listProdutos = new ArrayList<>();
                 do {
                     itemPedido = new ItemPedido();
-                    itemPedido.setItemPedidoId(rs.getLong("itemPedidoId"));
-                    itemPedido.setPedidoId(rs.getLong("pedido_serial"));
-                    itemPedido.setProdutoId(rs.getLong("produto_serial"));
+                    itemPedido.setItemPedidoId(rs.getLong("seq_item_pedido"));
+                    itemPedido.setPedidoId(rs.getLong("seq_pedido"));
+                    itemPedido.setProdutoId(rs.getLong("seq_produto"));
                     itemPedido.setQuantidade(rs.getInt("quantidade"));
                     listProdutos.add(itemPedido);
                 } while (rs.next());

@@ -11,7 +11,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Farmaz</title>
     </head>
-    <body>        
+    <body>      
+        <h2>Login</h2>
         <form action="ServletWeb" method="post">
             
             <label for="email">Email</label>
@@ -27,6 +28,7 @@
             <input type="submit" id="botao" name="botao">
         </form>
         
-        <p>Novo usuário?<a href="TelaCadastro.jsp"> Registre-se aqui</a></p>
+        <p>Novo usuário?<a href="CadastrarCliente.jsp"> Registre-se aqui</a></p>
+        <p>Quer ser nosso parceiro?<a href="CadastrarFarmacia.jsp"> Cadastre sua farmácia aqui</a></p>
     </body>
 </html>
