@@ -19,7 +19,7 @@
     </head>
     <body>
         <div class="container">   
-            <h3>Lista de Produtos</h3>
+            <h3>Lista de Produtos - Selecione pelo código</h3>
 
             <form name="frmProduto" method='post' action='/farmaz/ServletWeb'>
                 <input type='hidden' name='acao' value=''>
@@ -52,7 +52,7 @@
                     %>
                             <tr>
                                 <td>
-                                    <a href="/farmaz/ServletWeb?acao=ListarFarmaciasComProduto=<%=produto.getId()%>"><%=produto.getId()%>
+                                    <a href="/farmaz/ServletWeb?acao=ListarFarmaciasComProduto&CodProduto=<%=produto.getId()%>"><%=produto.getId()%>
                                 </td>
                                 <td>
                                     <%=produto.getNome()%>

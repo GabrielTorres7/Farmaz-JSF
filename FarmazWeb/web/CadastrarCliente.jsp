@@ -29,11 +29,14 @@
             <label for="senha">Senha</label>
             <input type="password" name="senha" id="senha" required><br><br>
             
+            <label for="cep">CEP</label>
+            <input type="number" name="cep" id="cep" required><br><br>
+            
             <label for="rua">Rua</label>
             <input type="text" name="rua" id="rua" required>
             
             <label for="numero">Número</label>
-            <input type="text" name="numero" id="numero" size="5" required><br><br>
+            <input type="number" name="numero" id="numero" size="5" required><br><br>
             
             <label for="bairro">Bairro</label>
             <input type="text" name="bairro" id="bairro" required><br><br>

@@ -47,6 +47,7 @@ public class Login {
                 request.setAttribute("erro", erro);
                 jsp = "/Erro.jsp";
             } else if (cliente != null) {
+                request.getSession().setAttribute("cod_cliente", cliente.getId());
                 jsp = ListarProdutosCliente.executa(request);
             } else if (farmacia != null) {
               //  jsp = ListarProdutosFarmacia.executa(request);

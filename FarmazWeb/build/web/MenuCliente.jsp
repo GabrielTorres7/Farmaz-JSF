@@ -31,7 +31,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     
-                    <a href="#" class="navbar-brand">
+                    <a class="navbar-brand">
                         <img src="images/Farmaz_PILULA.png" height="38px" width="60px" >
                     </a>
                 </div>

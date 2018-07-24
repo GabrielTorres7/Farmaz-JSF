@@ -5,15 +5,23 @@
  */
 package br.cefetmg.farmaz.controller;
 
+import br.cefetmg.farmaz.model.daoImpl.CidadeDAOImpl;
 import br.cefetmg.farmaz.model.daoImpl.ClienteDAOImpl;
+import br.cefetmg.farmaz.model.daoImpl.EnderecoDAOImpl;
+import br.cefetmg.farmaz.model.daoImpl.EstadoDAOImpl;
+import br.cefetmg.farmaz.model.dominio.Cidade;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import br.cefetmg.farmaz.model.dominio.Cliente;
 import br.cefetmg.farmaz.model.dominio.Endereco;
+import br.cefetmg.farmaz.model.dominio.Estado;
 import br.cefetmg.farmaz.model.exception.LogicaNegocioException;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
+import br.cefetmg.farmaz.model.serviceImpl.ManterCidadeImpl;
 import br.cefetmg.farmaz.model.serviceImpl.ManterClienteImpl;
+import br.cefetmg.farmaz.model.serviceImpl.ManterEnderecoImpl;
+import br.cefetmg.farmaz.model.serviceImpl.ManterEstadoImpl;
 
 /**
  *
@@ -28,17 +36,36 @@ public class CadastrarCliente {
         try {
             Endereco endereco;
             Cliente cliente;
+            Estado estadoDominio = new Estado();
+            Cidade cidadeDominio = new Cidade();
             ManterClienteImpl manterCliente;
+            ManterEnderecoImpl manterEndereco = new ManterEnderecoImpl(EnderecoDAOImpl.getInstance());
+            ManterCidadeImpl manterCidade = new ManterCidadeImpl(CidadeDAOImpl.getInstance());
+            ManterEstadoImpl manterEstado = new ManterEstadoImpl(EstadoDAOImpl.getInstance());
 
             String nome = request.getParameter("nome");
             String email = request.getParameter("email");
             String documentoIdentificacao = request.getParameter("documento_identificacao");
             String telefone = request.getParameter("telefone");
             String senha = request.getParameter("senha");
+            String cep = request.getParameter("cep");
             String rua = request.getParameter("rua");
             String numero = request.getParameter("numero");
             String bairro = request.getParameter("bairro");
-
+            String cidade = request.getParameter("cidade");
+            String estado = request.getParameter("estado");
+            
+            estadoDominio = manterEstado.getEstadoBySigla(estado);
+            Long cidadeId = null;
+            
+            if(manterCidade.getCidadeByNome(cidade) == null){
+                cidadeDominio.setNome(cidade);
+                cidadeDominio.setUfId(estadoDominio.getId());
+                cidadeId = manterCidade.cadastrarCidade(cidadeDominio);
+            }else{
+                cidadeDominio = manterCidade.getCidadeByNome(cidade);
+            }
+            
             cliente = new Cliente();
             cliente.setNome(nome);
             cliente.setEmail(email);
@@ -47,7 +74,22 @@ public class CadastrarCliente {
             cliente.setSenha(senha);
 
             manterCliente = new ManterClienteImpl(ClienteDAOImpl.getInstance());
-            manterCliente.cadastrarCliente(cliente);
+            Long clienteId = manterCliente.cadastrarCliente(cliente);
+            
+            endereco = new Endereco();
+            endereco.setClienteId(clienteId);
+            if(cidadeId == null)
+                endereco.setCodCidade(cidadeDominio.getCidadeId());
+            else
+                endereco.setCodCidade(cidadeId);
+            
+            endereco.setCodUf(estadoDominio.getId());
+            endereco.setCep(cep);
+            endereco.setBairro(bairro);
+            endereco.setRua(rua);
+            endereco.setNumero(Integer.parseInt(numero));
+            
+            manterEndereco.inserirEndereco(endereco);
             
             request.setAttribute("email", email);
             request.setAttribute("senha", senha);

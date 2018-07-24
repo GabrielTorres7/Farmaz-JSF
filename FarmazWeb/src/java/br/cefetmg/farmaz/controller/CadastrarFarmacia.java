@@ -51,11 +51,12 @@ public class CadastrarFarmacia {
             String estado = request.getParameter("estado");
             
             estadoDominio = manterEstado.getEstadoBySigla(estado);
+            Long cidadeId = null;
             
             if(manterCidade.getCidadeByNome(cidade) == null){
                 cidadeDominio.setNome(cidade);
                 cidadeDominio.setUfId(estadoDominio.getId());
-                manterCidade.cadastrarCidade(cidadeDominio);
+                cidadeId = manterCidade.cadastrarCidade(cidadeDominio);
             }else{
                 cidadeDominio = manterCidade.getCidadeByNome(cidade);
             }
@@ -71,8 +72,11 @@ public class CadastrarFarmacia {
             farmacia.setNumero(Integer.parseInt(numero));
             farmacia.setBairro(bairro);
             farmacia.setCodUf(estadoDominio.getId());
-            farmacia.setCodCidade(cidadeDominio.getCidadeId());
-            
+            if(cidadeId == null)
+                farmacia.setCodCidade(cidadeDominio.getCidadeId());
+            else
+                farmacia.setCodCidade(cidadeId);
+                
             manterFarmacia = new ManterFarmaciaImpl(FarmaciaDAOImpl.getInstance());
             manterFarmacia.cadastrarFarmacia(farmacia);
             

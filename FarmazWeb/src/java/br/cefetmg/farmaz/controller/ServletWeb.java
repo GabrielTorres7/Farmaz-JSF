@@ -31,7 +31,9 @@ public class ServletWeb extends HttpServlet {
             jsp = CadastrarCliente.executa(request);
         else if(acao.equals("CadastraFarmacia"))
             jsp = CadastrarFarmacia.executa(request);
-                    
+        else if(acao.equals("ListarFarmaciasComProduto"))
+            jsp = ""; //ListarFarmacias.executa(request);
+            
             RequestDispatcher rd = request.getRequestDispatcher(jsp);
             rd.forward(request, response);  
         
