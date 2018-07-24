@@ -3,14 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazWeb/src/java/br/cefetmg/farmaz/controller/CadastrarCliente.java</file>
             <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazWeb/src/java/br/cefetmg/farmaz/controller/Login.java</file>
             <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazWeb/web/Erro.jsp</file>
-            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazWeb/src/java/br/cefetmg/farmaz/controller/ListaProdutosCliente.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazWeb/src/java/br/cefetmg/farmaz/controller/ListarProdutosCliente.java</file>
             <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazWeb/src/java/br/cefetmg/farmaz/controller/ServletWeb.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazWeb/web/CadastrarCliente.jsp</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazWeb/src/java/br/cefetmg/farmaz/controller/CadastrarFarmacia.java</file>
             <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazWeb/web/Login.jsp</file>
-            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazWeb/web/listaProdutos.jsp</file>
-            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazWeb/web/TelaCadastro.jsp</file>
-            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazWeb/src/java/br/cefetmg/farmaz/controller/CadastraCliente.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazWeb/web/CadastrarFarmacia.jsp</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazWeb/web/ListarProdutosCliente.jsp</file>
         </group>
     </open-files>
 </project-private>

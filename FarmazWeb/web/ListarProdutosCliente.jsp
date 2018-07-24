@@ -9,19 +9,23 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-     <head>
+    <jsp:include page ="MenuCliente.jsp"/>
+    <head>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
         <title>Farmaz</title>
+        
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="css/estilo.css" rel="stylesheet" type="text/css">
     </head>
     <body>
-       <center>
+        <div class="container">   
             <h3>Lista de Produtos</h3>
 
             <form name="frmProduto" method='post' action='/farmaz/ServletWeb'>
                 <input type='hidden' name='acao' value=''>
                 <input type='hidden' name='cod' value=''>
                 <input type='hidden' name='table' value='Produto'>
-                <table>
+                <table class="table table-striped"> 
                     <tr>
                         <td>
                             Código
@@ -65,11 +69,11 @@
                                 <td>
                                     <%=produto.getCadastroAnvisa()%>
                                 </td>
-                  
+
                             </tr>
                     <%  } %>
                 </table>
             </form>
-        </center> 
+        </div>              
     </body>
 </html>
