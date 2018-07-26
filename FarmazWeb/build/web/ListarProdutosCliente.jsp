@@ -52,7 +52,7 @@
                     %>
                             <tr>
                                 <td>
-                                    <a href="/farmaz/ServletWeb?acao=ListarFarmaciasComProduto&CodProduto=<%=produto.getId()%>"><%=produto.getId()%>
+                                    <a href="/FarmazWeb/ServletWeb?acao=ListarFarmaciasComProduto&CodProduto=<%=produto.getId()%>"><%=produto.getId()%>
                                 </td>
                                 <td>
                                     <%=produto.getNome()%>

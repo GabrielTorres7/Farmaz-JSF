@@ -23,7 +23,6 @@ import br.cefetmg.farmaz.model.serviceImpl.ManterDisponibilidadeImpl;
 import br.cefetmg.farmaz.model.serviceImpl.ManterEnderecoImpl;
 import br.cefetmg.farmaz.model.serviceImpl.ManterEstadoImpl;
 import br.cefetmg.farmaz.model.serviceImpl.ManterFarmaciaImpl;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,42 +30,42 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author Gabriel
  */
-public class ListarFarmacias {
+public class MostrarMapa {
     
     public static String executa(HttpServletRequest request) {
-        String jsp;
-        
+
+        String jsp = "";
+
         try {
-            List<Disponibilidade> listDisponibilidade;
-            ArrayList<Farmacia> listFarmacia = new ArrayList();
-            
-            Long produtoId = Long.parseLong(request.getParameter("CodProduto"));
-            Long clienteId = (Long) request.getSession().getAttribute("cod_cliente");
-            ManterDisponibilidade manterDisponibilidade = new ManterDisponibilidadeImpl(DisponibilidadeDAOImpl.getInstance());
-            ManterFarmacia manterFarmacia = new ManterFarmaciaImpl(FarmaciaDAOImpl.getInstance());
-            ManterEndereco manterEndereco = new ManterEnderecoImpl(EnderecoDAOImpl.getInstance());
-            ManterEstado manterEstado = new ManterEstadoImpl(EstadoDAOImpl.getInstance());
             ManterCidade manterCidade = new ManterCidadeImpl(CidadeDAOImpl.getInstance());
+            ManterEstado manterEstado = new ManterEstadoImpl(EstadoDAOImpl.getInstance());
+            ManterEndereco manterEndereco = new ManterEnderecoImpl(EnderecoDAOImpl.getInstance());
+            ManterFarmacia manterFarmacia = new ManterFarmaciaImpl(FarmaciaDAOImpl.getInstance());
+            ManterDisponibilidade manterDisponibilidade = new ManterDisponibilidadeImpl(DisponibilidadeDAOImpl.getInstance());
             
-            listDisponibilidade = manterDisponibilidade.getDisponibilidadeByProdutoId(produtoId);
-            for(Disponibilidade disponibilidade: listDisponibilidade){
-                if(disponibilidade.getEstoque() == 0){
-                    listDisponibilidade.remove(disponibilidade);
-                }else{
-                    listFarmacia.add(manterFarmacia.getFarmaciaById(disponibilidade.getFarmaciaCadastro()));
-                }        
-            }
+            Long disponibilidadeId = Long.parseLong(request.getParameter("DisponibilidadeId"));
+            Disponibilidade disponibilidade = manterDisponibilidade.getDisponibilidadeById(disponibilidadeId);
+            String farmaciaId = disponibilidade.getFarmaciaCadastro();
+            Long clienteId = (Long) request.getSession().getAttribute("cod_cliente");
+            Farmacia farmacia;
+            String enderecoFarmacia;
+            
+            request.setAttribute("disponibilidadeId", disponibilidadeId);
+            farmacia = manterFarmacia.getFarmaciaById(farmaciaId);
+            enderecoFarmacia = farmacia.getRua()+", "+farmacia.getNumero()+" - "+farmacia.getBairro()
+                    +", "+manterCidade.getCidadeById(farmacia.getCodCidade()).getNome()+" - "+manterEstado.getEstadoById(farmacia.getCodUf()).getSigla();
+            
+            request.setAttribute("enderecoFarmacia", enderecoFarmacia);
+            
             List<Endereco> enderecos = manterEndereco.getEnderecosByClienteId(clienteId);
             Endereco endereco = enderecos.get(0);
             String enderecoCliente = endereco.getRua()+", "+endereco.getNumero()+" - "+endereco.getBairro()
                     +", "+manterCidade.getCidadeById(endereco.getCodCidade()).getNome()+" - "+manterEstado.getEstadoById(endereco.getCodUf()).getSigla();
             
             request.setAttribute("enderecoCliente", enderecoCliente);
-            request.setAttribute("farmacias", listFarmacia);
-            request.setAttribute("disponibilidade", listDisponibilidade);
             
-            jsp = "ListarFarmacias.jsp";
-
+            jsp = "Mapa.jsp";
+            
         } catch (Exception e) {
             e.printStackTrace();
             jsp = "";

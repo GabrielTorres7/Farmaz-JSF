@@ -5,10 +5,15 @@
  */
 package br.cefetmg.farmaz.controller;
 
+import br.cefetmg.farmaz.model.daoImpl.DisponibilidadeDAOImpl;
 import br.cefetmg.farmaz.model.daoImpl.ProdutoDAOImpl;
+import br.cefetmg.farmaz.model.dominio.Disponibilidade;
 import br.cefetmg.farmaz.model.dominio.Produto;
+import br.cefetmg.farmaz.model.service.ManterDisponibilidade;
 import br.cefetmg.farmaz.model.service.ManterProduto;
+import br.cefetmg.farmaz.model.serviceImpl.ManterDisponibilidadeImpl;
 import br.cefetmg.farmaz.model.serviceImpl.ManterProdutoImpl;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,13 +28,29 @@ public class ListarProdutosCliente {
         String jsp;
         
         try {    
-            // Monta a lista de contatos
             ManterProduto manterProduto = new ManterProdutoImpl(ProdutoDAOImpl.getInstance());
-            List<Produto> listProduto = manterProduto.listAll();
-            // Guarda a lista no request
-            request.setAttribute("produtos", listProduto);
+            ManterDisponibilidade manterDisponibilidade = new ManterDisponibilidadeImpl(DisponibilidadeDAOImpl.getInstance());
+            List<Produto> listProduto;
+            List<Disponibilidade> listDisponibilidade;
             
-            jsp = "ListarProdutosCliente.jsp";
+                    
+            if(request.getAttribute("MeuCarrinho") == null){
+                listProduto = manterProduto.listAll();
+
+                request.setAttribute("produtos", listProduto);
+
+                jsp = "ListarProdutosCliente.jsp";
+            }else{
+                listDisponibilidade = (List<Disponibilidade>) request.getAttribute("MeuCarrinho");
+                listDisponibilidade = manterDisponibilidade.getDisponibilidadeByFarmaciaId(listDisponibilidade.get(0).getFarmaciaCadastro());
+                listProduto = new ArrayList();
+                for(Disponibilidade disponibilidade: listDisponibilidade){
+                    listProduto.add(manterProduto.getProdutoById(disponibilidade.getProdutoSeq()));
+                }
+                request.setAttribute("produtos", listProduto);
+                
+                jsp = "ListarProdutosCliente.jsp";
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

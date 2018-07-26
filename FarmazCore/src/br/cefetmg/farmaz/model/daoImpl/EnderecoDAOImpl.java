@@ -46,7 +46,7 @@ public class EnderecoDAOImpl implements EnderecoDAO{
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
             
-            String sql = "INSERT INTO produto (seq_cliente, cod_cidade, "
+            String sql = "INSERT INTO endereco (seq_cliente, cod_cidade, "
                     + "cod_uf, cep, bairro, rua, numero, complemento) " +
                          "    VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING seq_endereco";
 
@@ -189,7 +189,7 @@ public class EnderecoDAOImpl implements EnderecoDAO{
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "SELECT * FROM endereco WHERE seq_cliente = ? ORDER BY nome";
+            String sql = "SELECT * FROM endereco WHERE seq_cliente = ?";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, clienteId);

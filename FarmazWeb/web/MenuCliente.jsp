@@ -38,7 +38,7 @@
                 
                 <div class="collapse navbar-collapse pull-right" id="movelMenu">
                     <ul class="nav navbar-nav">
-                        <li><a href="/farmaz/ServletWeb?acao=ListarFaq">Ajuda</a></li>
+                        <li><a href="/FarmazWeb/ServletWeb?acao=ListarFaq">Ajuda</a></li>
                         <li><a href="">Perfil</a></li>
                         <li><a href="">Meu Carrinho</a></li>
                         <li><a href="">Histórico de compras</a></li>
@@ -47,7 +47,7 @@
             </section>
         </nav>
         
-        <script src="js/jquery.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
     </body>
 </html>

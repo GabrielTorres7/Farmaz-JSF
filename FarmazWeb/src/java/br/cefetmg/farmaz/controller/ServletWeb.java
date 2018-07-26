@@ -32,8 +32,14 @@ public class ServletWeb extends HttpServlet {
         else if(acao.equals("CadastraFarmacia"))
             jsp = CadastrarFarmacia.executa(request);
         else if(acao.equals("ListarFarmaciasComProduto"))
-            jsp = ""; //ListarFarmacias.executa(request);
-            
+            jsp = ListarFarmacias.executa(request);
+        else if(acao.equals("MostrarMapa"))
+            jsp = MostrarMapa.executa(request);
+        else if(acao.equals("Finalizar Compra"))
+            jsp = "";
+        else if(acao.equals("Adicionar ao Meu Carrinho"))
+            jsp = "";
+        
             RequestDispatcher rd = request.getRequestDispatcher(jsp);
             rd.forward(request, response);  
         
