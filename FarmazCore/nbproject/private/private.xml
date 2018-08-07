@@ -5,9 +5,9 @@
         <group>
             <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/daoImpl/EnderecoDAOImpl.java</file>
             <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/serviceImpl/ManterEnderecoImpl.java</file>
-            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/daoImpl/ClienteDAOImpl.java</file>
             <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/serviceImpl/ManterCidadeImpl.java</file>
             <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/daoImpl/FarmaciaDAOImpl.java</file>
+            <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/model/serviceImpl/ManterDisponibilidadeImpl.java</file>
             <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/util/bd/ConexaoPostgreSQL.java</file>
             <file>file:/C:/Users/Gabriell/Documents/NetBeansProjects/FarmazCerto/FarmazCore/src/br/cefetmg/farmaz/util/bd/ConnectionFactory.java</file>
         </group>
