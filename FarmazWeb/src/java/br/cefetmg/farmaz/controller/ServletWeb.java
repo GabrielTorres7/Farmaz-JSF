@@ -38,8 +38,14 @@ public class ServletWeb extends HttpServlet {
         else if(acao.equals("Finalizar Compra"))
             jsp = "";
         else if(acao.equals("Adicionar ao Meu Carrinho"))
-            jsp = "";
-        
+            jsp = AdicionarCarrinho.executa(request);
+        else if(acao.equals("MeuCarrinho"))
+            jsp = MeuCarrinho.executa(request);
+        else if(acao.equals("Voltar"))
+            jsp = ListarProdutosCliente.executa(request);
+        else if(acao.equals("ExcluirProdutoCarrinho"))
+            jsp = ExcluirProdutoCarrinho.executa(request);
+            
             RequestDispatcher rd = request.getRequestDispatcher(jsp);
             rd.forward(request, response);  
         

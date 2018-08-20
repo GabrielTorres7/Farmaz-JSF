@@ -14,14 +14,14 @@ public class Disponibilidade {
     private Long id;
     private Long produtoSeq;
     private String farmaciaCadastro;
-    private double estoque;
+    private int estoque;
     private double preco;
     private int avaliacao;
 
     public Disponibilidade() {
     }
 
-    public Disponibilidade(Long produtoSeq, String farmaciaCadastro, double estoque, double preco, int avaliacao) {
+    public Disponibilidade(Long produtoSeq, String farmaciaCadastro, int estoque, double preco, int avaliacao) {
         this.produtoSeq = produtoSeq;
         this.farmaciaCadastro = farmaciaCadastro;
         this.estoque = estoque;
@@ -45,11 +45,11 @@ public class Disponibilidade {
         this.farmaciaCadastro = farmaciaCadastro;
     }
 
-    public double getEstoque() {
+    public int getEstoque() {
         return estoque;
     }
 
-    public void setEstoque(double estoque) {
+    public void setEstoque(int estoque) {
         this.estoque = estoque;
     }
 

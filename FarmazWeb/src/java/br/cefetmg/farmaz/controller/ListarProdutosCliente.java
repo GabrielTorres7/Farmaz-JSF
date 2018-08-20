@@ -34,14 +34,13 @@ public class ListarProdutosCliente {
             List<Disponibilidade> listDisponibilidade;
             
                     
-            if(request.getAttribute("MeuCarrinho") == null){
+            if(request.getSession().getAttribute("MeuCarrinho") == null){
                 listProduto = manterProduto.listAll();
 
                 request.setAttribute("produtos", listProduto);
 
-                jsp = "ListarProdutosCliente.jsp";
             }else{
-                listDisponibilidade = (List<Disponibilidade>) request.getAttribute("MeuCarrinho");
+                listDisponibilidade = (List<Disponibilidade>) request.getSession().getAttribute("MeuCarrinho");
                 listDisponibilidade = manterDisponibilidade.getDisponibilidadeByFarmaciaId(listDisponibilidade.get(0).getFarmaciaCadastro());
                 listProduto = new ArrayList();
                 for(Disponibilidade disponibilidade: listDisponibilidade){
@@ -49,8 +48,9 @@ public class ListarProdutosCliente {
                 }
                 request.setAttribute("produtos", listProduto);
                 
-                jsp = "ListarProdutosCliente.jsp";
             }
+            
+            jsp = "ListarProdutosCliente.jsp";
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -13,6 +13,7 @@
         <link href="css/estilo.css" rel="stylesheet" type="text/css">
 	<title>Farmaz</title>
         
+        <script type="text/javascript" language="JavaScript" src="js/script.js"></script>
         <script src="js/jquery.js" type="text/javascript"></script>
         <script src="http://maps.google.com/maps/api/js?key=AIzaSyBpCmWwIrHcvRWQ6loUb5NLB9_EQaEHzUo"></script>
     </head>
@@ -21,7 +22,10 @@
             <center>
                 <h2>Informações de Entrega</h2>
             </center>
-            <form action="/FarmazWeb/ServletWeb" method="Post" class="form-horizontal">
+            <form name="frmMapa" action="ServletWeb" method="Post" class="form-horizontal">
+                <input type="hidden" name="ultimoJsp" value="Mapa">
+                <input type='hidden' name='acao' value=''>
+                
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="quantidadeProduto">Quantidade</label>
                     <div class="col-sm-10">
@@ -40,16 +44,17 @@
                         </iframe>
                     </div>
                 </div>
+                <input type="hidden" id="disponibilidadeId" name="disponibilidadeId" value="<%=request.getAttribute("disponibilidadeId")%>">
                 
                 <div class="form-group">
                     <div class="col-sm-10 col-sm-offset-2">
-                        <input class='btn btn-primary btn-block' type="submit" id="acao" name="acao" value="Finalizar Compra">
+                        <input class='btn btn-primary btn-block' type="submit" value="Finalizar Compra" onclick="SetAcao('Finalizar Compra',document.frmMapa)">
                     </div>
                 </div>
-                            <input type="hidden" id="disponibilidadeId" name="disponibilidadeId" value="<%=request.getAttribute("disponibilidadeId")%>">
+                            
                 <div class="form-group">
                     <div class="col-sm-10 col-sm-offset-2">
-                        <input class='btn btn-success btn-block' type="submit" id="acao" name="acao" value="Adicionar ao Meu Carrinho">
+                        <input class='btn btn-success btn-block' type="submit" value="Adicionar ao Meu Carrinho" onclick="SetAcao('Adicionar ao Meu Carrinho',document.frmMapa)">
                     </div>
                 </div>
             </form>

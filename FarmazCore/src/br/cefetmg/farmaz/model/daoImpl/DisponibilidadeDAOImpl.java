@@ -150,7 +150,7 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
                 disponibilidade.setId(disponibilidadeId);
                 disponibilidade.setProdutoSeq(rs.getLong("seq_produto"));
                 disponibilidade.setFarmaciaCadastro(rs.getString("cadastro_prefeitura"));
-                disponibilidade.setEstoque(rs.getDouble("estoque"));
+                disponibilidade.setEstoque(rs.getInt("estoque"));
                 disponibilidade.setPreco(rs.getDouble("preco"));
                 disponibilidade.setAvaliacao(rs.getInt("avaliacao"));
             }
@@ -187,7 +187,7 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
                     disponibilidade.setId(rs.getLong("seq_disponibilidade"));
                     disponibilidade.setProdutoSeq(rs.getLong("seq_produto"));
                     disponibilidade.setFarmaciaCadastro(rs.getString("cadastro_prefeitura"));
-                    disponibilidade.setEstoque(rs.getDouble("estoque"));
+                    disponibilidade.setEstoque(rs.getInt("estoque"));
                     disponibilidade.setPreco(rs.getDouble("preco"));
                     disponibilidade.setAvaliacao(rs.getInt("avaliacao"));
                     listAll.add(disponibilidade);
@@ -227,7 +227,7 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
                     disponibilidade.setId(rs.getLong("seq_disponibilidade"));
                     disponibilidade.setProdutoSeq(rs.getLong("seq_produto"));
                     disponibilidade.setFarmaciaCadastro(rs.getString("cadastro_prefeitura"));
-                    disponibilidade.setEstoque(rs.getDouble("estoque"));
+                    disponibilidade.setEstoque(rs.getInt("estoque"));
                     disponibilidade.setPreco(rs.getDouble("preco"));
                     disponibilidade.setAvaliacao(rs.getInt("avaliacao"));
                     listAll.add(disponibilidade);
