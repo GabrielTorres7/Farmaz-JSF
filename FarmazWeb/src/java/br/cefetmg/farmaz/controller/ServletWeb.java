@@ -35,8 +35,8 @@ public class ServletWeb extends HttpServlet {
             jsp = ListarFarmacias.executa(request);
         else if(acao.equals("MostrarMapa"))
             jsp = MostrarMapa.executa(request);
-        else if(acao.equals("Finalizar Compra"))
-            jsp = "";
+        else if(acao.equals("FinalizarCompra"))
+            jsp = FinalizarCompra.executa(request);
         else if(acao.equals("Adicionar ao Meu Carrinho"))
             jsp = AdicionarCarrinho.executa(request);
         else if(acao.equals("MeuCarrinho"))
@@ -45,7 +45,13 @@ public class ServletWeb extends HttpServlet {
             jsp = ListarProdutosCliente.executa(request);
         else if(acao.equals("ExcluirProdutoCarrinho"))
             jsp = ExcluirProdutoCarrinho.executa(request);
-            
+        else if(acao.equals("Fazer Pedido"))
+            jsp = FazerPedido.executa(request);
+        else if(acao.equals("ListarFaq"))
+            jsp = "Faq.jsp";
+        else if(acao.equals("Historico"))
+            jsp = HistoricoCompras.executa(request);
+        
             RequestDispatcher rd = request.getRequestDispatcher(jsp);
             rd.forward(request, response);  
         

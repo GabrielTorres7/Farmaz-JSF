@@ -39,9 +39,9 @@
                 <div class="collapse navbar-collapse pull-right" id="movelMenu">
                     <ul class="nav navbar-nav">
                         <li><a href="/FarmazWeb/ServletWeb?acao=ListarFaq">Ajuda</a></li>
-                        <li><a href="">Perfil</a></li>
+                        <li><a href="#">Perfil</a></li>
                         <li><a href="/FarmazWeb/ServletWeb?acao=MeuCarrinho">Meu Carrinho</a></li>
-                        <li><a href="">Histórico de compras</a></li>
+                        <li><a href="/FarmazWeb/ServletWeb?acao=Historico">Histórico de compras</a></li>
                     </ul>
                 </div>
             </section>

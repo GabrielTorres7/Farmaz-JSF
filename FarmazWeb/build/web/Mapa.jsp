@@ -48,7 +48,7 @@
                 
                 <div class="form-group">
                     <div class="col-sm-10 col-sm-offset-2">
-                        <input class='btn btn-primary btn-block' type="submit" value="Finalizar Compra" onclick="SetAcao('Finalizar Compra',document.frmMapa)">
+                        <input class='btn btn-primary btn-block' type="submit" value="Finalizar Compra" onclick="SetAcao('FinalizarCompra',document.frmMapa)">
                     </div>
                 </div>
                             

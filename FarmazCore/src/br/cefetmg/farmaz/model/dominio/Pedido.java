@@ -18,7 +18,9 @@ public class Pedido {
     private Date dataHora;
     private char idtStatus;
     private double pagamento;
-
+    private int troco;
+    private double valor;
+    
     public Pedido() {
     }
 
@@ -77,6 +79,22 @@ public class Pedido {
 
     public void setPagamento(double pagamento) {
         this.pagamento = pagamento;
+    }
+
+    public int getTroco() {
+        return troco;
+    }
+
+    public void setTroco(int troco) {
+        this.troco = troco;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
     }
     
 }

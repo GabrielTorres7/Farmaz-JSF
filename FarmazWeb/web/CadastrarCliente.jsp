@@ -56,8 +56,6 @@
                     <label class="col-sm-2 control-label" for="telefone">Telefone</label>
                     <div class="col-xs-9">
                         <input class="form-control" type="tel" name="telefone" id="telefone" required
-                            pattern="\([0-9]{2}\)[0-9]{4}-[0-9]{4}"
-                            title="Digite o Telefone no formato: (nn)nnnn-nnnn">
                     </div>
                 </div>
                 
@@ -79,8 +77,6 @@
                     <label class="col-sm-2 control-label" for="cep">CEP</label>
                     <div class="col-xs-9">
                         <input class="form-control" type="number" name="cep" id="cep" required
-                            pattern="[0-9]{5}-[0-9]{3}"
-                            title="Digite o CEP no formato: nnnnn-nnn">
                     </div>
                 </div>
                 
@@ -121,7 +117,7 @@
                                 List<Estado> listEstado = (List<Estado>) mantemEstado.getAll();
                                 for (Estado estado: listEstado) {
                             %>
-                            <option value="<%estado.getSigla();%>"> <%=estado.getNome()%></option>
+                            <option value="<%=estado.getSigla()%>"> <%=estado.getNome()%></option>
                             <% 
                                 }
                             %>
@@ -136,6 +132,7 @@
                             <input class='btn btn-primary btn-block' type="submit" name="botao" id="botao" value="Finalizar Cadastro">
                         </div>
                     </div>
+            </form>
         </div>
     </body>
 </html>

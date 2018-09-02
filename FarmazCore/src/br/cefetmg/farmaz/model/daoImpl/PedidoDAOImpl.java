@@ -48,16 +48,17 @@ public class PedidoDAOImpl implements PedidoDAO {
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "INSERT INTO pedido (seq_cliente, cadastro_prefeitura, data, status, token_pagseguro) "
-                    + "    VALUES (?, ?, ?, ?, ?) RETURNING seq_pedido";
+            String sql = "INSERT INTO pedido (seq_cliente, cadastro_prefeitura, data, status, troco, valor) "
+                    + "    VALUES (?, ?, ?, ?, ?, ?) RETURNING seq_pedido";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, pedido.getClienteId());
             pstmt.setString(2, pedido.getFarmaciaId());
-            pstmt.setDate(3, (Date) pedido.getDataHora());
+            pstmt.setDate(3, new Date(pedido.getDataHora().getTime()));
             pstmt.setString(4, String.valueOf(pedido.getIdtStatus()));
-            pstmt.setDouble(5, pedido.getPagamento());
-
+            pstmt.setInt(5, pedido.getTroco());
+            pstmt.setDouble(6, pedido.getValor());
+            
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
@@ -87,7 +88,8 @@ public class PedidoDAOImpl implements PedidoDAO {
                     + "     cadastro_prefeitura = ? "
                     + "     data = ? "
                     + "     status = ? "
-                    + "     token_pagseguro = ? "
+                    + "     troco = ? "
+                    + "     valor = ? "
                     + " WHERE seq_pedido = ?";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -95,8 +97,9 @@ public class PedidoDAOImpl implements PedidoDAO {
             pstmt.setString(2, pedido.getFarmaciaId());
             pstmt.setDate(3, (Date) pedido.getDataHora());
             pstmt.setString(4, String.valueOf(pedido.getIdtStatus()));
-            pstmt.setDouble(5, pedido.getPagamento());
-            pstmt.setLong(6, pedido.getPedidoId());
+            pstmt.setInt(5, pedido.getTroco());
+            pstmt.setDouble(6, pedido.getValor());
+            pstmt.setLong(7, pedido.getPedidoId());
             pstmt.executeUpdate();
 
             pstmt.close();
@@ -152,7 +155,8 @@ public class PedidoDAOImpl implements PedidoDAO {
                 pedido.setFarmaciaId(rs.getString("cadastro_prefeitura"));
                 pedido.setDataHora(rs.getDate("data"));
                 pedido.setIdtStatus(rs.getString("status").charAt(0));
-                pedido.setPagamento(rs.getDouble("token_pagseguro"));
+                pedido.setTroco(rs.getInt("troco"));
+                pedido.setValor(rs.getDouble("valor"));
             }
 
             rs.close();
@@ -171,7 +175,7 @@ public class PedidoDAOImpl implements PedidoDAO {
         try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
-            String sql = "SELECT * FROM pedido WHERE seq_cliente = ? ORDER BY nome";
+            String sql = "SELECT * FROM pedido WHERE seq_cliente = ? ORDER BY seq_pedido";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setLong(1, clienteId);
@@ -189,7 +193,8 @@ public class PedidoDAOImpl implements PedidoDAO {
                     pedido.setFarmaciaId(rs.getString("cadastro_prefeitura"));
                     pedido.setDataHora(rs.getDate("data"));
                     pedido.setIdtStatus(rs.getString("status").charAt(0));
-                    pedido.setPagamento(rs.getDouble("token_pagseguro"));
+                    pedido.setTroco(rs.getInt("troco"));
+                    pedido.setValor(rs.getDouble("valor"));
                     listPedidos.add(pedido);
                 } while (rs.next());
             }
@@ -229,7 +234,8 @@ public class PedidoDAOImpl implements PedidoDAO {
                     pedido.setFarmaciaId(rs.getString("cadastro_prefeitura"));
                     pedido.setDataHora(rs.getDate("data"));
                     pedido.setIdtStatus(rs.getString("status").charAt(0));
-                    pedido.setPagamento(rs.getDouble("token_pagseguro"));
+                    pedido.setTroco(rs.getInt("troco"));
+                    pedido.setValor(rs.getDouble("valor"));
                     listPedidos.add(pedido);
                 } while (rs.next());
             }
@@ -270,7 +276,8 @@ public class PedidoDAOImpl implements PedidoDAO {
                     pedido.setFarmaciaId(rs.getString("cadastro_prefeitura"));
                     pedido.setDataHora(rs.getDate("data"));
                     pedido.setIdtStatus(rs.getString("status").charAt(0));
-                    pedido.setPagamento(rs.getDouble("token_pagseguro"));
+                    pedido.setTroco(rs.getInt("troco"));
+                    pedido.setValor(rs.getDouble("valor"));
                     listPedidos.add(pedido);
                 } while (rs.next());
             }
@@ -311,7 +318,8 @@ public class PedidoDAOImpl implements PedidoDAO {
                     pedido.setFarmaciaId(rs.getString("cadastro_prefeitura"));
                     pedido.setDataHora(rs.getDate("data"));
                     pedido.setIdtStatus(rs.getString("status").charAt(0));
-                    pedido.setPagamento(rs.getDouble("token_pagseguro"));
+                    pedido.setTroco(rs.getInt("troco"));
+                    pedido.setValor(rs.getDouble("valor"));
                     listPedidos.add(pedido);
                 } while (rs.next());
             }

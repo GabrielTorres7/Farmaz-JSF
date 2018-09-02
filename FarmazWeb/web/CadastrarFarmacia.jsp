@@ -50,8 +50,8 @@
                     <label class="col-sm-2 control-label"  for="cnpj">CNPJ</label>
                     <div class="col-xs-9">    
                         <input class="form-control" type="text" name="cnpj" id="cnpj" required
-                            pattern="[0-9]{2}.[0-9]{3}.[0-9]{3}/[0-9]{4}-[0-9]{2}"
-                            title="Digite o CNPJ no formato: nn.nnn.nnn/nnnn-nn">
+                            pattern="[0-9]{2}.[0-9]{3}.[0-9]{3}"
+                            title="Digite o CNPJ no formato: nn.nnn.nnn">
                     </div>
                 </div>
 
@@ -73,8 +73,6 @@
                     <label class="col-sm-2 control-label" for="cep">CEP</label>
                     <div class="col-xs-9">
                         <input class="form-control" type="text" name="cep" id="cep" required
-                            pattern="[0-9]{5}-[0-9]{3}"
-                            title="Digite o CEP no formato: nnnnn-nnn">
                     </div>
                 </div>
 

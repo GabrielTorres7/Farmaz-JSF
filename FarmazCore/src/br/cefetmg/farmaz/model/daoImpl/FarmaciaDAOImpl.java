@@ -49,7 +49,7 @@ public class FarmaciaDAOImpl implements FarmaciaDAO{
 
             String sql = "INSERT INTO farmacia (cadastro_prefeitura, cod_cidade, cod_uf, "
                     + " cnpj, nome, cep, bairro, rua, numero, email, senha) "
-                    + "    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, md5(?)) ";
+                    + "    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, md5(?)) RETURNING cadastro_prefeitura";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, farmacia.getCadastroPrefeitura());
@@ -66,18 +66,22 @@ public class FarmaciaDAOImpl implements FarmaciaDAO{
             
             ResultSet rs = pstmt.executeQuery();
             
-            farmaciaId = Long.parseLong(farmacia.getCadastroPrefeitura());
+            if (rs.next()) {
+                farmaciaId = Long.parseLong(rs.getString("cadastro_prefeitura"));
+                farmacia.setCadastroPrefeitura(rs.getString("cadastro_prefeitura"));
+            }
             
             rs.close();
             pstmt.close();
             connection.close();
-
+            
+            return farmaciaId;
+            
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(FarmaciaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistenciaException(ex);
         }
 
-        return farmaciaId;
     }
 
     @Override

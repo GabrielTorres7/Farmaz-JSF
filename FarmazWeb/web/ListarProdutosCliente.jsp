@@ -52,7 +52,12 @@
                                     <a href="/FarmazWeb/ServletWeb?acao=ListarFarmaciasComProduto&CodProduto=<%=produto.getId()%>"><%=produto.getNome()%>
                                 </td>
                                 <td>
-                                    <%=produto.isReceita()%>
+                                    <% if(produto.isReceita() == true)
+                                            out.print("Possui");
+                                       else{
+                                           out.print("Não possui");
+                                       }
+                                    %>
                                 </td>
                                 <td>
                                     <%=produto.getDescricao()%>

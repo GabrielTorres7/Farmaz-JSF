@@ -88,7 +88,9 @@
                                 </td> 
       
                             </tr>
-                    <%  } %>
+                            <%      request.getSession().setAttribute("Total", total);
+                        }
+                    %>
                 </table>
                 <div class="form-group">
                     <div class="col-sm-4">
@@ -98,7 +100,7 @@
                 
                 <div class="form-group">
                     <div class="col-sm-10">
-                        <input class='btn btn-primary' type="submit" value="Finalizar Compra" onclick="SetAcao('Finalizar Compra',document.frmCarrinho)">
+                        <input class='btn btn-primary' type="submit" value="Finalizar Compra" onclick="SetAcao('FinalizarCompra',document.frmCarrinho)">
                     </div>
                 </div>
                             
