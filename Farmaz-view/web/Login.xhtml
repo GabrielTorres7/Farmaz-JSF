@@ -23,23 +23,33 @@
     <h:body>
         <h:form>
             <p:panel id="panel" header="Login">
+                <p:messages id="msg" showDetail="true" closable="true">
+                        <p:autoUpdate />
+                </p:messages> 
 
-                <h:panelGrid columns="3" cellpadding="5">
+
+                <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="email" value="Email:" />
-                    <p:inputText id="email" value="#{Login.email}" required="true" label="Email">
-                        <f:validateLength minimum="2" />
+                    <p:inputText id="email" value="#{LoginBean.email}" required="true" label="Email">
+                    
                     </p:inputText>
-                    <p:message for="email" id="msgEmail" display="icon" />
 
                     <p:outputLabel for="senha" value="Senha:" />
-                    <p:inputText id="senha" value="#{Login.senha}" label="Senha" required="true">
-                        <f:validateLength minimum="2" />
-                    </p:inputText>
-                    <p:message for="senha" id="msgSenha" display="icon" />
+                    <p:password id="senha" value="#{LoginBean.senha}" label="Senha" required="true">
 
+                    </p:password>
+                    
+                    <p:commandButton value="Entrar" update="panel" actionListener="#{LoginBean.enviar}" icon="ui-icon-check" />
+                    
+                    
+                    
                 </h:panelGrid>
-
-                <p:commandButton value="Entrar" update="panel" actionListener="#{Login.enviar}" icon="ui-icon-check" />
+                
+                <p:separator/>
+                <h:outputText value=" Novo usuário?" /> <p:link outcome="CadastrarCliente" value=" Registre-se aqui"/>
+                <p:separator/>
+                <h:outputText  value=" Quer ser nosso parceiro?" /> <p:link outcome="CadastrarFarmacia" value=" Cadastre sua farmácia aqui"/>
+                
             </p:panel>
         </h:form>  
     </h:body>
