@@ -11,9 +11,10 @@ import java.io.Serializable;
 import br.cefetmg.farmaz.model.dominio.Cliente;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
 import br.cefetmg.farmaz.proxy.ManterClienteProxy;
+import br.cefetmg.farmaz.util.session.SessionContext;
+import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import javax.ejb.SessionContext;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
@@ -31,7 +32,7 @@ public class LoginBean implements Serializable {
     private ManterClienteProxy manterCliente;
      
     public LoginBean() throws SocketException, UnknownHostException {
-        this.manterCliente = new ManterClienteProxy();      
+        this.manterCliente = new ManterClienteProxy();
     }
 
     public void setEmail(String email) {
@@ -54,19 +55,19 @@ public class LoginBean implements Serializable {
         return manterCliente.getClienteByEmailSenha(email, senha) ;
     }
     
-    public void enviar() throws PersistenciaException{    
+    public void enviar() throws PersistenciaException, IOException{    
         cliente = getCliente();
         
-        System.out.println("nome:" + cliente.getNome());
         if(cliente == null){
-            System.out.println("nome:" + cliente.getNome());
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage( FacesMessage.SEVERITY_ERROR, "Usuário não encontrado, ", "email ou senha inválidos" ) );
             
         }else{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage( FacesMessage.SEVERITY_INFO, "Seja bem vindo ", ""+ cliente.getNome() ) );
-            //SessionContext.getInstance().setAttribute("clienteId", cliente.getId());
+            SessionContext.getInstance().setAttribute("clienteId", cliente.getId());
             
             //redireciona para ListarProdutos
+            FacesContext.getCurrentInstance().getExternalContext().redirect("faces/ListarProdutosCliente.xhtml");
+
         }
     }
 

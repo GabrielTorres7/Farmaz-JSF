@@ -10,16 +10,15 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    
+        
     <ui:include src="MenuCliente.xhtml" />
     <h:head>
         <title>Farmaz</title>
     </h:head>
-    
     <h:body>
         <p:dataTable id="tabela" var="produto" value="#{ManterProdutoMB.getListProduto()}" selectionMode="single" selection="#{ManterProdutoMB.produtoSelecionado}" rowKey="#{produto.id}">
             <f:facet name="header">
-                Lista de produtos - Selecione o que deseja comprar
+                Lista de farmácias - Selecione a farmácia
             </f:facet>
             <p:ajax event="rowSelect" listener="#{ManterProdutoMB.onRowSelect}" />
             
@@ -31,15 +30,31 @@ and open the template in the editor.
                 <h:outputText value="#{produto.nome}" />
             </p:column>
 
-            <p:column headerText="Descrição">
+            <p:column headerText="Cnpj">
                 <h:outputText value="#{produto.descricao}" />
             </p:column>
 
-            <p:column headerText="Laboratório">
+            <p:column headerText="Bairro">
                 <h:outputText value="#{produto.laboratorio}" />
             </p:column>
 
-            <p:column headerText="Cadastro Anvisa">
+            <p:column headerText="Rua">
+                <h:outputText value="#{produto.cadastroAnvisa}" />
+            </p:column>
+            
+            <p:column headerText="Número">
+                <h:outputText value="#{produto.cadastroAnvisa}" />
+            </p:column>
+            
+            <p:column headerText="Preço">
+                <h:outputText value="#{produto.cadastroAnvisa}" />
+            </p:column>
+            
+            <p:column headerText="Distância">
+                <h:outputText value="#{produto.cadastroAnvisa}" />
+            </p:column>
+            
+            <p:column headerText="Tempo estimado de entrega">
                 <h:outputText value="#{produto.cadastroAnvisa}" />
             </p:column>
         </p:dataTable>
