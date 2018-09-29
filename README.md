@@ -1,4 +1,3 @@
-# Farmaz-Distribuido
-Farmaz usando Sistemas Distribuidos
+# Farmaz
 
 Trabalho Pratico 2018 // CEFET-MG
