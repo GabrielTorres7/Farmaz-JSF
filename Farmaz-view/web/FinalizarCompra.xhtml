@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:include src="MenuCliente.xhtml" />
+    <head>
+       <title>Farmaz</title>
+
+    </head>
+    <body>
+        <h3> Método de Pagamento </h3>
+        <h:form>
+        <h:commandLink action="#{FinalizarCompraMB.show()}">
+            <h:graphicImage value="images/dinheiro.png" width="500px" height="500px" />
+            <f:ajax execute="@form" render="@form"/>
+        </h:commandLink>   
+        <h:commandLink >
+            <h:graphicImage value="images/cartao.png" width="500px" height="500px" />
+        </h:commandLink>     
+            <h:outputText value="Troco para " rendered="#{FinalizarCompraMB.visibilidade}" />
+            <h:inputText rendered="#{FinalizarCompraMB.visibilidade}"/>
+            <p:commandButton value="Fazer pedido" type="button" onclick="PF('dlg2').show();" rendered="#{FinalizarCompraMB.visibilidade}" />
+            <p:dialog header="BOOOORA" widgetVar="dlg2" modal="true" height="100">
+                <h:outputText value="Vou mandar pro back end" />
+            </p:dialog>  
+        </h:form>
+        
+    
+    </body>
+</html>
