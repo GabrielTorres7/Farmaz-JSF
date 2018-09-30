@@ -19,13 +19,12 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/Login.xhtml</welcome-file>
+        <welcome-file>Faq.xhtml</welcome-file>
     </welcome-file-list>
     <filter>
-     <filter-name>Filtro</filter-name>
-     <filter-class>br.cefetmg.farmaz.util.session.Filtro</filter-class>     
+        <filter-name>Filtro</filter-name>
+        <filter-class>br.cefetmg.farmaz.util.session.Filtro</filter-class>
     </filter>
-  
     <filter-mapping>
         <filter-name>Filtro</filter-name>
         <url-pattern>/core/*</url-pattern>
