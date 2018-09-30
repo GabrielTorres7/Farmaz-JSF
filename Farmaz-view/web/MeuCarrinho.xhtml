@@ -8,14 +8,18 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     
     <ui:include src="MenuCliente.xhtml" />
     <h:head>
         <title>Farmaz</title>
     </h:head>
     <h:body>
-        <p:dataTable var="item" value="#{MeuCarrinhoBean.getCarrinho()}">
+        <p:dataTable var="item" value="#{MeuCarrinhoBean.getCarrinho()}" rowKey="#{item.id}" >
+            <f:facet name="header">
+                Meu Carrinho
+            </f:facet>
             <p:column headerText="Id">
                 <h:outputText value="#{item.id}" />
             </p:column>
@@ -34,6 +38,10 @@ and open the template in the editor.
             
             <p:column headerText="Preço">
                 <h:outputText value="#{item.preco}" />
+            </p:column>
+            
+            <p:column style="width:32px;text-align: center">
+                <p:commandButton icon="ui-icon-trash" actionListener="#{meuCarrinhoBean.excluiItemSelecionado(item.id)}" />
             </p:column>
         </p:dataTable>
     </h:body>

@@ -1,6 +1,7 @@
 package br.cefetmg.farmaz.bean;
 
 import br.cefetmg.farmaz.model.dominio.Disponibilidade;
+import br.cefetmg.farmaz.model.dominio.Produto;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
 import br.cefetmg.farmaz.proxy.ManterProdutoProxy;
 import br.cefetmg.farmaz.util.session.SessionContext;
@@ -9,11 +10,11 @@ import java.io.Serializable;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -25,6 +26,7 @@ import javax.faces.context.FacesContext;
 public class MeuCarrinhoBean {
      
     private List<Disponibilidade> carrinho;
+    private Disponibilidade itemSelecionado;
     private ManterProdutoProxy manterProduto;
     private String nomeProduto;
     
@@ -49,7 +51,19 @@ public class MeuCarrinhoBean {
         carrinho = (List<Disponibilidade>) SessionContext.getInstance().getAttribute("MeuCarrinho");
         return carrinho;
     }
+
+    public Disponibilidade getItemSelecionado() {
+        return itemSelecionado;
+    }
+
+    public void setItemSelecionado(Disponibilidade itemSelecionado) {
+        this.itemSelecionado = itemSelecionado;
+    }
     
+    public void excluiItemSelecionado(Produto produto){
+        carrinho.remove(produto.getId());
+    }
+
     public void existeCarrinho() throws IOException{
         if(SessionContext.getInstance().getAttribute("MeuCarrinho") == null){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage( FacesMessage.SEVERITY_ERROR, "Erro: ", "Você ainda não adicionou nenhum produto no carrinho!" ));
