@@ -21,13 +21,13 @@
                 <p:menuitem value="Perfil" >
                     <f:param name="perfil" value="1" />
                 </p:menuitem>
-                <p:menuitem value="Meu Carrinho"  >
+                <p:menuitem value="Meu Carrinho" action="#{MeuCarrinhoBean.existeCarrinho()}">
                     <f:param name="carrinho" value="2" />
                 </p:menuitem>
                 <p:menuitem value="Histórico de compras" outcome="faces/HistoricoCompras.xhtml">
                     <f:param name="historico" value="3" />
                 </p:menuitem>
-                <p:menuitem value="Sair" outcome="Login.xhtml" action="#{LoginBean.encerrarSessao()}">
+                <p:menuitem value="Sair" action="#{LoginBean.encerrarSessao()}">
                     <f:param name="sair" value="4" />
                 </p:menuitem>
            

@@ -71,8 +71,9 @@ public class LoginBean implements Serializable {
         }
     }
     
-    public void encerrarSessao(){
+    public void encerrarSessao() throws IOException{
         SessionContext.getInstance().encerrarSessao();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("Login.xhtml");
     }
 
 }
