@@ -11,31 +11,52 @@ and open the template in the editor.
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     
+    <ui:include src="MenuCliente.xhtml" />
     <h:head>
         <title>Farmaz</title>
     </h:head>
     <h:body>
-        <p:dataTable id="basicDT" var="pedido" value="#{HistoricoComprasMB.getHistorico()}">
-            <f:facet name="header">
-                Historico de Pedidos
-            </f:facet>
-            <p:column headerText="Farmácia">
-                <h:outputText value="#{pedido.farmaciaId}" />
-            </p:column>
-            <p:column headerText="Data">
-                <h:outputText value="#{pedido.dataHora}" />
-            </p:column>
-            <p:column headerText="Status">
-                <h:outputText value="#{pedido.idtStatus}" />
-            </p:column>
-            <p:column headerText="Valor">
-                <h:outputText value="#{pedido.valor}" />
-            </p:column>
-            <p:column headerText="Itens" style="width:32px;text-align: center">
-                 <p:commandButton update="" oncomplete="" icon="ui-icon-search" title="View">
-                    <f:setPropertyActionListener value="#{pedido}" target="#{HistoricoComprasMB.pedidoSelecionado}" />
-                </p:commandButton>
-            </p:column>
-        </p:dataTable>       
+        <h:form id="form">
+            <p:dataTable id="basicDT" var="pedido" value="#{HistoricoComprasMB.getHistorico()}">
+                <f:facet name="header">
+                    Historico de Pedidos
+                </f:facet>
+                <p:column headerText="Farmácia">
+                    <h:outputText value="#{pedido.farmaciaId}" />
+                </p:column>
+                <p:column headerText="Data">
+                    <h:outputText value="#{pedido.dataHora}" />
+                </p:column>
+                <p:column headerText="Status">
+                    <h:outputText value="#{pedido.idtStatus}" />
+                </p:column>
+                <p:column headerText="Valor">
+                    <h:outputText value="#{pedido.valor}" />
+                </p:column>
+                <p:column headerText="Itens" style="width:32px;text-align: center">
+                    <p:commandButton update=":form:pedidoDetail" oncomplete="PF('pedidoDialog').show()" icon="ui-icon-search" title="View">
+                        <f:setPropertyActionListener value="#{pedido}" target="#{HistoricoComprasMB.pedidoSelecionado}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>  
+
+            <p:dialog header="Itens do Pedido" widgetVar="pedidoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="pedidoDetail" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{not empty HistoricoComprasMB.pedidoSelecionado}" columnClasses="label,value">
+                        <h:outputText value="Id do pedido: #{HistoricoComprasMB.pedidoSelecionado.pedidoId}" />
+
+                        <p:dataTable id="itens" var="itemPedido" value="#{HistoricoComprasMB.getItens()}">
+                            <p:column headerText="Produto">
+                                <h:outputText value="#{HistoricoComprasMB.getNomeProduto(itemPedido.produtoId)}" />
+                            </p:column>
+                            <p:column headerText="Quantidade">
+                                <h:outputText value="#{itemPedido.quantidade}" />
+                            </p:column>
+                        </p:dataTable> 
+    
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
     </h:body>
 </html>

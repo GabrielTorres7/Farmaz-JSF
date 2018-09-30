@@ -5,19 +5,25 @@
  */
 package br.cefetmg.farmaz.bean;
 
-import br.cefetmg.farmaz.model.dominio.Farmacia;
+import br.cefetmg.farmaz.model.dominio.ItemPedido;
 import br.cefetmg.farmaz.model.dominio.Pedido;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
-import br.cefetmg.farmaz.proxy.ManterFarmaciaProxy;
+import br.cefetmg.farmaz.proxy.ManterDisponibilidadeProxy;
+import br.cefetmg.farmaz.proxy.ManterItemPedidoProxy;
 import br.cefetmg.farmaz.proxy.ManterPedidoProxy;
+import br.cefetmg.farmaz.proxy.ManterProdutoProxy;
 import br.cefetmg.farmaz.util.session.SessionContext;
+import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javafx.scene.control.Alert;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,13 +34,18 @@ import javax.faces.bean.ViewScoped;
 public class HistoricoComprasMB {
     
     private ManterPedidoProxy manterPedido;
-    private ManterFarmaciaProxy manterFarmacia;
+    private ManterDisponibilidadeProxy manterDisponibilidade;
+    private ManterItemPedidoProxy manterItemPedido;
+    private ManterProdutoProxy manterProduto;
     private Pedido pedidoSelecionado;
     private Long clienteId;
+    private String nomeProduto;
     
     public HistoricoComprasMB() throws SocketException, UnknownHostException {
         this.manterPedido = new ManterPedidoProxy();
-        this.manterFarmacia = new ManterFarmaciaProxy();
+        this.manterDisponibilidade = new ManterDisponibilidadeProxy();
+        this.manterItemPedido = new ManterItemPedidoProxy();
+        this.manterProduto = new ManterProdutoProxy();
     }
     
     public void setPedidoSelecionado(Pedido pedidoSelecionado){
@@ -45,14 +56,33 @@ public class HistoricoComprasMB {
         return pedidoSelecionado;
     }
     
-    public List<Pedido> getHistorico() throws PersistenciaException {
-        
-        //clienteId =  (Long) SessionContext.getInstance().getAttribute("clienteId");
-        clienteId = Long.parseLong("8");
-        List<Pedido> pedidos = manterPedido.getPedidosByClienteId(clienteId);
-        if(pedidos.size() > 1)
-            Collections.reverse(pedidos);
-        
+    public void setNomeProduto(String nomeProduto) throws PersistenciaException{
+        this.nomeProduto = nomeProduto;
+    }
+    
+    public String getNomeProduto(Long produtoId) throws PersistenciaException{
+        return manterProduto.getProdutoById(produtoId).getNome();
+    }
+    
+    public List<Pedido> getHistorico() throws PersistenciaException, IOException {
+        clienteId =  (Long) SessionContext.getInstance().getAttribute("clienteId");
+        List<Pedido> pedidos = null;
+                
+        if(manterPedido.getPedidosByClienteId(clienteId) != null){
+            pedidos = manterPedido.getPedidosByClienteId(clienteId);
+            if(pedidos.size() > 1)
+                Collections.reverse(pedidos);
+        }else{
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListarProdutosCliente.xhtml");
+        }
         return pedidos;
     }
+        
+    public List<ItemPedido> getItens() throws PersistenciaException{
+        List<ItemPedido> itens = manterItemPedido.getItensPedidoByPedidoId(pedidoSelecionado.getPedidoId());
+        
+        return itens;
+    }
+    
+  
 }

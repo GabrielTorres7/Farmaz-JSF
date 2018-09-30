@@ -11,7 +11,7 @@
         <h:form>
             <p:tabMenu>
                 <p:menuitem>
-                    <h:link outcome="faces/Mapa.xhtml">
+                    <h:link outcome="faces/ListarProdutosCliente.xhtml">
                         <h:graphicImage value="images/Farmaz_PILULA.png" width="70px" height="50px" />
                     </h:link>
                 </p:menuitem>
@@ -24,10 +24,10 @@
                 <p:menuitem value="Meu Carrinho"  >
                     <f:param name="carrinho" value="2" />
                 </p:menuitem>
-                <p:menuitem value="Histórico de compras"  >
+                <p:menuitem value="Histórico de compras" outcome="faces/HistoricoCompras.xhtml">
                     <f:param name="historico" value="3" />
                 </p:menuitem>
-                <p:menuitem value="Sair" outcome="Login.xhtml">
+                <p:menuitem value="Sair" outcome="Login.xhtml" action="#{LoginBean.encerrarSessao()}">
                     <f:param name="sair" value="4" />
                 </p:menuitem>
            

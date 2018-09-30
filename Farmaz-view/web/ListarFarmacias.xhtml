@@ -16,46 +16,39 @@ and open the template in the editor.
         <title>Farmaz</title>
     </h:head>
     <h:body>
-        <p:dataTable id="tabela" var="produto" value="#{ManterProdutoMB.getListProduto()}" selectionMode="single" selection="#{ManterProdutoMB.produtoSelecionado}" rowKey="#{produto.id}">
+        <script src="http://maps.google.com/maps/api/js?key=AIzaSyBpCmWwIrHcvRWQ6loUb5NLB9_EQaEHzUo"></script>
+        <p:dataTable id="tabela" var="farmacia" value="#{ListarFarmaciaMB.getFarmacias()}" selectionMode="single" selection="#{ListarFarmaciaMB.farmaciaSelecionada}" rowKey="#{farmacia.cadastroPrefeitura}">
             <f:facet name="header">
                 Lista de farmácias - Selecione a farmácia
             </f:facet>
-            <p:ajax event="rowSelect" listener="#{ManterProdutoMB.onRowSelect}" />
+            <p:ajax event="rowSelect" listener="#{ListarFarmaciaMB.onRowSelect}" />
             
             <p:column headerText="Id">
-                <h:outputText value="#{produto.id}" />
+                <h:outputText value="#{farmacia.cadastroPrefeitura}" />
             </p:column>
 
             <p:column headerText="Nome">
-                <h:outputText value="#{produto.nome}" />
+                <h:outputText value="#{farmacia.nome}" />
             </p:column>
 
             <p:column headerText="Cnpj">
-                <h:outputText value="#{produto.descricao}" />
+                <h:outputText value="#{farmacia.cnpj}" />
             </p:column>
 
             <p:column headerText="Bairro">
-                <h:outputText value="#{produto.laboratorio}" />
+                <h:outputText value="#{farmacia.bairro}" />
             </p:column>
 
             <p:column headerText="Rua">
-                <h:outputText value="#{produto.cadastroAnvisa}" />
+                <h:outputText value="#{farmacia.rua}" />
             </p:column>
             
             <p:column headerText="Número">
-                <h:outputText value="#{produto.cadastroAnvisa}" />
+                <h:outputText value="#{farmacia.numero}" />
             </p:column>
             
             <p:column headerText="Preço">
-                <h:outputText value="#{produto.cadastroAnvisa}" />
-            </p:column>
-            
-            <p:column headerText="Distância">
-                <h:outputText value="#{produto.cadastroAnvisa}" />
-            </p:column>
-            
-            <p:column headerText="Tempo estimado de entrega">
-                <h:outputText value="#{produto.cadastroAnvisa}" />
+                <h:outputText value="#{ListarFarmaciaMB.getPreco(farmacia.cadastroPrefeitura)}" />
             </p:column>
         </p:dataTable>
     </h:body>

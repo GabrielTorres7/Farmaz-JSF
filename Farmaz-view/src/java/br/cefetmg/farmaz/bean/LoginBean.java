@@ -70,5 +70,9 @@ public class LoginBean implements Serializable {
 
         }
     }
+    
+    public void encerrarSessao(){
+        SessionContext.getInstance().encerrarSessao();
+    }
 
 }
