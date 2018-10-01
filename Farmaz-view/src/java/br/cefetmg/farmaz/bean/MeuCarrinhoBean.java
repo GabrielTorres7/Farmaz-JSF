@@ -10,10 +10,12 @@ import java.io.Serializable;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.Objects;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import org.primefaces.PrimeFaces;
 
 /**
@@ -60,8 +62,10 @@ public class MeuCarrinhoBean {
         this.itemSelecionado = itemSelecionado;
     }
     
-    public void excluiItemSelecionado(Produto produto){
-        carrinho.remove(produto.getId());
+    public void excluiItem(ActionEvent event) throws IOException{
+        carrinho.clear();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("MeuCarrinho.xhtml");
+        PrimeFaces.current().ajax().update("carrinho");
     }
 
     public void existeCarrinho() throws IOException{

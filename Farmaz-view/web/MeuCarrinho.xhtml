@@ -16,7 +16,7 @@ and open the template in the editor.
         <title>Farmaz</title>
     </h:head>
     <h:body>
-        <p:dataTable var="item" value="#{MeuCarrinhoBean.getCarrinho()}" rowKey="#{item.id}" >
+        <p:dataTable id="carrinho" var="item" value="#{MeuCarrinhoBean.getCarrinho()}" rowKey="#{item.id}" >
             <f:facet name="header">
                 Meu Carrinho
             </f:facet>
@@ -40,9 +40,15 @@ and open the template in the editor.
                 <h:outputText value="#{item.preco}" />
             </p:column>
             
-            <p:column style="width:32px;text-align: center">
-                <p:commandButton icon="ui-icon-trash" actionListener="#{meuCarrinhoBean.excluiItemSelecionado(item.id)}" />
+            <p:column style="width:4%;text-align: center">
+                <p:commandButton id="exclui" icon="ui-icon-trash" onclick="atualiza()" action="#{meuCarrinhoBean.excluiItem}" />
+                <f:param name="parametro" value="#{item.id}" />
             </p:column>
         </p:dataTable>
+        <script type="text/javascript">
+            function atualiza() {
+                reload();
+            }
+        </script>
     </h:body>
 </html>
