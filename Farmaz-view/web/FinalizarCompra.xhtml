@@ -17,20 +17,23 @@ and open the template in the editor.
     <h:body>
         <h3> Método de Pagamento </h3>
         <h:form>
-        <h:commandLink action="#{FinalizarCompraMB.show()}">
+            <h:commandLink action="#{FinalizarCompraMB.show()}">
             <h:graphicImage value="images/dinheiro.png" width="500px" height="500px" />
-            <f:ajax execute="@form" render="@form"/>
         </h:commandLink>   
         <h:commandLink >
             <h:graphicImage value="images/cartao.png" width="500px" height="500px" />
         </h:commandLink>     
-            <h:outputText value="Troco para " rendered="#{FinalizarCompraMB.visibilidade}" />
-            <h:inputText rendered="#{FinalizarCompraMB.visibilidade}"/>
-            <p:commandButton value="Fazer pedido" type="button" onclick="PF('dlg2').show();" rendered="#{FinalizarCompraMB.visibilidade}" />
-            <p:dialog header="BOOOORA" widgetVar="dlg2" modal="true" height="100">
-                <h:outputText value="Vou mandar pro back end" />
-            </p:dialog>  
+           
         </h:form>
+        
+        <p:panel id="panel" rendered="#{FinalizarCompraMB.visibilidade}">
+            <h:panelGrid columns="2" cellpadding="5" >
+                <p:outputLabel for="troco" value="Troco para:"  />
+                <p:inputText id="troco" value="#{FinalizarCompraMB.troco}" required="true"  >
+                        </p:inputText>
+                <p:commandButton value="Finalizar" update="panel" actionListener="#{FinalizarCompraMB.enviar()}" icon="ui-icon-check"/>
+            </h:panelGrid>
+        </p:panel>
         
     
     </h:body>
