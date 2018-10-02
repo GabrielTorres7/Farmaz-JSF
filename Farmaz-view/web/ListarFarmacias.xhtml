@@ -10,7 +10,7 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-        
+
     <ui:include src="MenuCliente.xhtml" />
     <h:head>
         <title>Farmaz</title>
@@ -22,7 +22,7 @@ and open the template in the editor.
                 Lista de farmácias - Selecione a farmácia
             </f:facet>
             <p:ajax event="rowSelect" listener="#{ListarFarmaciaMB.onRowSelect}" />
-            
+
             <p:column headerText="Id">
                 <h:outputText value="#{farmacia.cadastroPrefeitura}" />
             </p:column>
@@ -42,11 +42,11 @@ and open the template in the editor.
             <p:column headerText="Rua">
                 <h:outputText value="#{farmacia.rua}" />
             </p:column>
-            
+
             <p:column headerText="Número">
                 <h:outputText value="#{farmacia.numero}" />
             </p:column>
-            
+
             <p:column headerText="Preço">
                 <h:outputText value="#{ListarFarmaciaMB.getPreco(farmacia.cadastroPrefeitura)}" />
             </p:column>

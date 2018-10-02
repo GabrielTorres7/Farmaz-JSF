@@ -94,17 +94,16 @@ public class CadastraClienteMB implements Serializable {
 
     public void enviar() throws PersistenciaException, IOException, SocketException, UnknownHostException, LogicaNegocioException {
         cadastraCliente();
-        System.out.println("nome:"+cliente.getNome());
+
         if (cliente == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cliente não encontrado.", ""));
 
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Seja bem vindo ", "" + cliente.getNome()));
             SessionContext.getInstance().setAttribute("clienteId", cliente.getId());
-            System.out.println("nome 1 :"+cliente.getNome());
+
             //redireciona para ListarProdutos
-            FacesContext.getCurrentInstance().getExternalContext().redirect("faces/ListarProdutosCliente.xhtml");
-            System.out.println("nome 2:"+cliente.getNome());
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListarProdutosCliente.xhtml");
         }
     }
 

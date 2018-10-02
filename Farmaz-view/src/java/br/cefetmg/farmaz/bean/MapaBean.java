@@ -9,8 +9,6 @@ package br.cefetmg.farmaz.bean;
  *
  * @author Arthur
  */
-
-
 import br.cefetmg.farmaz.model.dominio.Disponibilidade;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
 import br.cefetmg.farmaz.proxy.ManterDisponibilidadeProxy;
@@ -24,17 +22,16 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
- 
 @ManagedBean(name = "MapaBean")
 @RequestScoped
 public class MapaBean {
-    
+
     private String quantidade;
-    
-    public MapaBean(){
-        
+
+    public MapaBean() {
+
     }
-    
+
     public String getQuantidade() {
         return quantidade;
     }
@@ -42,33 +39,37 @@ public class MapaBean {
     public void setQuantidade(String quantidade) {
         this.quantidade = quantidade;
     }
-    
-    public void finalizar() throws IOException{
-        SessionContext.getInstance().setAttribute("quantidadeProduto", quantidade);
-        FacesContext.getCurrentInstance().getExternalContext().redirect("FinalizarCompra.xhtml");
+
+    public void finalizar() throws IOException, SocketException, PersistenciaException {
+        adicionaNoCarrinho();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("MeuCarrinho.xhtml");
     }
-    
-    public void carrinho() throws SocketException, UnknownHostException, PersistenciaException, IOException{       
+
+    public void carrinho() throws SocketException, UnknownHostException, PersistenciaException, IOException {
+        adicionaNoCarrinho();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("ListarProdutosCliente.xhtml");
+    }
+
+    public void adicionaNoCarrinho() throws SocketException, PersistenciaException, UnknownHostException {
         ManterDisponibilidadeProxy manterDisponibilidade = new ManterDisponibilidadeProxy();
         ArrayList<Disponibilidade> carrinho = new ArrayList();
         List<Disponibilidade> aux;
         Disponibilidade item = new Disponibilidade();
 
-        aux = manterDisponibilidade.getDisponibilidadeByProdutoId((Long)SessionContext.getInstance().getAttribute("produtoSelecionadoId"));
-        for(Disponibilidade disponibilidade: aux){
-            if(disponibilidade.getFarmaciaCadastro().equals((String) SessionContext.getInstance().getAttribute("farmaciaSelecionadaId"))){
+        aux = manterDisponibilidade.getDisponibilidadeByProdutoId((Long) SessionContext.getInstance().getAttribute("produtoSelecionadoId"));
+        for (Disponibilidade disponibilidade : aux) {
+            if (disponibilidade.getFarmaciaCadastro().equals((String) SessionContext.getInstance().getAttribute("farmaciaSelecionadaId"))) {
                 item = disponibilidade;
             }
         }
         item.setEstoque(Integer.parseInt(quantidade));
         item.setPreco(item.getPreco() * item.getEstoque());
 
-        if(SessionContext.getInstance().getAttribute("MeuCarrinho") != null){
+        if (SessionContext.getInstance().getAttribute("MeuCarrinho") != null) {
             carrinho = (ArrayList<Disponibilidade>) SessionContext.getInstance().getAttribute("MeuCarrinho");
         }
 
         carrinho.add(item);
         SessionContext.getInstance().setAttribute("MeuCarrinho", carrinho);
-        FacesContext.getCurrentInstance().getExternalContext().redirect("ListarProdutosCliente.xhtml");
     }
 }

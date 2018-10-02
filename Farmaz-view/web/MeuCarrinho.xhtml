@@ -10,45 +10,50 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    
+
     <ui:include src="MenuCliente.xhtml" />
     <h:head>
         <title>Farmaz</title>
     </h:head>
     <h:body>
-        <p:dataTable id="carrinho" var="item" value="#{MeuCarrinhoBean.getCarrinho()}" rowKey="#{item.id}" >
-            <f:facet name="header">
-                Meu Carrinho
-            </f:facet>
-            <p:column headerText="Id">
-                <h:outputText value="#{item.id}" />
-            </p:column>
+        <h:form>
+            <p:dataTable id="carrinho" var="item" value="#{MeuCarrinhoBean.carrinho}" rowKey="#{item.id}" >
+                <f:facet name="header">
+                    Meu Carrinho
+                </f:facet>
+                <p:column headerText="Id">
+                    <h:outputText value="#{item.id}" />
+                </p:column>
 
-            <p:column headerText="Produto">
-                <h:outputText value="#{MeuCarrinhoBean.getNomeProduto(item.produtoSeq)}" />
-            </p:column>
+                <p:column headerText="Produto">
+                    <h:outputText value="#{MeuCarrinhoBean.getNomeProduto(item.produtoSeq)}" />
+                </p:column>
 
-            <p:column headerText="Farmacia">
-                <h:outputText value="#{item.farmaciaCadastro}" />
-            </p:column>
+                <p:column headerText="Farmacia">
+                    <h:outputText value="#{MeuCarrinhoBean.getNomeFarmacia(item.farmaciaCadastro)}" />
+                </p:column>
 
-            <p:column headerText="Quantidade">
-                <h:outputText value="#{item.estoque}" />
-            </p:column>
-            
-            <p:column headerText="Preço">
-                <h:outputText value="#{item.preco}" />
-            </p:column>
-            
-            <p:column style="width:4%;text-align: center">
-                <p:commandButton id="exclui" icon="ui-icon-trash" onclick="atualiza()" action="#{meuCarrinhoBean.excluiItem}" />
-                <f:param name="parametro" value="#{item.id}" />
-            </p:column>
-        </p:dataTable>
-        <script type="text/javascript">
-            function atualiza() {
-                reload();
-            }
-        </script>
+                <p:column headerText="Quantidade">
+                    <h:outputText value="#{item.estoque}" />
+                </p:column>
+
+                <p:column headerText="Preço">
+                    <h:outputText value="#{item.preco}" />
+                </p:column>
+
+                <p:column style="width:32px;text-align: center">
+                    <p:commandButton action="#{MeuCarrinhoBean.excluiItem}" icon="ui-icon-trash" title="View">
+                        <f:setPropertyActionListener value="#{item}" target="#{MeuCarrinhoBean.itemSelecionado}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+            <h:panelGrid columns="2" cellpadding="5">
+                <p> Valor total: #{MeuCarrinhoBean.total} R$</p> 
+                <p:separator/>
+                <p:commandButton value="Finalizar Compra" actionListener="#{MeuCarrinhoBean.finalizar()}" icon="ui-icon-seek-next" />
+            </h:panelGrid>
+        </h:form>       
+
     </h:body>
 </html>

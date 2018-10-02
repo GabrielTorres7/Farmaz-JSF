@@ -6,7 +6,6 @@
 package br.cefetmg.farmaz.bean;
 
 import br.cefetmg.farmaz.model.dominio.Disponibilidade;
-import br.cefetmg.farmaz.model.dominio.Endereco;
 import br.cefetmg.farmaz.model.dominio.Farmacia;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
 import br.cefetmg.farmaz.proxy.ManterCidadeProxy;
@@ -29,10 +28,10 @@ import org.primefaces.event.SelectEvent;
  *
  * @author Gabriel
  */
-@ManagedBean(name="ListarFarmaciaMB")
+@ManagedBean(name = "ListarFarmaciaMB")
 @ViewScoped
 public class ListarFarmaciaMB {
-    
+
     private ManterCidadeProxy manterCidade;
     private ManterDisponibilidadeProxy manterDisponibilidade;
     private ManterEnderecoProxy manterEndereco;
@@ -43,7 +42,7 @@ public class ListarFarmaciaMB {
     private Long produtoId;
     private String enderecoCliente;
     private List<Disponibilidade> listDisponibilidade;
-    
+
     public ListarFarmaciaMB() throws SocketException, UnknownHostException {
         this.manterDisponibilidade = new ManterDisponibilidadeProxy();
         this.manterFarmacia = new ManterFarmaciaProxy();
@@ -51,56 +50,50 @@ public class ListarFarmaciaMB {
         this.manterCidade = new ManterCidadeProxy();
         this.manterEstado = new ManterEstadoProxy();
     }
-    
-    public void setFarmaciaSelecionada(Farmacia farmaciaSelecionada){
+
+    public void setFarmaciaSelecionada(Farmacia farmaciaSelecionada) {
         this.farmaciaSelecionada = farmaciaSelecionada;
     }
-    
-    public Farmacia getFarmaciaSelecionada(){
+
+    public Farmacia getFarmaciaSelecionada() {
         return farmaciaSelecionada;
     }
-    
-     public void setEnderecoCliente(String enderecoCliente){
+
+    public void setEnderecoCliente(String enderecoCliente) {
         this.enderecoCliente = enderecoCliente;
     }
-    
-    public String getEnderecoCliente(){
+
+    public String getEnderecoCliente() {
         return enderecoCliente;
     }
-    
-    public double getPreco(Long farmaciaId){
-        for(Disponibilidade disponibilidade : listDisponibilidade){
-            if(Long.parseLong(disponibilidade.getFarmaciaCadastro()) == farmaciaId){
+
+    public double getPreco(Long farmaciaId) {
+        for (Disponibilidade disponibilidade : listDisponibilidade) {
+            if (Long.parseLong(disponibilidade.getFarmaciaCadastro()) == farmaciaId) {
                 return disponibilidade.getPreco();
             }
         }
         return 0;
     }
-    
-    public List<Farmacia> getFarmacias() throws PersistenciaException{
+
+    public List<Farmacia> getFarmacias() throws PersistenciaException {
         ArrayList<Farmacia> listFarmacia = new ArrayList();
-        
+
         clienteId = (Long) SessionContext.getInstance().getAttribute("clienteId");
         produtoId = (Long) SessionContext.getInstance().getAttribute("produtoSelecionadoId");
-        
+
         listDisponibilidade = manterDisponibilidade.getDisponibilidadeByProdutoId(produtoId);
-        for(Disponibilidade disponibilidade: listDisponibilidade){
-            if(disponibilidade.getEstoque() == 0){
+        for (Disponibilidade disponibilidade : listDisponibilidade) {
+            if (disponibilidade.getEstoque() == 0) {
                 listDisponibilidade.remove(disponibilidade);
-            }else{
+            } else {
                 listFarmacia.add(manterFarmacia.getFarmaciaById(disponibilidade.getFarmaciaCadastro()));
-            }        
+            }
         }
-        
-        List<Endereco> enderecos = manterEndereco.getEnderecosByClienteId(clienteId);
-            Endereco endereco = enderecos.get(0);
-            enderecoCliente = endereco.getRua()+", "+endereco.getNumero()+" - "+endereco.getBairro()
-                    +", "+manterCidade.getCidadeById(endereco.getCodCidade()).getNome()+" - "+manterEstado.getEstadoById(endereco.getCodUf()).getSigla();
-        
-        SessionContext.getInstance().setAttribute("enderecoCliente", enderecoCliente);
+
         return listFarmacia;
     }
-    
+
     public void onRowSelect(SelectEvent event) throws IOException {
         SessionContext.getInstance().setAttribute("farmaciaSelecionadaId", ((Farmacia) event.getObject()).getCadastroPrefeitura());
         FacesContext.getCurrentInstance().getExternalContext().redirect("Mapa.xhtml");

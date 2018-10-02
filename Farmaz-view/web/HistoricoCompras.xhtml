@@ -10,7 +10,7 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    
+
     <ui:include src="MenuCliente.xhtml" />
     <h:head>
         <title>Farmaz</title>
@@ -22,13 +22,13 @@ and open the template in the editor.
                     Historico de Pedidos
                 </f:facet>
                 <p:column headerText="Farmácia">
-                    <h:outputText value="#{pedido.farmaciaId}" />
+                    <h:outputText value="#{HistoricoComprasMB.getNomeFarmacia(pedido.farmaciaId)}" />
                 </p:column>
                 <p:column headerText="Data">
                     <h:outputText value="#{pedido.dataHora}" />
                 </p:column>
                 <p:column headerText="Status">
-                    <h:outputText value="#{pedido.idtStatus}" />
+                    <h:outputText value="#{HistoricoComprasMB.getStatus(pedido.idtStatus)}" />
                 </p:column>
                 <p:column headerText="Valor">
                     <h:outputText value="#{pedido.valor}" />
@@ -53,7 +53,6 @@ and open the template in the editor.
                                 <h:outputText value="#{itemPedido.quantidade}" />
                             </p:column>
                         </p:dataTable> 
-    
                     </p:panelGrid>
                 </p:outputPanel>
             </p:dialog>

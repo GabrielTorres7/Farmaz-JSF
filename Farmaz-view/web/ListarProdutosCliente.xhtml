@@ -10,19 +10,19 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    
+
     <ui:include src="MenuCliente.xhtml" />
     <h:head>
         <title>Farmaz</title>
     </h:head>
-    
+
     <h:body>
         <p:dataTable id="tabela" var="produto" value="#{ManterProdutoMB.getListProduto()}" selectionMode="single" selection="#{ManterProdutoMB.produtoSelecionado}" rowKey="#{produto.id}">
             <f:facet name="header">
                 Lista de produtos - Selecione o que deseja comprar
             </f:facet>
             <p:ajax event="rowSelect" listener="#{ManterProdutoMB.onRowSelect}" />
-            
+
             <p:column headerText="Id">
                 <h:outputText value="#{produto.id}" />
             </p:column>

@@ -48,4 +48,8 @@ public class SessionContext {
     public void setAttribute(String nome, Object valor){
        currentExternalContext().getSessionMap().put(nome, valor);
     }
+    
+    public void deleteAttribute(String nome){
+        currentExternalContext().getSessionMap().remove(nome);
+    }
 }

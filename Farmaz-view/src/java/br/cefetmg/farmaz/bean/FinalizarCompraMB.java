@@ -6,20 +6,20 @@
 package br.cefetmg.farmaz.bean;
 
 import br.cefetmg.farmaz.model.dominio.Disponibilidade;
-import br.cefetmg.farmaz.model.dominio.Farmacia;
-import br.cefetmg.farmaz.model.dominio.Produto;
+import br.cefetmg.farmaz.model.dominio.ItemPedido;
+import br.cefetmg.farmaz.model.dominio.Pedido;
+import br.cefetmg.farmaz.model.exception.LogicaNegocioException;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
 import br.cefetmg.farmaz.proxy.ManterDisponibilidadeProxy;
-import br.cefetmg.farmaz.proxy.ManterFarmaciaProxy;
-import br.cefetmg.farmaz.proxy.ManterProdutoProxy;
+import br.cefetmg.farmaz.proxy.ManterItemPedidoProxy;
+import br.cefetmg.farmaz.proxy.ManterPedidoProxy;
 import br.cefetmg.farmaz.util.session.SessionContext;
-import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.List;
-import javax.inject.Named;
-import javax.enterprise.context.Dependent;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -28,40 +28,38 @@ import javax.faces.context.FacesContext;
  *
  * @author Hiago
  */
-@ManagedBean(name="FinalizarCompraMB")
+@ManagedBean(name = "FinalizarCompraMB")
 @ViewScoped
 public class FinalizarCompraMB {
 
     /**
      * @return the visibilidade
      */
-
-
-    ManterDisponibilidadeProxy manterDisponibilidade =  new ManterDisponibilidadeProxy();
+    ManterDisponibilidadeProxy manterDisponibilidade = new ManterDisponibilidadeProxy();
     private Disponibilidade item = new Disponibilidade();
     List<Disponibilidade> carrinho;
-    private String troco ;
-    FazerPedidoMB pedido =  new FazerPedidoMB();
+    private String troco;
 
     private boolean visibilidade = false;
 
-    public List<Disponibilidade> getCarrinho(){
+    public List<Disponibilidade> getCarrinho() {
         carrinho = (List<Disponibilidade>) SessionContext.getInstance().getAttribute("MeuCarrinho");
         return carrinho;
     }
-    
+
     public FinalizarCompraMB() throws SocketException, UnknownHostException {
     }
-   
+
     public boolean isVisibilidade() {
         return visibilidade;
     }
-    public void show(){
-        visibilidade=true;
+
+    public void show() {
+        visibilidade = true;
     }
-    
-    public void hide(){
-        visibilidade=false;
+
+    public void hide() {
+        visibilidade = false;
     }
 
     public void setVisibilidade(boolean visibilidade) {
@@ -75,30 +73,43 @@ public class FinalizarCompraMB {
     public String getTroco() {
         return troco;
     }
-    public void enviar() throws IOException, PersistenciaException{
-        SessionContext.getInstance().setAttribute("troco", getTroco());
-        Double total = 0.0;
-                        Produto produto;
-                        Farmacia farmacia;
-                        String nomeProduto;
-                        String nomeFarmacia;
-                        ManterProdutoProxy manterProduto = new ManterProdutoProxy();
-                        ManterFarmaciaProxy manterFarmacia = new ManterFarmaciaProxy();
-                        List<Disponibilidade> carrinho =(List<Disponibilidade>) SessionContext.getInstance().getAttribute("MeuCarrinho");
-                        for (Disponibilidade item: carrinho) {
-                            produto = manterProduto.getProdutoById(item.getProdutoSeq());
-                            farmacia = manterFarmacia.getFarmaciaById(item.getFarmaciaCadastro());
-                            nomeProduto = produto.getNome();
-                            nomeFarmacia = farmacia.getNome();
-                            total += item.getPreco();
-                            SessionContext.getInstance().setAttribute("Total",total);
-                        }
-        pedido.Executa();
-       
-    }
-            
 
-    
-    
-    
+    public void enviar() throws IOException, PersistenciaException, LogicaNegocioException {
+
+        if (Double.parseDouble(troco) < (double) SessionContext.getInstance().getAttribute("Total")) {
+            String erro = "Troco não pode ser menor que valor do pedido!";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro: ", erro));
+        } else {
+            Pedido pedido = new Pedido();
+            ItemPedido itemPedido = new ItemPedido();
+            ManterItemPedidoProxy manterItemPedido = new ManterItemPedidoProxy();
+            ManterPedidoProxy manterPedido = new ManterPedidoProxy();
+            List<Disponibilidade> carrinho = (List<Disponibilidade>) SessionContext.getInstance().getAttribute("MeuCarrinho");
+            Long pedidoId;
+
+            pedido.setClienteId((Long) SessionContext.getInstance().getAttribute("clienteId"));
+            pedido.setFarmaciaId(carrinho.get(0).getFarmaciaCadastro());
+            pedido.setDataHora(new Date());
+            pedido.setIdtStatus('F');
+            pedido.setTroco(Integer.parseInt(troco));
+            pedido.setValor((double) SessionContext.getInstance().getAttribute("Total"));
+
+            pedidoId = manterPedido.criarPedido(pedido);
+
+            for (Disponibilidade disp : carrinho) {
+                itemPedido.setPedidoId(pedidoId);
+                itemPedido.setProdutoId(disp.getProdutoSeq());
+                itemPedido.setQuantidade(disp.getEstoque());
+                manterItemPedido.inserirItemPedido(itemPedido);
+            }
+
+            SessionContext.getInstance().deleteAttribute("Total");
+            SessionContext.getInstance().deleteAttribute("MeuCarrinho");
+
+            FacesContext.getCurrentInstance().getExternalContext().redirect("ListarProdutosCliente.xhtml");
+
+        }
+
+    }
+
 }

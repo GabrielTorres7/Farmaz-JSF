@@ -12,29 +12,28 @@ and open the template in the editor.
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:include src="MenuCliente.xhtml" />
     <h:head>
-       <title>Farmaz</title>
+        <title>Farmaz</title>
     </h:head>
     <h:body>
         <h3> Método de Pagamento </h3>
         <h:form>
             <h:commandLink action="#{FinalizarCompraMB.show()}">
-            <h:graphicImage value="images/dinheiro.png" width="500px" height="500px" />
-        </h:commandLink>   
-        <h:commandLink >
-            <h:graphicImage value="images/cartao.png" width="500px" height="500px" />
-        </h:commandLink>     
-           
+                <h:graphicImage value="images/dinheiro.png" width="500px" height="500px" />
+            </h:commandLink>   
+            <h:commandLink>
+                <h:graphicImage value="images/cartao.png" width="500px" height="500px" />
+            </h:commandLink>     
+
+            <p:panel id="panel" rendered="#{FinalizarCompraMB.visibilidade}">
+                <h:panelGrid columns="2" cellpadding="5" >
+                    <p:growl id="messages" showDetail="true" />
+                    <p:outputLabel for="troco" value="Troco para:"  />
+                    <p:inputText id="troco" value="#{FinalizarCompraMB.troco}" required="true"  />
+
+                    <p:commandButton value="Finalizar" update="panel" actionListener="#{FinalizarCompraMB.enviar()}" icon="ui-icon-check"/>
+                </h:panelGrid>
+            </p:panel>
         </h:form>
-        
-        <p:panel id="panel" rendered="#{FinalizarCompraMB.visibilidade}">
-            <h:panelGrid columns="2" cellpadding="5" >
-                <p:outputLabel for="troco" value="Troco para:"  />
-                <p:inputText id="troco" value="#{FinalizarCompraMB.troco}" required="true"  >
-                        </p:inputText>
-                <p:commandButton value="Finalizar" update="panel" actionListener="#{FinalizarCompraMB.enviar()}" icon="ui-icon-check"/>
-            </h:panelGrid>
-        </p:panel>
-        
-    
+
     </h:body>
 </html>

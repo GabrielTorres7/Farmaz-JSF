@@ -16,9 +16,9 @@ import java.sql.SQLException;
 public class ConexaoPostgreSQL implements ConnectionFactory {
 
     private final static String dbDriver = "org.postgresql.Driver";
-    private final static String dbURL = "jdbc:postgresql://localhost:5433/farmaz";
+    private final static String dbURL = "jdbc:postgresql://localhost:5432/farmaz";
     private final static String usuario = "postgres";
-    private final static String senha = "123"; //Coloque a senha do seu pgAdimin
+    private final static String senha = ""; //Coloque a senha do seu pgAdimin
 
     public ConexaoPostgreSQL() {
     }
