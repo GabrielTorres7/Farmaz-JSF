@@ -1,12 +1,38 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
     <h:head>
-        <title>Facelet Title</title>
+        <title>Farmaz</title>
     </h:head>
     <h:body>
-        Hello from Farmacia
+        <h:form>
+            <p:panel id="panel" header="Cadastre sua farmácia aqui">
+
+                <h:panelGrid columns="1" cellpadding="5"  width="100%">
+                    <p:messages id="msg" showDetail="true" showSummary="false">
+                        <p:autoUpdate />
+                    </p:messages> 
+
+                    <p:outputLabel for="nome" value="Nome da Farmácia:" />
+                    <p:inputText id="nome" value="#{CadastraFarmaciaMB.nome}" label="nome" required="true">
+                    </p:inputText>
+
+                    <p:outputLabel for="cnpj" value="Cnpj da empresa):" />
+                    <p:inputText id="documento_identificacao" value="#{CadastraFarmaciaMB.cnpj}" label="cnpj">
+                    </p:inputText>
+
+                    <p:outputLabel for="cadastro" value="Cadastro da prefeitura:" />
+                    <p:inputText id="telefone" value="#{CadastraFarmaciaMB.cadastroPrefeitura}" label="cadastro">
+                    </p:inputText>
+
+                    <p:commandButton value="Cadastre-se" update="panel" actionListener="#{CadastraFarmaciaMB.enviar}" icon="ui-icon-check" />
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
     </h:body>
 </html>
 
