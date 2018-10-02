@@ -28,7 +28,38 @@
                     <p:outputLabel for="cadastro" value="Cadastro da prefeitura:" />
                     <p:inputText id="telefone" value="#{CadastraFarmaciaMB.cadastroPrefeitura}" label="cadastro">
                     </p:inputText>
-
+                    
+                    <p:outputLabel for="cep" value="Cep:" />
+                    <p:inputText id="CEP" value="#{CadastraFarmaciaMB.CEP}" label="CEP">
+                    </p:inputText>
+                    
+                    <p:outputLabel for="bairro" value="Bairro:" />
+                    <p:inputText id="bairro" value="#{CadastraFarmaciaMB.Bairro}" label="bairro">
+                    </p:inputText>
+                    
+                    <p:outputLabel for="numero" value="Numero:" />
+                    <p:inputText id="bairro" value="#{CadastraFarmaciaMB.Numero}" label="numero">
+                    </p:inputText>
+                    
+                    <p:outputLabel for="rua" value="Rua:" />
+                    <p:inputText id="bairro" value="#{CadastraFarmaciaMB.Rua}" label="rua">
+                    </p:inputText>
+                    
+                    <p:outputLabel for="estado" value="Estado:" />
+                    <p:selectOneListbox id="Estado" value="#{CadastraFarmaciaMB.Estado}">
+                        <f:selectItem itemLabel="Minas Gerais" itemValue="MG" />
+                        <f:selectItem itemLabel="São Paulo" itemValue="SP" />
+                        <f:selectItem itemLabel="Acre" itemValue="AC" />
+                        <f:selectItem itemLabel="Rio de Janeiro" itemValue="RJ" />
+                        <f:selectItem itemLabel="Santa Catarina" itemValue="SC" />
+                        <f:selectItem itemLabel="Bahia" itemValue="BA" />
+                    </p:selectOneListbox>
+                    
+                    <p:outputLabel for="cidade" value="Cidade:" />
+                    <p:inputText id="cidade" value="#{CadastraFarmaciaMB.Cidade}" label="Cidade">
+                    </p:inputText>
+                    
+                  
                     <p:commandButton value="Cadastre-se" update="panel" actionListener="#{CadastraFarmaciaMB.enviar}" icon="ui-icon-check" />
                 </h:panelGrid>
             </p:panel>
