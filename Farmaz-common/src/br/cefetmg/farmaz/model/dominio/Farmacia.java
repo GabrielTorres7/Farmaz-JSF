@@ -6,16 +6,27 @@
 package br.cefetmg.farmaz.model.dominio;
 
 import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  *
  * @author Gabriel
  */
-public class Farmacia implements Serializable{
-    
+@Entity
+public class Farmacia implements Serializable {
+
+    @Id
+    @Column(name = "cadastro_prefeitura")
     private String cadastroPrefeitura;
+
+    @Column(name = "cod_cidade")
     private Long codCidade;
+
+    @Column(name = "cod_uf")
     private Long codUf;
+
     private String cnpj;
     private String nome;
     private String cep;
@@ -129,5 +140,5 @@ public class Farmacia implements Serializable{
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    
+
 }
