@@ -10,22 +10,25 @@ import br.cefetmg.farmaz.model.dominio.Cliente;
 import br.cefetmg.farmaz.model.exception.LogicaNegocioException;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
 import br.cefetmg.farmaz.model.service.ManterCliente;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 /**
  *
  * @author Gabriel
  */
-public class ManterClienteImpl implements ManterCliente{
+public class ManterClienteImpl extends UnicastRemoteObject implements ManterCliente{
     
     private final ClienteDAOImpl clienteDAO;
 
-    public ManterClienteImpl(ClienteDAOImpl clienteDAO) {
+    public ManterClienteImpl(ClienteDAOImpl clienteDAO) throws RemoteException {
+        super();
         this.clienteDAO = clienteDAO;
     }
     
     @Override
-    public Long cadastrarCliente(Cliente cliente) throws PersistenciaException, LogicaNegocioException {
+    public Long cadastrarCliente(Cliente cliente) throws PersistenciaException, LogicaNegocioException, RemoteException {
         if (cliente == null) {
             throw new LogicaNegocioException("Cliente não pode ser nulo");
         }
@@ -49,7 +52,7 @@ public class ManterClienteImpl implements ManterCliente{
     }
 
     @Override
-    public boolean atualizarCliente(Cliente cliente) throws PersistenciaException, LogicaNegocioException {
+    public boolean atualizarCliente(Cliente cliente) throws PersistenciaException, LogicaNegocioException, RemoteException {
         if (cliente == null) {
             throw new LogicaNegocioException("Cliente não pode ser nulo");
         }
@@ -76,7 +79,7 @@ public class ManterClienteImpl implements ManterCliente{
     }
 
     @Override
-    public boolean deletarCliente(Long clienteId) throws PersistenciaException {
+    public boolean deletarCliente(Long clienteId) throws PersistenciaException, RemoteException {
         if (clienteId == null) {
             throw new PersistenciaException("Id do cliente não pode ser nulo");
         }
@@ -87,7 +90,7 @@ public class ManterClienteImpl implements ManterCliente{
     }
 
     @Override
-    public Cliente getClienteById(Long clienteId) throws PersistenciaException {
+    public Cliente getClienteById(Long clienteId) throws PersistenciaException, RemoteException {
         if (clienteId == null) {
             throw new PersistenciaException("O id do cliente não pode ser nulo");
         }
@@ -95,7 +98,7 @@ public class ManterClienteImpl implements ManterCliente{
     }
 
     @Override
-    public Cliente getClienteByEmail(String email) throws PersistenciaException {
+    public Cliente getClienteByEmail(String email) throws PersistenciaException, RemoteException {
         if (email == null || email.isEmpty()) {
             throw new PersistenciaException("O email do cliente não pode ser nulo");
         } 
@@ -103,7 +106,7 @@ public class ManterClienteImpl implements ManterCliente{
     }
     
     @Override
-    public Cliente getClienteByEmailSenha(String email, String senha) throws PersistenciaException {
+    public Cliente getClienteByEmailSenha(String email, String senha) throws PersistenciaException, RemoteException {
         if (email == null || email.isEmpty()) {
             throw new PersistenciaException("O email do cliente não pode ser nulo");
         }
@@ -114,7 +117,7 @@ public class ManterClienteImpl implements ManterCliente{
     }
     
     @Override
-    public List<Cliente> getAll() throws PersistenciaException {
+    public List<Cliente> getAll() throws PersistenciaException, RemoteException {
         return clienteDAO.listAll();
     }
     

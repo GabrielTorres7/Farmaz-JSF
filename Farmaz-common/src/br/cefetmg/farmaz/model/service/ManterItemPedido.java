@@ -8,16 +8,18 @@ package br.cefetmg.farmaz.model.service;
 import br.cefetmg.farmaz.model.dominio.ItemPedido;
 import br.cefetmg.farmaz.model.exception.LogicaNegocioException;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.List;
 
 /**
  *
  * @author Gabriel
  */
-public interface ManterItemPedido {
-    public Long inserirItemPedido(ItemPedido itemPedido) throws PersistenciaException, LogicaNegocioException;
-    public boolean atualizarItemPedido(ItemPedido itemPedido) throws PersistenciaException, LogicaNegocioException;
-    public boolean deletarItemPedido(Long itemPedidoId) throws PersistenciaException;
-    public ItemPedido getItemPedidoById(Long itemPedidoId) throws PersistenciaException;
-    public List<ItemPedido> getItensPedidoByPedidoId(Long pedidoId) throws PersistenciaException;
+public interface ManterItemPedido extends Remote{
+    public Long inserirItemPedido(ItemPedido itemPedido) throws PersistenciaException, LogicaNegocioException, RemoteException;
+    public boolean atualizarItemPedido(ItemPedido itemPedido) throws PersistenciaException, LogicaNegocioException, RemoteException;
+    public boolean deletarItemPedido(Long itemPedidoId) throws PersistenciaException, RemoteException;
+    public ItemPedido getItemPedidoById(Long itemPedidoId) throws PersistenciaException, RemoteException;
+    public List<ItemPedido> getItensPedidoByPedidoId(Long pedidoId) throws PersistenciaException, RemoteException;
 }

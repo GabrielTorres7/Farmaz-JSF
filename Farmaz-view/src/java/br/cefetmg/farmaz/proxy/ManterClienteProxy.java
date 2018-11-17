@@ -14,6 +14,10 @@ import br.cefetmg.farmaz.util.PacoteDados;
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,13 +42,15 @@ public class ManterClienteProxy implements ManterCliente{
         String requisicao = "CadastrarCliente";
         pacoteDados = new PacoteDados(requisicao, cliente);
         try {
-            PacoteDados pacoteRecebido = clienteDistribuicao.requisicao(pacoteDados);
-          
-            return (Long) pacoteRecebido.getObjeto();
+            Registry registry = LocateRegistry.getRegistry("localhost", 2345);
+
+            ManterCliente manterCliente = (ManterCliente) registry.lookup ("ManterCliente");
+            Long id = manterCliente.cadastrarCliente(cliente);
             
+            return id;
         } catch (IOException ex) {
             Logger.getLogger(ManterClienteProxy.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (NotBoundException ex) {
             Logger.getLogger(ManterClienteProxy.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;

@@ -6,23 +6,45 @@
 package br.cefetmg.farmaz.model.dominio;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author Gabriel
  */
-public class Pedido implements Serializable{
-    
+@Entity
+public class Pedido implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "seq_pedido")
     private Long pedidoId;
+
+    @Column(name = "seq_cliente")
     private Long clienteId;
+
+    @Column(name = "cadastro_prefeitura")
     private String farmaciaId;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "data")
     private Date dataHora;
+
+    @Column(name = "status")
     private char idtStatus;
+
+    @Column(name = "token_pagseguro")
     private double pagamento;
     private int troco;
     private double valor;
-    
+
     public Pedido() {
     }
 
@@ -98,5 +120,5 @@ public class Pedido implements Serializable{
     public void setValor(double valor) {
         this.valor = valor;
     }
-    
+
 }

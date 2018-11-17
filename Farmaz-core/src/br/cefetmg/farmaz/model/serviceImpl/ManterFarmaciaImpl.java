@@ -10,22 +10,25 @@ import br.cefetmg.farmaz.model.dominio.Farmacia;
 import br.cefetmg.farmaz.model.exception.LogicaNegocioException;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
 import br.cefetmg.farmaz.model.service.ManterFarmacia;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 /**
  *
  * @author Gabriel
  */
-public class ManterFarmaciaImpl implements ManterFarmacia{
+public class ManterFarmaciaImpl extends UnicastRemoteObject implements ManterFarmacia{
     
     private final FarmaciaDAOImpl farmaciaDAO;
 
-    public ManterFarmaciaImpl(FarmaciaDAOImpl farmaciaDAO) {
+    public ManterFarmaciaImpl(FarmaciaDAOImpl farmaciaDAO) throws RemoteException {
+        super();
         this.farmaciaDAO = farmaciaDAO;
     }
     
     @Override
-    public Long cadastrarFarmacia(Farmacia farmacia) throws PersistenciaException, LogicaNegocioException {
+    public Long cadastrarFarmacia(Farmacia farmacia) throws PersistenciaException, LogicaNegocioException, RemoteException {
         if (farmacia == null) {
             throw new LogicaNegocioException("Farmacia não pode ser nula");
         }
@@ -64,7 +67,7 @@ public class ManterFarmaciaImpl implements ManterFarmacia{
     }
 
     @Override
-    public boolean atualizarFarmacia(Farmacia farmacia) throws PersistenciaException, LogicaNegocioException {
+    public boolean atualizarFarmacia(Farmacia farmacia) throws PersistenciaException, LogicaNegocioException, RemoteException {
         if (farmacia == null) {
             throw new LogicaNegocioException("Farmacia não pode ser nula");
         }
@@ -103,7 +106,7 @@ public class ManterFarmaciaImpl implements ManterFarmacia{
     }
 
     @Override
-    public boolean deletarFarmacia(String farmaciaId) throws PersistenciaException {
+    public boolean deletarFarmacia(String farmaciaId) throws PersistenciaException, RemoteException {
         if (farmaciaId == null) {
             throw new PersistenciaException("Id da farmacia não pode ser nulo");
         }
@@ -115,7 +118,7 @@ public class ManterFarmaciaImpl implements ManterFarmacia{
     }
 
     @Override
-    public Farmacia getFarmaciaById(String farmaciaId) throws PersistenciaException {
+    public Farmacia getFarmaciaById(String farmaciaId) throws PersistenciaException, RemoteException {
         if (farmaciaId == null
                 || farmaciaId.isEmpty()) {
             throw new PersistenciaException("O id da farmacia não pode ser nulo");
@@ -124,7 +127,7 @@ public class ManterFarmaciaImpl implements ManterFarmacia{
     }
     
     @Override
-    public Farmacia getFarmaciaByEmail(String email) throws PersistenciaException {
+    public Farmacia getFarmaciaByEmail(String email) throws PersistenciaException, RemoteException {
         if (email == null || email.isEmpty()) {
             throw new PersistenciaException("O email da farmacia não pode ser nulo");
         } 
@@ -132,7 +135,7 @@ public class ManterFarmaciaImpl implements ManterFarmacia{
     }
 
     @Override
-    public Farmacia getFarmaciaByEmailSenha(String email, String senha) throws PersistenciaException {
+    public Farmacia getFarmaciaByEmailSenha(String email, String senha) throws PersistenciaException, RemoteException {
         if (email == null || email.isEmpty()) {
             throw new PersistenciaException("O email da farmacia não pode ser nulo");
         }
@@ -143,7 +146,7 @@ public class ManterFarmaciaImpl implements ManterFarmacia{
     }
     
     @Override
-    public List<Farmacia> listAll() throws PersistenciaException {
+    public List<Farmacia> listAll() throws PersistenciaException, RemoteException {
         return farmaciaDAO.listAll();
     }
     

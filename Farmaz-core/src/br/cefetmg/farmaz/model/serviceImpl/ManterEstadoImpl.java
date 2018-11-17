@@ -10,22 +10,25 @@ import br.cefetmg.farmaz.model.dominio.Estado;
 import br.cefetmg.farmaz.model.exception.LogicaNegocioException;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
 import br.cefetmg.farmaz.model.service.ManterEstado;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 /**
  *
  * @author Gabriel
  */
-public class ManterEstadoImpl implements ManterEstado{
+public class ManterEstadoImpl extends UnicastRemoteObject implements ManterEstado{
     
     private final EstadoDAOImpl estadoDAO;
 
-    public ManterEstadoImpl(EstadoDAOImpl estadoDAO) {
+    public ManterEstadoImpl(EstadoDAOImpl estadoDAO) throws RemoteException {
+        super();
         this.estadoDAO = estadoDAO;
     }
     
     @Override
-    public Long cadastrarEstado(Estado estado) throws PersistenciaException, LogicaNegocioException {
+    public Long cadastrarEstado(Estado estado) throws PersistenciaException, LogicaNegocioException, RemoteException {
         if (estado == null) {
             throw new LogicaNegocioException("Estado não pode ser nulo");
         }
@@ -42,7 +45,7 @@ public class ManterEstadoImpl implements ManterEstado{
     }
 
     @Override
-    public boolean atualizarEstado(Estado estado) throws PersistenciaException, LogicaNegocioException {
+    public boolean atualizarEstado(Estado estado) throws PersistenciaException, LogicaNegocioException, RemoteException {
         if (estado == null) {
             throw new LogicaNegocioException("Estado não pode ser nulo");
         }
@@ -62,7 +65,7 @@ public class ManterEstadoImpl implements ManterEstado{
     }
 
     @Override
-    public boolean deletarEstado(Long estadoId) throws PersistenciaException {
+    public boolean deletarEstado(Long estadoId) throws PersistenciaException, RemoteException {
         if (estadoId == null) {
             throw new PersistenciaException("Id do estado não pode ser nulo");
         }
@@ -73,7 +76,7 @@ public class ManterEstadoImpl implements ManterEstado{
     }
 
     @Override
-    public Estado getEstadoById(Long estadoId) throws PersistenciaException {
+    public Estado getEstadoById(Long estadoId) throws PersistenciaException, RemoteException {
         if (estadoId == null) {
             throw new PersistenciaException("O id do estado não pode ser nulo");
         }
@@ -81,7 +84,7 @@ public class ManterEstadoImpl implements ManterEstado{
     }
 
     @Override
-    public Estado getEstadoBySigla(String sigla) throws PersistenciaException {
+    public Estado getEstadoBySigla(String sigla) throws PersistenciaException, RemoteException {
         if (sigla == null
                 || sigla.isEmpty()) {
             throw new PersistenciaException("A sigla estado não pode ser nula");
@@ -90,7 +93,7 @@ public class ManterEstadoImpl implements ManterEstado{
     }
 
     @Override
-    public List<Estado> getAll() throws PersistenciaException {
+    public List<Estado> getAll() throws PersistenciaException, RemoteException {
         return estadoDAO.listAll();
     }
     

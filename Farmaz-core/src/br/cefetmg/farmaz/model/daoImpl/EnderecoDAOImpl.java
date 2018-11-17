@@ -43,7 +43,7 @@ public class EnderecoDAOImpl implements EnderecoDAO {
         Long enderecoId = null;
 
         try {
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("Farmaz-corePU");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
             EntityManager manager = factory.createEntityManager();
 
             manager.getTransaction().begin();
@@ -67,7 +67,7 @@ public class EnderecoDAOImpl implements EnderecoDAO {
     @Override
     public boolean update(Endereco endereco) throws PersistenciaException {
         try {
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("Farmaz-corePU");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
             EntityManager manager = factory.createEntityManager();
 
             manager.getTransaction().begin();
@@ -88,7 +88,7 @@ public class EnderecoDAOImpl implements EnderecoDAO {
     @Override
     public boolean remove(Long enderecoId) throws PersistenciaException {
         try {
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("Farmaz-corePU");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
             EntityManager manager = factory.createEntityManager();
 
             Endereco endereco = manager.find(Endereco.class, enderecoId);
@@ -108,7 +108,7 @@ public class EnderecoDAOImpl implements EnderecoDAO {
     @Override
     public Endereco getEnderecoById(Long enderecoId) throws PersistenciaException {
         try {
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("Farmaz-corePU");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
             EntityManager manager = factory.createEntityManager();
 
             Endereco endereco = manager.find(Endereco.class, enderecoId);
@@ -124,7 +124,7 @@ public class EnderecoDAOImpl implements EnderecoDAO {
     @Override
     public List<Endereco> getEnderecosByClienteId(Long clienteId) throws PersistenciaException {
         try {
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("Farmaz-corePU");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
             EntityManager manager = factory.createEntityManager();
             Query query = manager.createNativeQuery("SELECT * FROM Endereco WHERE seq_cliente = '" + clienteId + "' ");
 

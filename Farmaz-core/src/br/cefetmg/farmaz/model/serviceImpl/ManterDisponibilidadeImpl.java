@@ -10,22 +10,25 @@ import br.cefetmg.farmaz.model.dominio.Disponibilidade;
 import br.cefetmg.farmaz.model.exception.LogicaNegocioException;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
 import br.cefetmg.farmaz.model.service.ManterDisponibilidade;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 /**
  *
  * @author Gabriel
  */
-public class ManterDisponibilidadeImpl implements ManterDisponibilidade{
+public class ManterDisponibilidadeImpl extends UnicastRemoteObject implements ManterDisponibilidade{
     
     private final DisponibilidadeDAOImpl disponibilidadeDAO;
 
-    public ManterDisponibilidadeImpl(DisponibilidadeDAOImpl disponibilidadeDAO) {
+    public ManterDisponibilidadeImpl(DisponibilidadeDAOImpl disponibilidadeDAO) throws RemoteException {
+        super();
         this.disponibilidadeDAO = disponibilidadeDAO;
     }
     
     @Override
-    public Long inserirDisponibilidade(Disponibilidade disponibilidade) throws PersistenciaException, LogicaNegocioException {
+    public Long inserirDisponibilidade(Disponibilidade disponibilidade) throws PersistenciaException, LogicaNegocioException, RemoteException {
         if (disponibilidade == null) {
             throw new LogicaNegocioException("Disponibilidade não pode ser nula");
         }
@@ -41,7 +44,7 @@ public class ManterDisponibilidadeImpl implements ManterDisponibilidade{
     }
 
     @Override
-    public boolean atualizarDisponibilidade(Disponibilidade disponibilidade) throws PersistenciaException, LogicaNegocioException {
+    public boolean atualizarDisponibilidade(Disponibilidade disponibilidade) throws PersistenciaException, LogicaNegocioException, RemoteException {
         if (disponibilidade == null) {
             throw new LogicaNegocioException("Disponibilidade não pode ser nula");
         }
@@ -60,7 +63,7 @@ public class ManterDisponibilidadeImpl implements ManterDisponibilidade{
     }
 
     @Override
-    public boolean deletarDisponibilidade(Long disponibilidadeId) throws PersistenciaException {
+    public boolean deletarDisponibilidade(Long disponibilidadeId) throws PersistenciaException, RemoteException {
         if (disponibilidadeId == null) {
             throw new PersistenciaException("Id de disponibilidade não pode ser nulo");
         }
@@ -71,7 +74,7 @@ public class ManterDisponibilidadeImpl implements ManterDisponibilidade{
     }
 
     @Override
-    public Disponibilidade getDisponibilidadeById(Long disponibilidadeId) throws PersistenciaException {
+    public Disponibilidade getDisponibilidadeById(Long disponibilidadeId) throws PersistenciaException, RemoteException {
         if (disponibilidadeId == null) {
             throw new PersistenciaException("O id de disponibilidade não pode ser nulo");
         }
@@ -79,7 +82,7 @@ public class ManterDisponibilidadeImpl implements ManterDisponibilidade{
     }
 
     @Override
-    public List<Disponibilidade> getDisponibilidadeByProdutoId(Long produtoId) throws PersistenciaException {
+    public List<Disponibilidade> getDisponibilidadeByProdutoId(Long produtoId) throws PersistenciaException, RemoteException {
         if (produtoId == null) {
             throw new PersistenciaException("O id do produto de disponibilidade não pode ser nulo");
         }
@@ -87,7 +90,7 @@ public class ManterDisponibilidadeImpl implements ManterDisponibilidade{
     }
 
     @Override
-    public List<Disponibilidade> getDisponibilidadeByFarmaciaId(String farmaciaId) throws PersistenciaException {
+    public List<Disponibilidade> getDisponibilidadeByFarmaciaId(String farmaciaId) throws PersistenciaException, RemoteException {
         if (farmaciaId == null
                 || farmaciaId.isEmpty()) {
             throw new PersistenciaException("O id da farmacia de disponibilidade não pode ser nulo");

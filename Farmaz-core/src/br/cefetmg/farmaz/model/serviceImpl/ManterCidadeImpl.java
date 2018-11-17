@@ -10,22 +10,25 @@ import br.cefetmg.farmaz.model.dominio.Cidade;
 import br.cefetmg.farmaz.model.exception.LogicaNegocioException;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
 import br.cefetmg.farmaz.model.service.ManterCidade;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 /**
  *
  * @author Gabriel
  */
-public class ManterCidadeImpl implements ManterCidade{
+public class ManterCidadeImpl extends UnicastRemoteObject implements ManterCidade{
     
     private final CidadeDAOImpl cidadeDAO;
 
-    public ManterCidadeImpl(CidadeDAOImpl cidadeDAO) {
+    public ManterCidadeImpl(CidadeDAOImpl cidadeDAO) throws RemoteException {
+        super();
         this.cidadeDAO = cidadeDAO;
     }
     
     @Override
-    public Long cadastrarCidade(Cidade cidade) throws PersistenciaException, LogicaNegocioException {
+    public Long cadastrarCidade(Cidade cidade) throws PersistenciaException, LogicaNegocioException, RemoteException {
         if (cidade == null) {
             throw new LogicaNegocioException("Cidade não pode ser nula");
         }
@@ -41,7 +44,7 @@ public class ManterCidadeImpl implements ManterCidade{
     }
 
     @Override
-    public boolean atualizarCidade(Cidade cidade) throws PersistenciaException, LogicaNegocioException {
+    public boolean atualizarCidade(Cidade cidade) throws PersistenciaException, LogicaNegocioException, RemoteException {
         if (cidade == null) {
             throw new LogicaNegocioException("Cidade não pode ser nula");
         }
@@ -60,7 +63,7 @@ public class ManterCidadeImpl implements ManterCidade{
     }
 
     @Override
-    public boolean deletarCidade(Long cidadeId) throws PersistenciaException {
+    public boolean deletarCidade(Long cidadeId) throws PersistenciaException, RemoteException {
         if (cidadeId == null) {
             throw new PersistenciaException("Id da cidade não pode ser nulo");
         }
@@ -71,7 +74,7 @@ public class ManterCidadeImpl implements ManterCidade{
     }
 
     @Override
-    public Cidade getCidadeById(Long cidadeId) throws PersistenciaException {
+    public Cidade getCidadeById(Long cidadeId) throws PersistenciaException, RemoteException {
         if (cidadeId == null) {
             throw new PersistenciaException("O id da cidade não pode ser nulo");
         }
@@ -79,7 +82,7 @@ public class ManterCidadeImpl implements ManterCidade{
     }
     
     @Override
-    public Cidade getCidadeByNome(String nome) throws PersistenciaException {
+    public Cidade getCidadeByNome(String nome) throws PersistenciaException, RemoteException {
         if (nome == null
                 || nome.isEmpty()) {
             throw new PersistenciaException("O nome da cidade não pode ser nulo");
@@ -88,7 +91,7 @@ public class ManterCidadeImpl implements ManterCidade{
     }
     
     @Override
-    public List<Cidade> getAll() throws PersistenciaException {
+    public List<Cidade> getAll() throws PersistenciaException, RemoteException {
         return cidadeDAO.listAll();
     }
     

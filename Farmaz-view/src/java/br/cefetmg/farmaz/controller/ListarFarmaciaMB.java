@@ -8,15 +8,17 @@ package br.cefetmg.farmaz.controller;
 import br.cefetmg.farmaz.model.dominio.Disponibilidade;
 import br.cefetmg.farmaz.model.dominio.Farmacia;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
-import br.cefetmg.farmaz.proxy.ManterCidadeProxy;
-import br.cefetmg.farmaz.proxy.ManterDisponibilidadeProxy;
-import br.cefetmg.farmaz.proxy.ManterEnderecoProxy;
-import br.cefetmg.farmaz.proxy.ManterEstadoProxy;
-import br.cefetmg.farmaz.proxy.ManterFarmaciaProxy;
+import br.cefetmg.farmaz.model.service.ManterCidade;
+import br.cefetmg.farmaz.model.service.ManterDisponibilidade;
+import br.cefetmg.farmaz.model.service.ManterEndereco;
+import br.cefetmg.farmaz.model.service.ManterEstado;
+import br.cefetmg.farmaz.model.service.ManterFarmacia;
 import br.cefetmg.farmaz.util.session.SessionContext;
 import java.io.IOException;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -32,23 +34,25 @@ import org.primefaces.event.SelectEvent;
 @ViewScoped
 public class ListarFarmaciaMB {
 
-    private ManterCidadeProxy manterCidade;
-    private ManterDisponibilidadeProxy manterDisponibilidade;
-    private ManterEnderecoProxy manterEndereco;
-    private ManterEstadoProxy manterEstado;
-    private ManterFarmaciaProxy manterFarmacia;
+    private Registry registry;
+    private ManterCidade manterCidade;
+    private ManterDisponibilidade manterDisponibilidade;
+    private ManterEndereco manterEndereco;
+    private ManterEstado manterEstado;
+    private ManterFarmacia manterFarmacia;
     private Farmacia farmaciaSelecionada;
     private Long clienteId;
     private Long produtoId;
     private String enderecoCliente;
     private List<Disponibilidade> listDisponibilidade;
 
-    public ListarFarmaciaMB() throws SocketException, UnknownHostException {
-        this.manterDisponibilidade = new ManterDisponibilidadeProxy();
-        this.manterFarmacia = new ManterFarmaciaProxy();
-        this.manterEndereco = new ManterEnderecoProxy();
-        this.manterCidade = new ManterCidadeProxy();
-        this.manterEstado = new ManterEstadoProxy();
+    public ListarFarmaciaMB() throws RemoteException, NotBoundException {
+        this.registry = LocateRegistry.getRegistry("localhost", 2345);
+        this.manterDisponibilidade = (ManterDisponibilidade) registry.lookup("ManterDisponibilidade");
+        this.manterFarmacia = (ManterFarmacia) registry.lookup("ManterFarmacia");
+        this.manterEndereco = (ManterEndereco) registry.lookup("ManterEndereco");
+        this.manterCidade = (ManterCidade) registry.lookup("ManterCidade");
+        this.manterEstado = (ManterEstado) registry.lookup("ManterEstado");
     }
 
     public void setFarmaciaSelecionada(Farmacia farmaciaSelecionada) {

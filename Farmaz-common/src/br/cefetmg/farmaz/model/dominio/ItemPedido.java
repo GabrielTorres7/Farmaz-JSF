@@ -6,16 +6,29 @@
 package br.cefetmg.farmaz.model.dominio;
 
 import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  *
  * @author Gabriel
  */
+@Entity
 public class ItemPedido implements Serializable{
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "seq_item_pedido")
     private Long itemPedidoId;
+    
+    @Column(name = "seq_pedido")
     private Long pedidoId;
+    
+    @Column(name = "seq_produto")
     private Long produtoId;
+    
     private int quantidade;
 
     public ItemPedido() {

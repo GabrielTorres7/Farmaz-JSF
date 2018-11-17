@@ -10,22 +10,25 @@ import br.cefetmg.farmaz.model.dominio.Pedido;
 import br.cefetmg.farmaz.model.exception.LogicaNegocioException;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
 import br.cefetmg.farmaz.model.service.ManterPedido;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 /**
  *
  * @author Gabriel
  */
-public class ManterPedidoImpl implements ManterPedido {
+public class ManterPedidoImpl extends UnicastRemoteObject implements ManterPedido {
     
     private final PedidoDAOImpl pedidoDAO;
 
-    public ManterPedidoImpl(PedidoDAOImpl pedidoDAO) {
+    public ManterPedidoImpl(PedidoDAOImpl pedidoDAO) throws RemoteException {
+        super();
         this.pedidoDAO = pedidoDAO;
     }
     
     @Override
-    public Long criarPedido(Pedido pedido) throws PersistenciaException, LogicaNegocioException {
+    public Long criarPedido(Pedido pedido) throws PersistenciaException, LogicaNegocioException, RemoteException {
         if (pedido == null) {
             throw new LogicaNegocioException("Pedido não pode ser nulo");
         }
@@ -46,7 +49,7 @@ public class ManterPedidoImpl implements ManterPedido {
     }
 
     @Override
-    public boolean atualizarPedido(Pedido pedido) throws PersistenciaException, LogicaNegocioException {
+    public boolean atualizarPedido(Pedido pedido) throws PersistenciaException, LogicaNegocioException, RemoteException {
         if (pedido == null) {
             throw new LogicaNegocioException("Pedido não pode ser nulo");
         }
@@ -70,7 +73,7 @@ public class ManterPedidoImpl implements ManterPedido {
     }
 
     @Override
-    public boolean deletarPedido(Long pedidoId) throws PersistenciaException {
+    public boolean deletarPedido(Long pedidoId) throws PersistenciaException, RemoteException {
         if (pedidoId == null) {
             throw new PersistenciaException("Id do pedido não pode ser nulo");
         }
@@ -81,7 +84,7 @@ public class ManterPedidoImpl implements ManterPedido {
     }
 
     @Override
-    public Pedido getPedidoById(Long pedidoId) throws PersistenciaException {
+    public Pedido getPedidoById(Long pedidoId) throws PersistenciaException, RemoteException {
         if (pedidoId == null) {
             throw new PersistenciaException("O id do pedido não pode ser nulo");
         }
@@ -89,7 +92,7 @@ public class ManterPedidoImpl implements ManterPedido {
     }
 
     @Override
-    public List<Pedido> getPedidosByClienteId(Long clienteId) throws PersistenciaException {
+    public List<Pedido> getPedidosByClienteId(Long clienteId) throws PersistenciaException, RemoteException {
         if (clienteId == null) {
             throw new PersistenciaException("O id do cliente não pode ser nulo");
         }
@@ -97,7 +100,7 @@ public class ManterPedidoImpl implements ManterPedido {
     }
 
     @Override
-    public List<Pedido> getPedidosByFarmaciaId(Long farmaciaId) throws PersistenciaException {
+    public List<Pedido> getPedidosByFarmaciaId(Long farmaciaId) throws PersistenciaException, RemoteException {
         if (farmaciaId == null) {
             throw new PersistenciaException("O id da farmacia não pode ser nulo");
         }
@@ -105,7 +108,7 @@ public class ManterPedidoImpl implements ManterPedido {
     }
 
     @Override
-    public List<Pedido> getPedidosByClienteIdAndStatus(Long clienteId, char status) throws PersistenciaException {
+    public List<Pedido> getPedidosByClienteIdAndStatus(Long clienteId, char status) throws PersistenciaException, RemoteException {
         if (clienteId == null) {
             throw new PersistenciaException("O id do cliente não pode ser nulo");
         }
@@ -116,7 +119,7 @@ public class ManterPedidoImpl implements ManterPedido {
     }
 
     @Override
-    public List<Pedido> getPedidosByFarmaciaIdAndStatus(Long farmaciaId, char status) throws PersistenciaException {
+    public List<Pedido> getPedidosByFarmaciaIdAndStatus(Long farmaciaId, char status) throws PersistenciaException, RemoteException {
         if (farmaciaId == null) {
             throw new PersistenciaException("O id da farmacia não pode ser nulo");
         }

@@ -2,12 +2,14 @@ package br.cefetmg.farmaz.controller;
 
 import br.cefetmg.farmaz.model.dominio.Disponibilidade;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
-import br.cefetmg.farmaz.proxy.ManterFarmaciaProxy;
-import br.cefetmg.farmaz.proxy.ManterProdutoProxy;
+import br.cefetmg.farmaz.model.service.ManterFarmacia;
+import br.cefetmg.farmaz.model.service.ManterProduto;
 import br.cefetmg.farmaz.util.session.SessionContext;
 import java.io.IOException;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -22,16 +24,18 @@ import javax.faces.context.FacesContext;
 @ViewScoped
 public class MeuCarrinhoBean {
 
+    private Registry registry;
     private List<Disponibilidade> carrinho;
     private Disponibilidade itemSelecionado;
-    private ManterProdutoProxy manterProduto;
-    private ManterFarmaciaProxy manterFarmacia;
+    private ManterProduto manterProduto;
+    private ManterFarmacia manterFarmacia;
     private String nomeProduto;
     private double total = 0;
 
-    public MeuCarrinhoBean() throws SocketException, UnknownHostException {
-        this.manterProduto = new ManterProdutoProxy();
-        this.manterFarmacia = new ManterFarmaciaProxy();
+    public MeuCarrinhoBean() throws RemoteException, NotBoundException {
+        this.registry = LocateRegistry.getRegistry("localhost", 2345);
+        this.manterProduto = (ManterProduto) registry.lookup("ManterProduto");
+        this.manterFarmacia = (ManterFarmacia) registry.lookup("ManterFarmacia");
         carrinho = (List<Disponibilidade>) SessionContext.getInstance().getAttribute("MeuCarrinho");
         setTotal();
     }
@@ -54,9 +58,9 @@ public class MeuCarrinhoBean {
         this.nomeProduto = nomeProduto;
     }
 
-    public void setCarrinho(List<Disponibilidade> carrinho) throws SocketException, UnknownHostException {
+    public void setCarrinho(List<Disponibilidade> carrinho) throws RemoteException, NotBoundException {
         this.carrinho = carrinho;
-        this.manterProduto = new ManterProdutoProxy();
+        this.manterProduto = (ManterProduto) registry.lookup("ManterProduto");
     }
 
     public List<Disponibilidade> getCarrinho() {

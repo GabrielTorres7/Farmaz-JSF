@@ -10,22 +10,25 @@ import br.cefetmg.farmaz.model.dominio.Endereco;
 import br.cefetmg.farmaz.model.exception.LogicaNegocioException;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
 import br.cefetmg.farmaz.model.service.ManterEndereco;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 /**
  *
  * @author Gabriel
  */
-public class ManterEnderecoImpl implements ManterEndereco{
+public class ManterEnderecoImpl extends UnicastRemoteObject implements ManterEndereco{
     
     private final EnderecoDAOImpl enderecoDAO;
 
-    public ManterEnderecoImpl(EnderecoDAOImpl enderecoDAO) {
+    public ManterEnderecoImpl(EnderecoDAOImpl enderecoDAO) throws RemoteException {
+        super();
         this.enderecoDAO = enderecoDAO;
     }
 
     @Override
-    public Long inserirEndereco(Endereco endereco) throws PersistenciaException, LogicaNegocioException {
+    public Long inserirEndereco(Endereco endereco) throws PersistenciaException, LogicaNegocioException, RemoteException {
         if (endereco == null) {
             throw new LogicaNegocioException("Endereco não pode ser nulo");
         }
@@ -51,7 +54,7 @@ public class ManterEnderecoImpl implements ManterEndereco{
     }
 
     @Override
-    public boolean atualizarEndereco(Endereco endereco) throws PersistenciaException, LogicaNegocioException {
+    public boolean atualizarEndereco(Endereco endereco) throws PersistenciaException, LogicaNegocioException, RemoteException {
         if (endereco == null) {
             throw new LogicaNegocioException("Endereco não pode ser nulo");
         }
@@ -80,7 +83,7 @@ public class ManterEnderecoImpl implements ManterEndereco{
     }
 
     @Override
-    public boolean deletarEndereco(Long enderecoId) throws PersistenciaException {
+    public boolean deletarEndereco(Long enderecoId) throws PersistenciaException, RemoteException {
         if (enderecoId == null) {
             throw new PersistenciaException("Id do endereco não pode ser nulo");
         }
@@ -91,7 +94,7 @@ public class ManterEnderecoImpl implements ManterEndereco{
     }
 
     @Override
-    public Endereco getEnderecoById(Long enderecoId) throws PersistenciaException {
+    public Endereco getEnderecoById(Long enderecoId) throws PersistenciaException, RemoteException {
         if (enderecoId == null) {
             throw new PersistenciaException("O id do endereco não pode ser nulo");
         }

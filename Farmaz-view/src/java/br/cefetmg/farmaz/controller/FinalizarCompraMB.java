@@ -17,7 +17,7 @@ import br.cefetmg.farmaz.util.session.SessionContext;
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -89,7 +89,7 @@ public class FinalizarCompraMB {
 
             pedido.setClienteId((Long) SessionContext.getInstance().getAttribute("clienteId"));
             pedido.setFarmaciaId(carrinho.get(0).getFarmaciaCadastro());
-            pedido.setDataHora(new Date());
+            pedido.setDataHora(new Date(new java.util.Date().getTime()));
             pedido.setIdtStatus('F');
             pedido.setTroco(Integer.parseInt(troco));
             pedido.setValor((double) SessionContext.getInstance().getAttribute("Total"));

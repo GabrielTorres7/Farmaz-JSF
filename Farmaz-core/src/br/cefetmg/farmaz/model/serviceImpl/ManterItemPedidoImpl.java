@@ -10,22 +10,25 @@ import br.cefetmg.farmaz.model.dominio.ItemPedido;
 import br.cefetmg.farmaz.model.exception.LogicaNegocioException;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
 import br.cefetmg.farmaz.model.service.ManterItemPedido;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 /**
  *
  * @author Gabriel
  */
-public class ManterItemPedidoImpl implements ManterItemPedido{
+public class ManterItemPedidoImpl extends UnicastRemoteObject implements ManterItemPedido{
     
     private final ItemPedidoDAOImpl itemPedidoDAO;
 
-    public ManterItemPedidoImpl(ItemPedidoDAOImpl itemPedidoDAO) {
+    public ManterItemPedidoImpl(ItemPedidoDAOImpl itemPedidoDAO) throws RemoteException {
+        super();
         this.itemPedidoDAO = itemPedidoDAO;
     }
     
     @Override
-    public Long inserirItemPedido(ItemPedido itemPedido) throws PersistenciaException, LogicaNegocioException {
+    public Long inserirItemPedido(ItemPedido itemPedido) throws PersistenciaException, LogicaNegocioException, RemoteException {
         if (itemPedido == null) {
             throw new LogicaNegocioException("Item Pedido não pode ser nulo");
         }
@@ -42,7 +45,7 @@ public class ManterItemPedidoImpl implements ManterItemPedido{
     }
 
     @Override
-    public boolean atualizarItemPedido(ItemPedido itemPedido) throws PersistenciaException, LogicaNegocioException {
+    public boolean atualizarItemPedido(ItemPedido itemPedido) throws PersistenciaException, LogicaNegocioException, RemoteException {
         if (itemPedido == null) {
             throw new LogicaNegocioException("Item Pedido não pode ser nulo");
         }
@@ -62,7 +65,7 @@ public class ManterItemPedidoImpl implements ManterItemPedido{
     }
 
     @Override
-    public boolean deletarItemPedido(Long itemPedidoId) throws PersistenciaException {
+    public boolean deletarItemPedido(Long itemPedidoId) throws PersistenciaException, RemoteException {
         if (itemPedidoId == null) {
             throw new PersistenciaException("Id do item pedido não pode ser nulo");
         }
@@ -73,7 +76,7 @@ public class ManterItemPedidoImpl implements ManterItemPedido{
     }
 
     @Override
-    public ItemPedido getItemPedidoById(Long itemPedidoId) throws PersistenciaException {
+    public ItemPedido getItemPedidoById(Long itemPedidoId) throws PersistenciaException, RemoteException {
         if (itemPedidoId == null) {
             throw new PersistenciaException("O id do item pedido não pode ser nulo");
         }
@@ -81,7 +84,7 @@ public class ManterItemPedidoImpl implements ManterItemPedido{
     }
 
     @Override
-    public List<ItemPedido> getItensPedidoByPedidoId(Long pedidoId) throws PersistenciaException {
+    public List<ItemPedido> getItensPedidoByPedidoId(Long pedidoId) throws PersistenciaException, RemoteException {
         if (pedidoId == null) {
             throw new PersistenciaException("O id do pedido de item pedido não pode ser nulo");
         }
