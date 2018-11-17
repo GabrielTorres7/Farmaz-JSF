@@ -6,17 +6,29 @@
 package br.cefetmg.farmaz.model.dominio;
 
 import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  *
  * @author Gabriel
  */
+@Entity
 public class Endereco implements Serializable{
-    
+    @Id
+    @Column(name = "seq_endereco")
     private Long enderecoId;
+    
+    @Column(name = "seq_cliente")
     private Long clienteId;
+    
+    @Column(name = "cod_cidade")
     private Long codCidade;
+    
+    @Column(name = "cod_uf")
     private Long codUf;
+    
     private String cep;
     private String bairro;
     private String rua;
