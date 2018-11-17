@@ -46,28 +46,15 @@ public class FarmaciaDAOImpl implements FarmaciaDAO {
         Long farmaciaId = null;
 
         try {
-            Farmacia novaFarmacia = new Farmacia();
 
-            novaFarmacia.setBairro(farmacia.getBairro());
-            novaFarmacia.setCadastroPrefeitura(farmacia.getCadastroPrefeitura());
-            novaFarmacia.setCep(farmacia.getCep());
-            novaFarmacia.setCnpj(farmacia.getCnpj());
-            novaFarmacia.setCodCidade(farmacia.getCodCidade());
-            novaFarmacia.setCodUf(farmacia.getCodUf());
-            novaFarmacia.setEmail(farmacia.getEmail());
-            novaFarmacia.setNome(farmacia.getNome());
-            novaFarmacia.setNumero(farmacia.getNumero());
-            novaFarmacia.setRua(farmacia.getRua());
-            novaFarmacia.setSenha(farmacia.getSenha());
-
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("Farmaz-corePU");
             EntityManager manager = factory.createEntityManager();
 
             manager.getTransaction().begin();
-            manager.persist(novaFarmacia);
+            manager.persist(farmacia);
             manager.getTransaction().commit();
 
-            farmaciaId = Long.parseLong((novaFarmacia.getCadastroPrefeitura()));
+            farmaciaId = Long.parseLong((farmacia.getCadastroPrefeitura()));
 
             manager.close();
             factory.close();
@@ -84,26 +71,11 @@ public class FarmaciaDAOImpl implements FarmaciaDAO {
     @Override
     public boolean update(Farmacia farmacia) throws PersistenciaException {
         try {
-
-            Farmacia novaFarmacia = new Farmacia();
-
-            novaFarmacia.setBairro(farmacia.getBairro());
-            novaFarmacia.setCadastroPrefeitura(farmacia.getCadastroPrefeitura());
-            novaFarmacia.setCep(farmacia.getCep());
-            novaFarmacia.setCnpj(farmacia.getCnpj());
-            novaFarmacia.setCodCidade(farmacia.getCodCidade());
-            novaFarmacia.setCodUf(farmacia.getCodUf());
-            novaFarmacia.setEmail(farmacia.getEmail());
-            novaFarmacia.setNome(farmacia.getNome());
-            novaFarmacia.setNumero(farmacia.getNumero());
-            novaFarmacia.setRua(farmacia.getRua());
-            novaFarmacia.setSenha(farmacia.getSenha());
-
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("Farmaz-corePU");
             EntityManager manager = factory.createEntityManager();
 
             manager.getTransaction().begin();
-            manager.refresh(novaFarmacia);
+            manager.refresh(farmacia);
             manager.getTransaction().commit();
 
             manager.close();
@@ -120,7 +92,7 @@ public class FarmaciaDAOImpl implements FarmaciaDAO {
     @Override
     public boolean remove(String farmaciaId) throws PersistenciaException {
         try {
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("Farmaz-corePU");
             EntityManager manager = factory.createEntityManager();
 
             Farmacia farmacia = manager.find(Farmacia.class, farmaciaId);
@@ -140,7 +112,7 @@ public class FarmaciaDAOImpl implements FarmaciaDAO {
     @Override
     public Farmacia getFarmaciaById(String farmaciaId) throws PersistenciaException {
         try {
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("Farmaz-corePU");
             EntityManager manager = factory.createEntityManager();
 
             Farmacia farmacia = manager.find(Farmacia.class, farmaciaId);
@@ -156,7 +128,7 @@ public class FarmaciaDAOImpl implements FarmaciaDAO {
     @Override
     public Farmacia getFarmaciaByEmail(String email) throws PersistenciaException {
         try {
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("Farmaz-corePU");
             EntityManager manager = factory.createEntityManager();
 
             Farmacia farmacia = manager.find(Farmacia.class, email);
@@ -172,7 +144,7 @@ public class FarmaciaDAOImpl implements FarmaciaDAO {
     @Override
     public Farmacia getFarmaciaByEmailSenha(String email, String senha) throws PersistenciaException {
         try {
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("Farmaz-corePU");
             EntityManager manager = factory.createEntityManager();
             Query query = manager.createNativeQuery("SELECT * FROM Farmacia WHERE email = '"+ email +"' AND senha = '"+ senha);
 
@@ -189,7 +161,7 @@ public class FarmaciaDAOImpl implements FarmaciaDAO {
     @Override
     public List<Farmacia> listAll() throws PersistenciaException {
         try {
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("Farmaz-corePU");
             EntityManager manager = factory.createEntityManager();
             Query query = manager.createNativeQuery("SELECT * FROM Farmacia");
 
