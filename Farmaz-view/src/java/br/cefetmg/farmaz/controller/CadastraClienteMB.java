@@ -8,12 +8,17 @@ package br.cefetmg.farmaz.controller;
 import br.cefetmg.farmaz.model.dominio.Cliente;
 import br.cefetmg.farmaz.model.exception.LogicaNegocioException;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
+import br.cefetmg.farmaz.model.service.ManterCliente;
 import br.cefetmg.farmaz.proxy.ManterClienteProxy;
 import br.cefetmg.farmaz.util.session.SessionContext;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -26,7 +31,9 @@ import javax.inject.Named;
 @Named(value = "CadastraClienteMB")
 @SessionScoped
 public class CadastraClienteMB implements Serializable {
-
+    private Registry registry;
+    private ManterCliente manterCliente;
+    
     private String email;
     private String senha;
     private String nome;
@@ -34,10 +41,10 @@ public class CadastraClienteMB implements Serializable {
     private String documentoIdentificacao;
 
     private Cliente cliente;
-    private ManterClienteProxy manterCliente;
 
-    public CadastraClienteMB() throws SocketException, UnknownHostException {
-        this.manterCliente = new ManterClienteProxy();
+    public CadastraClienteMB() throws SocketException, UnknownHostException, RemoteException, NotBoundException {
+        this.registry = LocateRegistry.getRegistry("localhost", 2345);
+        this.manterCliente = (ManterCliente) registry.lookup("ManterCliente");
     }
 
     public void setEmail(String email) {
@@ -80,15 +87,14 @@ public class CadastraClienteMB implements Serializable {
         this.telefone = telefone;
     }
 
-    public void cadastraCliente() throws PersistenciaException, SocketException, UnknownHostException, LogicaNegocioException {
+    public void cadastraCliente() throws PersistenciaException, SocketException, UnknownHostException, LogicaNegocioException {   
         cliente = new Cliente();
         cliente.setNome(nome);
         cliente.setEmail(email);
         cliente.setDocumentoIdentificacao(documentoIdentificacao);
         cliente.setNumeroTelefone(telefone);
         cliente.setSenha(senha);
-
-        manterCliente = new ManterClienteProxy();
+        
         manterCliente.cadastrarCliente(cliente);
     }
 
