@@ -17,6 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 /**
  *
@@ -45,61 +49,38 @@ public class ClienteDAOImpl implements ClienteDAO {
         Long clienteId = null;
 
         try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
 
-            String sql = "INSERT INTO cliente (nome, email, senha, documento_identificacao, telefone) "
-                    + "    VALUES (?, ?, md5(?), ?, ?) RETURNING seq_cliente";
+            manager.getTransaction().begin();
+            manager.persist(cliente);
+            manager.getTransaction().commit();
 
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setString(1, cliente.getNome());
-            pstmt.setString(2, cliente.getEmail());
-            pstmt.setString(3, cliente.getSenha());
-            pstmt.setString(4, cliente.getDocumentoIdentificacao());
-            pstmt.setString(5, cliente.getNumeroTelefone());
-            ResultSet rs = pstmt.executeQuery();
+            clienteId = cliente.getId();
 
-            if (rs.next()) {
-                clienteId = rs.getLong("seq_cliente");
-                cliente.setId(clienteId);
-            }
+            manager.close();
+            factory.close();
 
-            rs.close();
-            pstmt.close();
-            connection.close();
+            return clienteId;
 
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(ClienteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(FarmaciaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistenciaException(ex);
         }
-
-        return clienteId;
     }
 
     @Override
     public boolean update(Cliente cliente) throws PersistenciaException {
         try {
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
 
-            Connection connection = ManterConexao.getInstance().getConnection();
+            manager.getTransaction().begin();
+            manager.refresh(cliente);
+            manager.getTransaction().commit();
 
-            String sql = "UPDATE cliente "
-                    + " SET nome = ?, "
-                    + "     email = ? "
-                    + "     documento_identificacao = ? "
-                    + "     telefone = ? "
-                    + "     senha = ? "
-                    + " WHERE seq_cliente = ?";
-
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setString(1, cliente.getNome());
-            pstmt.setString(2, cliente.getEmail());
-            pstmt.setString(3, cliente.getDocumentoIdentificacao());
-            pstmt.setString(4, cliente.getNumeroTelefone());
-            pstmt.setString(5, cliente.getSenha());
-            pstmt.setLong(6, cliente.getId());
-            pstmt.executeUpdate();
-
-            pstmt.close();
-            connection.close();
+            manager.close();
+            factory.close();
 
             return true;
 
@@ -112,17 +93,14 @@ public class ClienteDAOImpl implements ClienteDAO {
     @Override
     public boolean remove(Long clienteId) throws PersistenciaException {
         try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
 
-            String sql = "DELETE FROM cliente WHERE seq_cliente = ?";
+            Cliente cliente = manager.find(Cliente.class, clienteId);
 
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-
-            pstmt.setLong(1, clienteId);
-            pstmt.executeUpdate();
-
-            pstmt.close();
-            connection.close();
+            manager.getTransaction().begin();
+            manager.remove(cliente);
+            manager.getTransaction().commit();
 
             return true;
 
@@ -134,31 +112,14 @@ public class ClienteDAOImpl implements ClienteDAO {
 
     @Override
     public Cliente getClienteById(Long clienteId) throws PersistenciaException {
-        try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+         try {
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
 
-            String sql = "SELECT * FROM cliente WHERE seq_cliente = ? ";
-
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, clienteId);
-            ResultSet rs = pstmt.executeQuery();
-
-            Cliente cliente = null;
-            if (rs.next()) {
-                cliente = new Cliente();
-                cliente.setId(clienteId);
-                cliente.setNome(rs.getString("nome"));
-                cliente.setEmail(rs.getString("email"));
-                cliente.setSenha(rs.getString("senha"));
-                cliente.setDocumentoIdentificacao(rs.getString("documento_identificacao"));
-                cliente.setNumeroTelefone(rs.getString("telefone"));
-            }
-
-            rs.close();
-            pstmt.close();
-            connection.close();
+            Cliente cliente = manager.find(Cliente.class, clienteId);
 
             return cliente;
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenciaException(e);
@@ -168,30 +129,13 @@ public class ClienteDAOImpl implements ClienteDAO {
     @Override
     public Cliente getClienteByEmail(String email) throws PersistenciaException {
         try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
 
-            String sql = "SELECT * FROM cliente WHERE email = ? ";
-
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setString(1, email);
-            ResultSet rs = pstmt.executeQuery();
-
-            Cliente cliente = null;
-            if (rs.next()) {
-                cliente = new Cliente();
-                cliente.setId(rs.getLong("seq_cliente"));
-                cliente.setNome(rs.getString("nome"));
-                cliente.setEmail(rs.getString("email"));
-                cliente.setSenha(rs.getString("senha"));
-                cliente.setDocumentoIdentificacao(rs.getString("documento_identificacao"));
-                cliente.setNumeroTelefone(rs.getString("telefone"));
-            }
-
-            rs.close();
-            pstmt.close();
-            connection.close();
+            Cliente cliente = manager.find(Cliente.class, email);
 
             return cliente;
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenciaException(e);
@@ -201,30 +145,13 @@ public class ClienteDAOImpl implements ClienteDAO {
     @Override
     public Cliente getClienteByEmailSenha(String email, String senha) throws PersistenciaException {
         try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
+            Query query = manager.createNativeQuery("SELECT * FROM Cliente WHERE email = '"+ email +"' AND senha = '"+ senha);
 
-            String sql = "SELECT * FROM cliente WHERE email = ? AND senha = md5(?)";
-
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setString(1, email);
-            pstmt.setString(2, senha);
-            ResultSet rs = pstmt.executeQuery();
-
-            Cliente cliente = null;
-            if (rs.next()) {
-                cliente = new Cliente();
-                cliente.setId(rs.getLong("seq_cliente"));
-                cliente.setNome(rs.getString("nome"));
-                cliente.setEmail(rs.getString("email"));
-                cliente.setSenha(rs.getString("senha"));
-                cliente.setDocumentoIdentificacao(rs.getString("documento_identificacao"));
-                cliente.setNumeroTelefone(rs.getString("telefone"));
-            }
-
-            rs.close();
-            pstmt.close();
-            connection.close();
-
+            Cliente cliente = new Cliente();
+            cliente = (Cliente) query.getSingleResult();
+            
             return cliente;
         } catch (Exception e) {
             e.printStackTrace();
@@ -235,33 +162,11 @@ public class ClienteDAOImpl implements ClienteDAO {
     @Override
     public List<Cliente> listAll() throws PersistenciaException {
         try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
+            Query query = manager.createNativeQuery("SELECT * FROM Cliente");
 
-            String sql = "SELECT * FROM cliente ORDER BY nome";
-
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery();
-
-            ArrayList<Cliente> listAll = null;
-            Cliente cliente = null;
-
-            if (rs.next()) {
-                listAll = new ArrayList<>();
-                do {
-                    cliente = new Cliente();
-                    cliente.setId(rs.getLong("seq_cliente"));
-                    cliente.setNome(rs.getString("nome"));
-                    cliente.setEmail(rs.getString("email"));
-                    cliente.setSenha(rs.getString("senha"));
-                    cliente.setDocumentoIdentificacao(rs.getString("documento_identificacao"));
-                    cliente.setNumeroTelefone(rs.getString("telefone"));
-                    listAll.add(cliente);
-                } while (rs.next());
-            }
-
-            rs.close();
-            pstmt.close();
-            connection.close();
+            List<Cliente> listAll = query.getResultList();
 
             return listAll;
 

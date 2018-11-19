@@ -17,6 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Id;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 /**
  *
@@ -37,142 +42,83 @@ public class ProdutoDAOImpl implements ProdutoDAO{
     
     @Override
     public Long insert(Produto produto) throws PersistenciaException {
-        if (produto == null){
+        if (produto == null) {
             throw new PersistenciaException("Domínio não pode ser nulo.");
         }
-        
+
         Long produtoId = null;
-        
+
         try {
-            Connection connection = ManterConexao.getInstance().getConnection();
-            
-            String sql = "INSERT INTO produto (nome, receita, descricao, laboratorio, cadastro_anvisa) " +
-                         "    VALUES (?, ?, ?, ?, ?) RETURNING seq_produto";
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
 
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setString(1, produto.getNome());
-            pstmt.setBoolean(2, produto.isReceita());
-            pstmt.setString(3, produto.getDescricao());
-            if (produto.getLaboratorio()!= null){
-                pstmt.setString(4, produto.getLaboratorio());
-            }else{
-                pstmt.setNull(4, java.sql.Types.NULL);
-            }
-            if (produto.getCadastroAnvisa() != null){
-                pstmt.setString(5, produto.getCadastroAnvisa());
-            }else{
-                pstmt.setNull(5, java.sql.Types.NULL);
-            }
-            ResultSet rs = pstmt.executeQuery();
+            manager.getTransaction().begin();
+            manager.persist(produto);
+            manager.getTransaction().commit();
 
-            if (rs.next()) {
-                produtoId = rs.getLong("seq_produto");
-                produto.setId(produtoId);
-            }
+            produtoId = produto.getId();
 
-            rs.close();
-            pstmt.close();
-            connection.close();
-            
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(ProdutoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            manager.close();
+            factory.close();
+
+            return produtoId;
+
+        } catch (Exception ex) {
+            Logger.getLogger(EnderecoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistenciaException(ex);
         }
-        
-        return produtoId;
     }
 
     @Override
     public boolean update(Produto produto) throws PersistenciaException {
-        try {
-            Connection connection = ManterConexao.getInstance().getConnection();
-            
-            String sql = "UPDATE produto " +
-                           " SET nome = ?, " +
-                           "     receita = ? " +
-                           "     descricao = ? " +
-                           "     laboratorio = ? " +
-                           "     cadastro_anvisa = ? " +
-                         " WHERE seq_produto = ?";
+         try {
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
 
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setString(1, produto.getNome());
-            pstmt.setBoolean(2, produto.isReceita());
-            pstmt.setString(3, produto.getDescricao());
-            if (produto.getLaboratorio()!= null){
-                pstmt.setString(4, produto.getLaboratorio());
-            }else{
-                pstmt.setNull(4, java.sql.Types.NULL);
-            }
-            if (produto.getCadastroAnvisa() != null){
-                pstmt.setString(5, produto.getCadastroAnvisa());
-            }else{
-                pstmt.setNull(5, java.sql.Types.NULL);
-            }
-            pstmt.setLong(6, produto.getId());
-            pstmt.executeUpdate();
-            
-            pstmt.close();
-            connection.close();
-            
+            manager.getTransaction().begin();
+            manager.refresh(produto);
+            manager.getTransaction().commit();
+
+            manager.close();
+            factory.close();
+
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new PersistenciaException(e); 
-        }
-        
-        return true;
+            throw new PersistenciaException(e);
+        }   
     }
 
     @Override
     public boolean remove(Long produtoId) throws PersistenciaException {
-        try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+         try {
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
 
-            String sql = "DELETE FROM produto WHERE seq_produto = ?";
+            Produto endereco = manager.find(Produto.class, produtoId);
 
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            
-            pstmt.setLong(1, produtoId);
-            pstmt.executeUpdate();
-
-            pstmt.close();
-            connection.close();
+            manager.getTransaction().begin();
+            manager.remove(endereco);
+            manager.getTransaction().commit();
 
             return true;
-            
+
         } catch (Exception e) {
             e.printStackTrace();
-            throw new PersistenciaException(e); 
+            throw new PersistenciaException(e);
         }
     }
 
     @Override
     public Produto getProdutoById(Long produtoId) throws PersistenciaException {
         try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
 
-            String sql = "SELECT * FROM produto WHERE seq_produto = ? ";
-
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, produtoId);
-            ResultSet rs = pstmt.executeQuery();
-
-            Produto produto = null;
-            if (rs.next()) {
-                produto = new Produto();
-                produto.setId(produtoId);
-                produto.setNome(rs.getString("nome"));
-                produto.setReceita(rs.getBoolean("receita"));
-                produto.setDescricao(rs.getString("descricao"));
-                produto.setLaboratorio(rs.getString("laboratorio"));
-                produto.setCadastroAnvisa(rs.getString("cadastro_anvisa"));
-            }
-
-            rs.close();
-            pstmt.close();
-            connection.close();
+            Produto produto = manager.find(Produto.class, produtoId);
 
             return produto;
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenciaException(e);
@@ -182,33 +128,11 @@ public class ProdutoDAOImpl implements ProdutoDAO{
     @Override
     public List<Produto> listAll() throws PersistenciaException {
         try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
+            Query query = manager.createNativeQuery("SELECT * FROM Produto");
 
-            String sql = "SELECT * FROM produto ORDER BY nome";
-
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery();
-
-            ArrayList<Produto> listAll = null;
-            Produto produto = null;
-
-            if (rs.next()) {
-                listAll = new ArrayList<>();
-                do {
-                    produto = new Produto();
-                    produto.setId(rs.getLong("seq_produto"));
-                    produto.setNome(rs.getString("nome"));
-                    produto.setReceita(rs.getBoolean("receita"));
-                    produto.setDescricao(rs.getString("descricao"));
-                    produto.setLaboratorio(rs.getString("laboratorio"));
-                    produto.setCadastroAnvisa(rs.getString("cadastro_anvisa"));
-                    listAll.add(produto);
-                } while (rs.next());
-            }
-
-            rs.close();
-            pstmt.close();
-            connection.close();
+            List<Produto> listAll = query.getResultList();
 
             return listAll;
 
@@ -220,35 +144,17 @@ public class ProdutoDAOImpl implements ProdutoDAO{
 
     @Override
     public Produto getProdutoByNome(String nomeProduto) throws PersistenciaException {
-        try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+       try {
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
 
-            String sql = "SELECT * FROM produto WHERE nome = ? ";
-
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setString(1, nomeProduto);
-            ResultSet rs = pstmt.executeQuery();
-
-            Produto produto = null;
-            if (rs.next()) {
-                produto = new Produto();
-                produto.setId(rs.getLong("seq_produto"));
-                produto.setNome(rs.getString("nome"));
-                produto.setReceita(rs.getBoolean("receita"));
-                produto.setDescricao(rs.getString("descricao"));
-                produto.setLaboratorio(rs.getString("laboratorio"));
-                produto.setCadastroAnvisa(rs.getString("cadastro_anvisa"));
-            }
-
-            rs.close();
-            pstmt.close();
-            connection.close();
+            Produto produto = manager.find(Produto.class, nomeProduto);
 
             return produto;
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenciaException(e);
-        }
+        }  
     }
-    
 }

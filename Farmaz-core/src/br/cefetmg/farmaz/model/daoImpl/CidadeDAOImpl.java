@@ -17,6 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 /**
  *
@@ -45,56 +49,40 @@ public class CidadeDAOImpl implements CidadeDAO{
         Long cidadeId = null;
 
         try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
 
-            String sql = "INSERT INTO cidade (cod_uf, nome)"
-                    + "    VALUES (?, ?) RETURNING cod_cidade";
+            manager.getTransaction().begin();
+            manager.persist(cidade);
+            manager.getTransaction().commit();
 
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, cidade.getUfId());
-            pstmt.setString(2, cidade.getNome());
-            
-            ResultSet rs = pstmt.executeQuery();
-            
-            if (rs.next()) {
-                cidadeId = rs.getLong("cod_cidade");
-                cidade.setCidadeId(cidadeId);
-            }
-            
-            rs.close();
-            pstmt.close();
-            connection.close();
+            cidadeId = cidade.getCidadeId();
 
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(FarmaciaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            manager.close();
+            factory.close();
+
+            return cidadeId;
+
+        } catch (Exception ex) {
+            Logger.getLogger(EnderecoDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistenciaException(ex);
         }
-
-        return cidadeId;
     }
 
     @Override
     public boolean update(Cidade cidade) throws PersistenciaException {
         try {
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
 
-            Connection connection = ManterConexao.getInstance().getConnection();
+            manager.getTransaction().begin();
+            manager.refresh(cidade);
+            manager.getTransaction().commit();
 
-            String sql = "UPDATE cidade "
-                    + " SET cod_uf = ?, "
-                    + "     nome = ? "
-                    + " WHERE cod_cidade = ?";
-
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, cidade.getUfId());
-            pstmt.setString(2, cidade.getNome());
-            pstmt.setLong(3, cidade.getCidadeId());
-            pstmt.executeUpdate();
-
-            pstmt.close();
-            connection.close();
+            manager.close();
+            factory.close();
 
             return true;
-
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenciaException(e);
@@ -104,17 +92,14 @@ public class CidadeDAOImpl implements CidadeDAO{
     @Override
     public boolean remove(Long cidadeId) throws PersistenciaException {
         try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
 
-            String sql = "DELETE FROM cidade WHERE cod_cidade = ?";
+            Cidade cidade = manager.find(Cidade.class, cidadeId);
 
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-
-            pstmt.setLong(1, cidadeId);
-            pstmt.executeUpdate();
-
-            pstmt.close();
-            connection.close();
+            manager.getTransaction().begin();
+            manager.remove(cidade);
+            manager.getTransaction().commit();
 
             return true;
 
@@ -126,28 +111,14 @@ public class CidadeDAOImpl implements CidadeDAO{
 
     @Override
     public Cidade getCidadeById(Long cidadeId) throws PersistenciaException {
-        try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+         try {
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
 
-            String sql = "SELECT * FROM cidade WHERE cod_cidade = ? ";
-
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, cidadeId);
-            ResultSet rs = pstmt.executeQuery();
-
-            Cidade cidade = null;
-            if (rs.next()) {
-                cidade = new Cidade();
-                cidade.setCidadeId(cidadeId);
-                cidade.setUfId(rs.getLong("cod_uf"));
-                cidade.setNome(rs.getString("nome"));
-            }
-
-            rs.close();
-            pstmt.close();
-            connection.close();
+            Cidade cidade = manager.find(Cidade.class, cidadeId);
 
             return cidade;
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenciaException(e);
@@ -156,28 +127,14 @@ public class CidadeDAOImpl implements CidadeDAO{
     
     @Override
     public Cidade getCidadeByNome(String nome) throws PersistenciaException {
-        try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+         try {
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
 
-            String sql = "SELECT * FROM cidade WHERE nome = ? ";
-
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setString(1, nome);
-            ResultSet rs = pstmt.executeQuery();
-
-            Cidade cidade = null;
-            if (rs.next()) {
-                cidade = new Cidade();
-                cidade.setCidadeId(rs.getLong("cod_cidade"));
-                cidade.setUfId(rs.getLong("cod_uf"));
-                cidade.setNome(rs.getString("nome"));
-            }
-
-            rs.close();
-            pstmt.close();
-            connection.close();
+            Cidade cidade = manager.find(Cidade.class, nome);
 
             return cidade;
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenciaException(e);
@@ -187,30 +144,11 @@ public class CidadeDAOImpl implements CidadeDAO{
     @Override
     public List<Cidade> listAll() throws PersistenciaException {
         try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
+            Query query = manager.createNativeQuery("SELECT * FROM cidade");
 
-            String sql = "SELECT * FROM cidade ORDER BY nome";
-
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery();
-
-            ArrayList<Cidade> listAll = null;
-            Cidade cidade = null;
-
-            if (rs.next()) {
-                listAll = new ArrayList<>();
-                do {
-                    cidade = new Cidade();
-                    cidade.setCidadeId(rs.getLong("cod_cidade"));
-                    cidade.setUfId(rs.getLong("cod_uf"));
-                    cidade.setNome(rs.getString("nome"));
-                    listAll.add(cidade);
-                } while (rs.next());
-            }
-
-            rs.close();
-            pstmt.close();
-            connection.close();
+            List<Cidade> listAll = query.getResultList();
 
             return listAll;
 
