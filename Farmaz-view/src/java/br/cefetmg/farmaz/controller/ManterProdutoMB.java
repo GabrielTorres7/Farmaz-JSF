@@ -51,7 +51,7 @@ public class ManterProdutoMB implements Serializable {
         return produtoSelecionado;
     }
 
-    public List<Produto> getListProduto() throws PersistenciaException {
+    public List<Produto> getListProduto() throws PersistenciaException, RemoteException {
         List<Produto> listProduto;
         List<Disponibilidade> listDisponibilidade;
 

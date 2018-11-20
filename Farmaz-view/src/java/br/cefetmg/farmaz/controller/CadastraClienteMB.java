@@ -87,7 +87,7 @@ public class CadastraClienteMB implements Serializable {
         this.telefone = telefone;
     }
 
-    public void cadastraCliente() throws PersistenciaException, SocketException, UnknownHostException, LogicaNegocioException {   
+    public void cadastraCliente() throws PersistenciaException, SocketException, UnknownHostException, LogicaNegocioException, RemoteException {   
         cliente = new Cliente();
         cliente.setNome(nome);
         cliente.setEmail(email);

@@ -50,7 +50,7 @@ public class MeuCarrinhoBean {
         }
     }
 
-    public String getNomeProduto(Long produtoId) throws PersistenciaException {
+    public String getNomeProduto(Long produtoId) throws PersistenciaException, RemoteException {
         return manterProduto.getProdutoById(produtoId).getNome();
     }
 

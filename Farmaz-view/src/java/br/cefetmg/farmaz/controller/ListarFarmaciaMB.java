@@ -80,7 +80,7 @@ public class ListarFarmaciaMB {
         return 0;
     }
 
-    public List<Farmacia> getFarmacias() throws PersistenciaException {
+    public List<Farmacia> getFarmacias() throws PersistenciaException, RemoteException {
         ArrayList<Farmacia> listFarmacia = new ArrayList();
 
         clienteId = (Long) SessionContext.getInstance().getAttribute("clienteId");
