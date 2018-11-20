@@ -10,13 +10,17 @@ import br.cefetmg.farmaz.model.dominio.ItemPedido;
 import br.cefetmg.farmaz.model.dominio.Pedido;
 import br.cefetmg.farmaz.model.exception.LogicaNegocioException;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
-import br.cefetmg.farmaz.proxy.ManterDisponibilidadeProxy;
-import br.cefetmg.farmaz.proxy.ManterItemPedidoProxy;
-import br.cefetmg.farmaz.proxy.ManterPedidoProxy;
+import br.cefetmg.farmaz.model.service.ManterDisponibilidade;
+import br.cefetmg.farmaz.model.service.ManterItemPedido;
+import br.cefetmg.farmaz.model.service.ManterPedido;
 import br.cefetmg.farmaz.util.session.SessionContext;
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.sql.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -35,9 +39,12 @@ public class FinalizarCompraMB {
     /**
      * @return the visibilidade
      */
-    ManterDisponibilidadeProxy manterDisponibilidade = new ManterDisponibilidadeProxy();
+    private Registry registry;
+    private ManterDisponibilidade manterDisponibilidade;
+    private ManterItemPedido manterItemPedido;
+    private ManterPedido manterPedido;
     private Disponibilidade item = new Disponibilidade();
-    List<Disponibilidade> carrinho;
+    private List<Disponibilidade> carrinho;
     private String troco;
 
     private boolean visibilidade = false;
@@ -47,7 +54,11 @@ public class FinalizarCompraMB {
         return carrinho;
     }
 
-    public FinalizarCompraMB() throws SocketException, UnknownHostException {
+    public FinalizarCompraMB() throws SocketException, UnknownHostException, RemoteException, NotBoundException {
+        this.registry = LocateRegistry.getRegistry("localhost", 2345);
+        this.manterDisponibilidade = (ManterDisponibilidade) registry.lookup("ManterDisponibilidade"); 
+        this.manterItemPedido = (ManterItemPedido) registry.lookup("ManterItemPedido");
+        this.manterPedido = (ManterPedido) registry.lookup("ManterPedido");
     }
 
     public boolean isVisibilidade() {
@@ -82,8 +93,6 @@ public class FinalizarCompraMB {
         } else {
             Pedido pedido = new Pedido();
             ItemPedido itemPedido = new ItemPedido();
-            ManterItemPedidoProxy manterItemPedido = new ManterItemPedidoProxy();
-            ManterPedidoProxy manterPedido = new ManterPedidoProxy();
             List<Disponibilidade> carrinho = (List<Disponibilidade>) SessionContext.getInstance().getAttribute("MeuCarrinho");
             Long pedidoId;
 
