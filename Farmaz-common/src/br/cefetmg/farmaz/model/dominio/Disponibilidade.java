@@ -6,31 +6,62 @@
 package br.cefetmg.farmaz.model.dominio;
 
 import java.io.Serializable;
+import java.sql.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+   
 /**
  *
- * @author Gabriel
+ * @author Hiago
  */
 public class Disponibilidade implements Serializable{
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "seq_disponibilidade")
     private Long id;
+    
+    @Column(name = "seq_produto")
     private Long produtoSeq;
+    
+    @Column(name = "cadastro_prefeitura")
     private String farmaciaCadastro;
+    
+    @Column(name = "estoque")
     private int estoque;
+    
+    @Column(name = "preco")
     private double preco;
+    
+    @Column(name = "avaliacao")
     private int avaliacao;
 
-    public Disponibilidade() {
-    }
+public Disponibilidade() {
+}
 
-    public Disponibilidade(Long produtoSeq, String farmaciaCadastro, int estoque, double preco, int avaliacao) {
+    public Disponibilidade(Long id, Long produtoSeq, String farmaciaCadastro, int estoque, double preco, int avaliacao) {
+        this.id = id;
         this.produtoSeq = produtoSeq;
         this.farmaciaCadastro = farmaciaCadastro;
         this.estoque = estoque;
         this.preco = preco;
         this.avaliacao = avaliacao;
     }
-    
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getProdutoSeq() {
         return produtoSeq;
     }
@@ -59,7 +90,7 @@ public class Disponibilidade implements Serializable{
         return preco;
     }
 
-    public void setPreco(Double preco) {
+    public void setPreco(double preco) {
         this.preco = preco;
     }
 
@@ -70,12 +101,6 @@ public class Disponibilidade implements Serializable{
     public void setAvaliacao(int avaliacao) {
         this.avaliacao = avaliacao;
     }
-    
-    public Long getId() {
-        return id;
-    }
-    
-    public void setId(Long id) {
-        this.id = id;
-    }   
+
+
 }

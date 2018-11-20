@@ -17,93 +17,66 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 
-/**
- *
- * @author PEDRO HENRIQUE FODÃO
- */
+public class DisponibilidadeDAOImpl implements DisponibilidadeDAO {
 
-public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
-    
     private static DisponibilidadeDAOImpl disponibilidadeDAO = null;
-    
-    private DisponibilidadeDAOImpl(){}
-    
+
+    private DisponibilidadeDAOImpl() {
+    }
+
     public static DisponibilidadeDAOImpl getInstance() {
         if (disponibilidadeDAO == null) {
             disponibilidadeDAO = new DisponibilidadeDAOImpl();
         }
         return disponibilidadeDAO;
     }
-    
-    
+
     @Override
     public Long insert(Disponibilidade disponibilidade) throws PersistenciaException {
         if (disponibilidade == null) {
             throw new PersistenciaException("Domínio não pode ser nulo.");
         }
-        
+
         Long DisponibilidadeId = null;
-        
+
         try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
+            manager.getTransaction().begin();
+            manager.persist(disponibilidade);
+            manager.getTransaction().commit();
+            DisponibilidadeId = disponibilidade.getId();
+            manager.close();
+            factory.close();
+            return DisponibilidadeId;
 
-            String sql = "INSERT INTO Disponibilidade (seq_produto, cadastro_prefeitura, estoque, preco, avaliacao) "
-                    + "    VALUES (?, ?, ?, ?, ?) RETURNING seq_disponibilidade";
-
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, disponibilidade.getProdutoSeq());
-            pstmt.setString(2, disponibilidade.getFarmaciaCadastro());
-            pstmt.setDouble(3, disponibilidade.getEstoque());
-            pstmt.setDouble(4, disponibilidade.getPreco());
-            pstmt.setInt(5, disponibilidade.getAvaliacao());
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                DisponibilidadeId = rs.getLong("seq_disponibilidade");
-                disponibilidade.setId(DisponibilidadeId);
-            }
-
-            rs.close();
-            pstmt.close();
-            connection.close();
-
-        } catch (ClassNotFoundException | SQLException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(DisponibilidadeDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistenciaException(ex);
         }
 
-        return DisponibilidadeId;              
     }
 
     @Override
     public boolean update(Disponibilidade disponibilidade) throws PersistenciaException {
         try {
 
-            Connection connection = ManterConexao.getInstance().getConnection();
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
 
-            String sql = "UPDATE disponibilidade "
-                    + " SET seq_produto = ?, "
-                    + "     cadastro_prefeitura = ? "
-                    + "     estoque = ? "
-                    + "     preco = ? "
-                    + "     avaliacao = ? "
-                    + " WHERE seq_disponibilidade = ?";
+            manager.getTransaction().begin();
+            manager.refresh(disponibilidade);
+            manager.getTransaction().commit();
 
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, disponibilidade.getProdutoSeq());
-            pstmt.setString(2, disponibilidade.getFarmaciaCadastro());
-            pstmt.setDouble(3, disponibilidade.getEstoque());
-            pstmt.setDouble(4, disponibilidade.getPreco());
-            pstmt.setInt(5, disponibilidade.getAvaliacao());
-            pstmt.setLong(6, disponibilidade.getId());
-            pstmt.executeUpdate();
-
-            pstmt.close();
-            connection.close();
+            manager.close();
+            factory.close();
 
             return true;
-
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenciaException(e);
@@ -112,7 +85,7 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
 
     @Override
     public boolean remove(Long disponibilidadeId) throws PersistenciaException {
-         try {
+        try {
             Connection connection = ManterConexao.getInstance().getConnection();
 
             String sql = "DELETE FROM disponibilidade WHERE seq_disponibilidade = ?";
@@ -132,34 +105,17 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
             throw new PersistenciaException(e);
         }
     }
-  
+
     @Override
     public Disponibilidade getDisponibilidadeById(Long disponibilidadeId) throws PersistenciaException {
-         try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+        try {
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
 
-            String sql = "SELECT * FROM disponibilidade WHERE seq_disponibilidade = ? ";
-
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, disponibilidadeId);
-            ResultSet rs = pstmt.executeQuery();
-
-            Disponibilidade disponibilidade = null;
-            if (rs.next()) {
-                disponibilidade = new Disponibilidade();
-                disponibilidade.setId(disponibilidadeId);
-                disponibilidade.setProdutoSeq(rs.getLong("seq_produto"));
-                disponibilidade.setFarmaciaCadastro(rs.getString("cadastro_prefeitura"));
-                disponibilidade.setEstoque(rs.getInt("estoque"));
-                disponibilidade.setPreco(rs.getDouble("preco"));
-                disponibilidade.setAvaliacao(rs.getInt("avaliacao"));
-            }
-
-            rs.close();
-            pstmt.close();
-            connection.close();
+            Disponibilidade disponibilidade = manager.find(Disponibilidade.class, disponibilidadeId);
 
             return disponibilidade;
+            
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenciaException(e);
@@ -168,37 +124,14 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
 
     @Override
     public List<Disponibilidade> getDisponibilidadeByProdutoId(Long produtoId) throws PersistenciaException {
-         try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+        try {
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
+            Query query = manager.createNativeQuery("SELECT * FROM disponibilidade WHERE seq_produto = ? ORDER BY seq_produto");
 
-            String sql = "SELECT * FROM disponibilidade WHERE seq_produto = ?";            
+            List<Disponibilidade> list = query.getResultList();
 
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, produtoId);
-            ResultSet rs = pstmt.executeQuery();            
-            
-            ArrayList<Disponibilidade> listAll = null;
-            Disponibilidade disponibilidade = null;
-
-            if (rs.next()) {
-                listAll = new ArrayList<>();
-                do {
-                    disponibilidade = new Disponibilidade();
-                    disponibilidade.setId(rs.getLong("seq_disponibilidade"));
-                    disponibilidade.setProdutoSeq(rs.getLong("seq_produto"));
-                    disponibilidade.setFarmaciaCadastro(rs.getString("cadastro_prefeitura"));
-                    disponibilidade.setEstoque(rs.getInt("estoque"));
-                    disponibilidade.setPreco(rs.getDouble("preco"));
-                    disponibilidade.setAvaliacao(rs.getInt("avaliacao"));
-                    listAll.add(disponibilidade);
-                } while (rs.next());
-            }
-
-            rs.close();
-            pstmt.close();
-            connection.close();
-
-            return listAll;
+            return list;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -209,36 +142,13 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
     @Override
     public List<Disponibilidade> getDisponibilidadeByFarmaciaId(String farmaciaId) throws PersistenciaException {
         try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManager manager = factory.createEntityManager();
+            Query query = manager.createNativeQuery("SELECT * FROM disponibilidade WHERE cadastro_prefeitura = ? ORDER BY cadastro_prefeitura");
 
-            String sql = "SELECT * FROM disponibilidade WHERE cadastro_prefeitura = ?";            
+            List<Disponibilidade> list = query.getResultList();
 
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setString(1, farmaciaId);
-            ResultSet rs = pstmt.executeQuery();            
-            
-            ArrayList<Disponibilidade> listAll = null;
-            Disponibilidade disponibilidade = null;
-
-            if (rs.next()) {
-                listAll = new ArrayList<>();
-                do {
-                    disponibilidade = new Disponibilidade();
-                    disponibilidade.setId(rs.getLong("seq_disponibilidade"));
-                    disponibilidade.setProdutoSeq(rs.getLong("seq_produto"));
-                    disponibilidade.setFarmaciaCadastro(rs.getString("cadastro_prefeitura"));
-                    disponibilidade.setEstoque(rs.getInt("estoque"));
-                    disponibilidade.setPreco(rs.getDouble("preco"));
-                    disponibilidade.setAvaliacao(rs.getInt("avaliacao"));
-                    listAll.add(disponibilidade);
-                } while (rs.next());
-            }
-
-            rs.close();
-            pstmt.close();
-            connection.close();
-
-            return listAll;
+            return list;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -246,4 +156,3 @@ public class DisponibilidadeDAOImpl implements DisponibilidadeDAO{
         }
     }
 }
-  
