@@ -20,7 +20,15 @@
                     <p:outputLabel for="nome" value="Nome da Farmácia:" />
                     <p:inputText id="nome" value="#{CadastraFarmaciaMB.nome}" label="nome" required="true">
                     </p:inputText>
-
+                    
+                    <p:outputLabel for="email" value="Email:" />
+                    <p:inputText id="email" value="#{CadastraFarmaciaMB.email}" label="email" required="true">
+                    </p:inputText>
+                    
+                    <p:outputLabel for="senha" value="Senha:" />
+                    <p:inputText id="senha" value="#{CadastraFarmaciaMB.senha}" label="senha" required="true">
+                    </p:inputText>
+                    
                     <p:outputLabel for="cnpj" value="Cnpj da empresa):" />
                     <p:inputText id="cnpj" value="#{CadastraFarmaciaMB.cnpj}" label="cnpj">
                     </p:inputText>
@@ -30,23 +38,23 @@
                     </p:inputText>
                     
                     <p:outputLabel for="cep" value="Cep:" />
-                    <p:inputText id="cep" value="#{CadastraFarmaciaMB.CEP}" label="CEP">
+                    <p:inputText id="cep" value="#{CadastraFarmaciaMB.cep}" label="CEP">
                     </p:inputText>
                     
                     <p:outputLabel for="bairro" value="Bairro:" />
-                    <p:inputText id="bairro" value="#{CadastraFarmaciaMB.Bairro}" label="bairro">
+                    <p:inputText id="bairro" value="#{CadastraFarmaciaMB.bairro}" label="bairro">
                     </p:inputText>
                     
                     <p:outputLabel for="numero" value="Numero:" />
-                    <p:inputText id="numero" value="#{CadastraFarmaciaMB.Numero}" label="numero">
+                    <p:inputText id="numero" value="#{CadastraFarmaciaMB.numero}" label="numero">
                     </p:inputText>
                     
                     <p:outputLabel for="rua" value="Rua:" />
-                    <p:inputText id="rua" value="#{CadastraFarmaciaMB.Rua}" label="rua">
+                    <p:inputText id="rua" value="#{CadastraFarmaciaMB.rua}" label="rua">
                     </p:inputText>
                     
                     <p:outputLabel for="estado" value="Estado:" />
-                    <p:selectOneListbox id="estado" value="#{CadastraFarmaciaMB.Estado}">
+                    <p:selectOneListbox id="estado" value="#{CadastraFarmaciaMB.estado}">
                         <f:selectItem itemLabel="Minas Gerais" itemValue="MG" />
                         <f:selectItem itemLabel="São Paulo" itemValue="SP" />
                         <f:selectItem itemLabel="Acre" itemValue="AC" />
@@ -56,7 +64,7 @@
                     </p:selectOneListbox>
                     
                     <p:outputLabel for="cidade" value="Cidade:" />
-                    <p:inputText id="cidade" value="#{CadastraFarmaciaMB.Cidade}" label="Cidade">
+                    <p:inputText id="cidade" value="#{CadastraFarmaciaMB.cidade}" label="Cidade">
                     </p:inputText>
                     
                   
