@@ -11,11 +11,15 @@ package br.cefetmg.farmaz.controller;
  */
 import br.cefetmg.farmaz.model.dominio.Disponibilidade;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
-import br.cefetmg.farmaz.proxy.ManterDisponibilidadeProxy;
+import br.cefetmg.farmaz.model.service.ManterDisponibilidade;
 import br.cefetmg.farmaz.util.session.SessionContext;
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -26,10 +30,13 @@ import javax.faces.context.FacesContext;
 @RequestScoped
 public class MapaBean {
 
+    private Registry registry;
+    private ManterDisponibilidade manterDisponibilidade;
     private String quantidade;
 
-    public MapaBean() {
-
+    public MapaBean() throws RemoteException, NotBoundException {
+        this.registry = LocateRegistry.getRegistry("localhost", 2345);
+        this.manterDisponibilidade = (ManterDisponibilidade) registry.lookup("ManterDisponibilidade");
     }
 
     public String getQuantidade() {
@@ -50,8 +57,7 @@ public class MapaBean {
         FacesContext.getCurrentInstance().getExternalContext().redirect("ListarProdutosCliente.xhtml");
     }
 
-    public void adicionaNoCarrinho() throws SocketException, PersistenciaException, UnknownHostException {
-        ManterDisponibilidadeProxy manterDisponibilidade = new ManterDisponibilidadeProxy();
+    public void adicionaNoCarrinho() throws SocketException, PersistenciaException, UnknownHostException, RemoteException {
         ArrayList<Disponibilidade> carrinho = new ArrayList();
         List<Disponibilidade> aux;
         Disponibilidade item = new Disponibilidade();
