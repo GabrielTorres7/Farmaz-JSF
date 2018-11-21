@@ -76,7 +76,7 @@ public class MeuCarrinhoBean {
         this.itemSelecionado = itemSelecionado;
     }
 
-    public String getNomeFarmacia(String farmaciaId) throws PersistenciaException {
+    public String getNomeFarmacia(String farmaciaId) throws PersistenciaException, RemoteException {
         return manterFarmacia.getFarmaciaById(farmaciaId).getNome();
     }
 

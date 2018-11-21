@@ -17,6 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 /**
  *
@@ -44,31 +48,17 @@ public class EstadoDAOImpl implements EstadoDAO{
 
         Long estadoId = null;
 
-        try {
-            Connection connection = ManterConexao.getInstance().getConnection();
-
-            String sql = "INSERT INTO uf (sigla, nome)"
-                    + "    VALUES (?, ?) RETURNING cod_uf";
-
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setString(1, estado.getSigla());
-            pstmt.setString(2, estado.getNome());
-            
-            ResultSet rs = pstmt.executeQuery();
-            
-            if (rs.next()) {
-                estadoId = rs.getLong("cod_uf");
-                estado.setId(estadoId);
-            }
-            
-            rs.close();
-            pstmt.close();
-            connection.close();
-
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(FarmaciaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-            throw new PersistenciaException(ex);
-        }
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("uf");
+        EntityManager manager = factory.createEntityManager();
+        
+        manager.getTransaction().begin();
+        manager.persist(estado);
+        manager.getTransaction().commit();
+        
+        estadoId = estado.getId();
+        
+        manager.close();
+        factory.close();
 
         return estadoId;
     }
@@ -76,22 +66,15 @@ public class EstadoDAOImpl implements EstadoDAO{
     @Override
     public boolean update(Estado estado) throws PersistenciaException {
         try {
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("uf");
+            EntityManager manager = factory.createEntityManager();
 
-            Connection connection = ManterConexao.getInstance().getConnection();
+            manager.getTransaction().begin();
+            manager.refresh(estado);
+            manager.getTransaction().commit();
 
-            String sql = "UPDATE uf "
-                    + " SET sigla = ?, "
-                    + "     nome = ? "
-                    + " WHERE cod_uf = ?";
-
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setString(1, estado.getSigla());
-            pstmt.setString(2, estado.getNome());
-            pstmt.setLong(3, estado.getId());
-            pstmt.executeUpdate();
-
-            pstmt.close();
-            connection.close();
+            manager.close();
+            factory.close();
 
             return true;
 
@@ -104,17 +87,16 @@ public class EstadoDAOImpl implements EstadoDAO{
     @Override
     public boolean remove(Long estadoId) throws PersistenciaException {
         try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("uf");
+            EntityManager manager = factory.createEntityManager();
 
-            String sql = "DELETE FROM uf WHERE cod_uf = ?";
+            Estado estado = manager.find(Estado.class, estadoId);
 
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-
-            pstmt.setLong(1, estadoId);
-            pstmt.executeUpdate();
-
-            pstmt.close();
-            connection.close();
+            manager.getTransaction().begin();
+            manager.remove(estado);
+            manager.getTransaction().commit();
+            manager.close();
+            factory.close();
 
             return true;
 
@@ -127,25 +109,12 @@ public class EstadoDAOImpl implements EstadoDAO{
     @Override
     public Estado getEstadoById(Long estadoId) throws PersistenciaException {
         try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("uf");
+            EntityManager manager = factory.createEntityManager();
 
-            String sql = "SELECT * FROM uf WHERE cod_uf = ? ";
-
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setLong(1, estadoId);
-            ResultSet rs = pstmt.executeQuery();
-
-            Estado estado = null;
-            if (rs.next()) {
-                estado = new Estado();
-                estado.setId(estadoId);
-                estado.setSigla(rs.getString("sigla"));
-                estado.setNome(rs.getString("nome"));
-            }
-
-            rs.close();
-            pstmt.close();
-            connection.close();
+            Estado estado = manager.find(Estado.class, estadoId);
+            manager.close();
+            factory.close();
 
             return estado;
         } catch (Exception e) {
@@ -157,27 +126,16 @@ public class EstadoDAOImpl implements EstadoDAO{
     @Override
     public Estado getEstadoBySigla(String sigla) throws PersistenciaException {
         try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("uf");
+            EntityManager manager = factory.createEntityManager();
 
-            String sql = "SELECT * FROM uf WHERE sigla = ? ";
-
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setString(1, sigla);
-            ResultSet rs = pstmt.executeQuery();
-
-            Estado estado = null;
-            if (rs.next()) {
-                estado = new Estado();
-                estado.setId(rs.getLong("cod_uf"));
-                estado.setSigla(rs.getString("sigla"));
-                estado.setNome(rs.getString("nome"));
-            }
-
-            rs.close();
-            pstmt.close();
-            connection.close();
-
+            Query query = manager.createNativeQuery("SELECT * FROM uf WHERE nome =" + sigla);
+            
+            Estado estado = (Estado) query.getSingleResult();
+            manager.close();
+            factory.close();
             return estado;
+            
         } catch (Exception e) {
             e.printStackTrace();
             throw new PersistenciaException(e);
@@ -187,30 +145,13 @@ public class EstadoDAOImpl implements EstadoDAO{
     @Override
     public List<Estado> listAll() throws PersistenciaException {
         try {
-            Connection connection = ManterConexao.getInstance().getConnection();
+           EntityManagerFactory factory = Persistence.createEntityManagerFactory("uf");
+            EntityManager manager = factory.createEntityManager();
+            Query query = manager.createNativeQuery("SELECT * FROM uf");
 
-            String sql = "SELECT * FROM uf ORDER BY nome";
-
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery();
-
-            ArrayList<Estado> listAll = null;
-            Estado estado = null;
-
-            if (rs.next()) {
-                listAll = new ArrayList<>();
-                do {
-                    estado = new Estado();
-                    estado.setId(rs.getLong("cod_uf"));
-                    estado.setSigla(rs.getString("sigla"));
-                    estado.setNome(rs.getString("nome"));
-                    listAll.add(estado);
-                } while (rs.next());
-            }
-
-            rs.close();
-            pstmt.close();
-            connection.close();
+            List<Estado> listAll = query.getResultList();
+            manager.close();
+            factory.close();
 
             return listAll;
 

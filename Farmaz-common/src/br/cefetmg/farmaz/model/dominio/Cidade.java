@@ -6,21 +6,27 @@
 package br.cefetmg.farmaz.model.dominio;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author Gabriel
  */
+@Entity(name="cidade")
 public class Cidade implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cod_cidade")
     private Long cidadeId;
     
+    @ManyToOne
     @Column(name = "cod_uf")
     private Long ufId;
     private String nome;

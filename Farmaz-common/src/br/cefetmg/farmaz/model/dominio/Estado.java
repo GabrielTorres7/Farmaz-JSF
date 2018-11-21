@@ -6,13 +6,24 @@
 package br.cefetmg.farmaz.model.dominio;
 
 import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author Gabriel
  */
+@Entity(name="uf")
+@Table(name="uf")
 public class Estado implements Serializable{
     
+    @Id
+    @GeneratedValue
+    @Column(name="cod_uf")
     private Long id;
     private String sigla;
     private String nome;

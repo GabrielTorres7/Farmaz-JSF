@@ -49,7 +49,7 @@ public class CidadeDAOImpl implements CidadeDAO{
         Long cidadeId = null;
 
         try {
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("cidade");
             EntityManager manager = factory.createEntityManager();
 
             manager.getTransaction().begin();
@@ -72,7 +72,7 @@ public class CidadeDAOImpl implements CidadeDAO{
     @Override
     public boolean update(Cidade cidade) throws PersistenciaException {
         try {
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("cidade");
             EntityManager manager = factory.createEntityManager();
 
             manager.getTransaction().begin();
@@ -92,7 +92,7 @@ public class CidadeDAOImpl implements CidadeDAO{
     @Override
     public boolean remove(Long cidadeId) throws PersistenciaException {
         try {
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("cidade");
             EntityManager manager = factory.createEntityManager();
 
             Cidade cidade = manager.find(Cidade.class, cidadeId);
@@ -112,7 +112,7 @@ public class CidadeDAOImpl implements CidadeDAO{
     @Override
     public Cidade getCidadeById(Long cidadeId) throws PersistenciaException {
          try {
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("cidade");
             EntityManager manager = factory.createEntityManager();
 
             Cidade cidade = manager.find(Cidade.class, cidadeId);
@@ -128,11 +128,14 @@ public class CidadeDAOImpl implements CidadeDAO{
     @Override
     public Cidade getCidadeByNome(String nome) throws PersistenciaException {
          try {
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("cidade");
             EntityManager manager = factory.createEntityManager();
 
-            Cidade cidade = manager.find(Cidade.class, nome);
-
+            Query query = manager.createNativeQuery("SELECT * FROM cidade WHERE nome = " + nome);
+            
+            Cidade cidade = (Cidade) query.getSingleResult();
+            manager.close();
+            factory.close();
             return cidade;
 
         } catch (Exception e) {
@@ -144,7 +147,7 @@ public class CidadeDAOImpl implements CidadeDAO{
     @Override
     public List<Cidade> listAll() throws PersistenciaException {
         try {
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("cidade");
             EntityManager manager = factory.createEntityManager();
             Query query = manager.createNativeQuery("SELECT * FROM cidade");
 
