@@ -20,6 +20,7 @@ import javax.persistence.TemporalType;
  *
  * @author Hiago
  */
+@Entity(name="disponibilidade")
 public class Disponibilidade implements Serializable{
     
     @Id

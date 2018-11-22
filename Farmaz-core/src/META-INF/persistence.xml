@@ -9,6 +9,8 @@
     <class>br.cefetmg.farmaz.model.dominio.Estado</class>
     <class>br.cefetmg.farmaz.model.dominio.Cidade</class>
     <class>br.cefetmg.farmaz.model.dominio.Disponibilidade</class>
+    <class>br.cefetmg.farmaz.model.dominio.Cliente</class>
+    <class>br.cefetmg.farmaz.model.dominio.Produto</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/farmaz"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>

@@ -7,6 +7,7 @@ package br.cefetmg.farmaz.model.dominio;
 
 import java.io.Serializable;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,20 +16,15 @@ import javax.persistence.Id;
  *
  * @author Gabriel
  */
+@Entity(name="cliente")
 public class Cliente implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "seq_cliente")
     private Long id;
-    
-    
     private String nome;
-    
-    
-    @Column(name = "documento-identificacao")
+    @Column(name = "documento_identificacao")
     private String documentoIdentificacao;
-    
-   
     @Column(name = "telefone")
     private String numeroTelefone;
     private String email;

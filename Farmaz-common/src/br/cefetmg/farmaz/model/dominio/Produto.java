@@ -16,6 +16,7 @@ import javax.persistence.Id;
  *
  * @author Gabriel
  */
+@Entity(name="produto")
 public class Produto implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
