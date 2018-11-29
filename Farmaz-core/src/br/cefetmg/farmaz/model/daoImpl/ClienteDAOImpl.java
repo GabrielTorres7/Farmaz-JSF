@@ -8,17 +8,13 @@ package br.cefetmg.farmaz.model.daoImpl;
 import br.cefetmg.farmaz.model.dao.ClienteDAO;
 import br.cefetmg.farmaz.model.dominio.Cliente;
 import br.cefetmg.farmaz.model.exception.PersistenciaException;
-import br.cefetmg.farmaz.util.bd.ManterConexao;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.lang.reflect.UndeclaredThrowableException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -143,19 +139,17 @@ public class ClienteDAOImpl implements ClienteDAO {
     }
     
     @Override
-    public Cliente getClienteByEmailSenha(String email, String senha) throws PersistenciaException {
+    public Cliente getClienteByEmailSenha(String email, String senha) throws PersistenciaException, UndeclaredThrowableException {
         try {
             EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
             EntityManager manager = factory.createEntityManager();
-            Query query = manager.createNativeQuery("SELECT * FROM Cliente WHERE email = '"+ email +"' AND senha = '"+ senha);
+            Query query = manager.createQuery("SELECT * FROM cliente WHERE email = '"+ email +"' AND senha = '"+ senha+"'");
 
-            Cliente cliente = new Cliente();
-            cliente = (Cliente) query.getSingleResult();
-            
+            Cliente cliente = (Cliente) query.getSingleResult();
+      
             return cliente;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new PersistenciaException(e);
+        } catch (NoResultException e) {
+            return null;
         }
     }
 
