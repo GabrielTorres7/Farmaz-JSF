@@ -48,7 +48,7 @@ public class EstadoDAOImpl implements EstadoDAO{
 
         Long estadoId = null;
 
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("uf");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
         EntityManager manager = factory.createEntityManager();
         
         manager.getTransaction().begin();
@@ -66,7 +66,7 @@ public class EstadoDAOImpl implements EstadoDAO{
     @Override
     public boolean update(Estado estado) throws PersistenciaException {
         try {
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("uf");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
             EntityManager manager = factory.createEntityManager();
 
             manager.getTransaction().begin();
@@ -87,7 +87,7 @@ public class EstadoDAOImpl implements EstadoDAO{
     @Override
     public boolean remove(Long estadoId) throws PersistenciaException {
         try {
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("uf");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
             EntityManager manager = factory.createEntityManager();
 
             Estado estado = manager.find(Estado.class, estadoId);
@@ -109,7 +109,7 @@ public class EstadoDAOImpl implements EstadoDAO{
     @Override
     public Estado getEstadoById(Long estadoId) throws PersistenciaException {
         try {
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("uf");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
             EntityManager manager = factory.createEntityManager();
 
             Estado estado = manager.find(Estado.class, estadoId);
@@ -126,7 +126,7 @@ public class EstadoDAOImpl implements EstadoDAO{
     @Override
     public Estado getEstadoBySigla(String sigla) throws PersistenciaException {
         try {
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("uf");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
             EntityManager manager = factory.createEntityManager();
 
             Query query = manager.createNativeQuery("SELECT * FROM uf WHERE nome =" + sigla);
@@ -145,7 +145,7 @@ public class EstadoDAOImpl implements EstadoDAO{
     @Override
     public List<Estado> listAll() throws PersistenciaException {
         try {
-           EntityManagerFactory factory = Persistence.createEntityManagerFactory("uf");
+            EntityManagerFactory factory = Persistence.createEntityManagerFactory("FarmazPU");
             EntityManager manager = factory.createEntityManager();
             Query query = manager.createNativeQuery("SELECT * FROM uf");
 
